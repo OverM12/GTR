@@ -64,7 +64,7 @@ function TabNavigation() {
        <div className="flex mt-2  gap-4 text-xs text-gray-600">
        <p className="flex items-center">
           <Image
-            src="/dashboard/energy-flow-icon.png"
+            src="/your-gtr/dashboard/energy-flow-icon.png"
             width={17}
             height={17}
             alt="Picture of the author"
@@ -73,7 +73,7 @@ function TabNavigation() {
         </p>
         <p className="flex items-center">
           <Image
-            src="/dashboard/energy-tension-icon.png"
+            src="/your-gtr/dashboard/energy-tension-icon.png"
             width={17}
             height={17}
             alt="Picture of the author"

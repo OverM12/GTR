@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import { NavbarContext } from "@/context/NavbarProvider";
 import { userService } from "@/services/userService";
-import gtrData from "../dashboard/gtr.json";
 
 function Menu() {
   const pathname = usePathname();
@@ -24,8 +23,13 @@ function Menu() {
         const response = await userService.getProfile();
         setUserData(response.data);
 
-        if (gtrData && gtrData.data && gtrData.data.gtr) {
-          setGtrScore(gtrData.data.gtr);
+        // Remove the reference to gtrData since it's not imported
+        // Set a default GTR score or fetch it from the API if available
+        if (response.data && response.data.gtrScore) {
+          setGtrScore(response.data.gtrScore);
+        } else {
+          // Default value if no GTR score is available
+          setGtrScore(74.9); // Example default value
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -113,7 +117,7 @@ function Menu() {
                 </Link>
                 <Link href="/your-gtr/edit">
                   <Image
-                    src="/navbar-icons/edit-icon.png"
+                    src="/your-gtr/navbar-icons/edit-icon.png"
                     width={16}
                     height={16}
                     className="rounded-full"
@@ -138,20 +142,20 @@ function Menu() {
             {/* Menu Items */}
             <div className="pt-[32px] flex flex-col">
               <Link
-                href="/your-gtr/dashboard"
+                href="/your-gtr/your-gtr/dashboard"
                 className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 ${
-                  pathname === "/your-gtr/dashboard"
+                  pathname === "/your-gtr/your-gtr/dashboard"
                     ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
                     : "text-[#C1C6DA]"
                 }`}
               >
                 <Image
-                  src="/navbar-icons/function-line.png"
+                  src="/your-gtr/navbar-icons/function-line.png"
                   width={24}
                   height={24}
                   alt="Dashboard"
                   className={
-                    pathname === "/your-gtr/dashboard" ? "filter invert" : ""
+                    pathname === "/your-gtr/your-gtr/dashboard" ? "filter invert" : ""
                   }
                 />
                 Dashboard
@@ -165,7 +169,7 @@ function Menu() {
                 }`}
               >
                 <Image
-                  src="/dashboard/insights.svg"
+                  src="/your-gtr/dashboard/insights.svg"
                   width={24}
                   height={24}
                   alt="Dashboard"
@@ -184,7 +188,7 @@ function Menu() {
                 }`}
               >
                 <Image
-                  src="/dashboard/development.svg"
+                  src="/your-gtr/dashboard/development.svg"
                   width={24}
                   height={24}
                   alt="Dashboard"
@@ -244,7 +248,7 @@ function Menu() {
                     }`}
                 >
                   <Image
-                    src={`/navbar-icons/${icon}`}
+                    src={`/your-gtr/navbar-icons/${icon}`}
                     width={24}
                     height={24}
                     alt={label}

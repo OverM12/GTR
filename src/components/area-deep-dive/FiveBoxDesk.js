@@ -39,7 +39,7 @@ function FiveBoxDesk({ selfData, socialData, actionsData, getsData, environmentD
       <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
         <div className="flex items-center gap-2 pl-[39px]">
           <Image
-            src="/dashboard/self-icon.png"
+            src="/your-gtr/dashboard/self-icon.png"
             width={40}
             height={40}
             alt="Self Icon"

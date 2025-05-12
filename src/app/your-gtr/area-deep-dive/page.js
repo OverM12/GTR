@@ -5,7 +5,6 @@ import SelfBoxMobile from "@/components/area-deep-dive/SelfBoxMobile";
 import SelfBoxDesk from "@/components/area-deep-dive/SelfBoxDesk";
 import FiveBoxMobile from "@/components/area-deep-dive/FiveBoxMobile";
 import FiveBoxDesk from "@/components/area-deep-dive/FiveBoxDesk";
-import gtrData from "@/components/dashboard/gtr.json";
 
 export default function AreaDeepDive() {
   const [totalExpanded, setTotalExpanded] = useState(true);

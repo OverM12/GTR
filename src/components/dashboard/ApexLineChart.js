@@ -127,7 +127,7 @@ const ApexLineChart = () => {
         </div>
         <button className="border flex gap-[8px] items-center justify-center rounded-[24px] p-4 text-[#31363F]">
           <Image
-            src="/dashboard/forecast-icon.png"
+            src="/your-gtr/dashboard/forecast-icon.png"
             width={22}
             height={22}
             alt="GTR Dashboard forecast-icon"
@@ -136,7 +136,7 @@ const ApexLineChart = () => {
         </button>
         <button className="border flex gap-[8px] items-center justify-center rounded-[24px] p-4 text-[#31363F]">
           <Image
-            src="/dashboard/pattern-detection-icon.png"
+            src="/your-gtr/dashboard/pattern-detection-icon.png"
             width={22}
             height={22}
             alt="GTR Dashboard pattern-detection-icon"

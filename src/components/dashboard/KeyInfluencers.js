@@ -37,7 +37,7 @@ function KeyInfluencers() {
           <div className="flex flex-col w-full p-[16px] ">
             <div className="flex text-[#151C2A] text-[16px] font-bold items-center gap-x-[8px]">
               <Image
-                src="/dashboard/energy-flow-icon.png"
+                src="/your-gtr/dashboard/energy-flow-icon.png"
                 width={40}
                 height={40}
                 alt="GTR Dashboard energy-flow-icon"
@@ -54,7 +54,7 @@ function KeyInfluencers() {
                   <div className="flex" key={`high-${index}`}>
                     <div className={`flex ${index < highInfluencers.length - 1 ? 'border-b' : ''} w-full py-[16px] text-[14px] items-center font-normal gap-[8px]`}>
                       <Image
-                        src="/dashboard/self-icon.png"
+                        src="/your-gtr/dashboard/self-icon.png"
                         width={27}
                         height={27}
                         alt="GTR Dashboard self-icon"
@@ -76,7 +76,7 @@ function KeyInfluencers() {
           <div className="flex flex-col w-full p-[16px]">
             <div className="flex text-[#151C2A] text-[16px] font-bold items-center gap-x-[8px]">
               <Image
-                src="/dashboard/energy-tension-icon.png"
+                src="/your-gtr/dashboard/energy-tension-icon.png"
                 width={40}
                 height={40}
                 alt="GTR Dashboard energy-tension-icon"
@@ -93,7 +93,7 @@ function KeyInfluencers() {
                   <div className="flex" key={`low-${index}`}>
                     <div className={`flex ${index < lowInfluencers.length - 1 ? 'border-b' : ''} w-full py-[16px] text-[14px] items-center font-normal gap-[8px]`}>
                       <Image
-                        src="/dashboard/actions-icon.png"
+                        src="/your-gtr/dashboard/actions-icon.png"
                         width={27}
                         height={27}
                         alt="GTR Dashboard actions-icon"

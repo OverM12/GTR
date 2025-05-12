@@ -1,4 +1,3 @@
-import SelfCard from "@/components/self/SelfCard";
 import KeyInfluencers from "@/components/dashboard/KeyInfluencers";
 import TopEmotions from "@/components/dashboard/TopEmotions";
 import ApexLineChart from "@/components/dashboard/ApexLineChart";
@@ -61,7 +60,7 @@ export default function Self() {
               alt="GTR Icon"
               width={20}
               height={20}
-              src="/self-insights/edit-icon.svg"
+              src="/your-gtr/self-insights/edit-icon.svg"
             />
             Edit reflection
           </button>

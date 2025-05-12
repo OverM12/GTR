@@ -26,7 +26,7 @@ export default function AccountDeleted() {
                 <div className="max-w-[624px] w-full rounded-[24px] shadow-[0_8px_24px_rgba(18,19,20,0.15)] overflow-hidden">
                     <div className="w-full h-[320px] relative">
                         <Image
-                            src="/users_img/Frame 6.svg"
+                            src="/your-gtr/users_img/Frame 6.svg"
                             alt="Happy person in sunlight"
                             fill
                             className="object-cover"
