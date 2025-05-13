@@ -41,7 +41,8 @@ function FiveBoxDesk() {
         console.log("Data fetched successfully:", data);
         
         // Update state with fetched data
-        setSelfData(data.self);
+        setSelfData(data.data.self);
+        console.log("Self data fetched:", data.data.areas.self);
         setSocialData(data.social);
         setActionsData(data.actions);
         setGetsData(data.gets);
@@ -79,7 +80,7 @@ function FiveBoxDesk() {
       <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
         <div className="flex items-center gap-2 pl-[39px]">
           <Image
-            src="/your-gtr/dashboard/self-icon.png"
+            src="/your-gtr/your-gtr/dashboard/self-icon.png"
             width={40}
             height={40}
             alt="Self Icon"
@@ -101,7 +102,7 @@ function FiveBoxDesk() {
         <div className="flex pl-4">
           <button className="" onClick={() => setShowSelfElements(!showSelfElements)}>
             <Image
-              src="/area-deep-dive/arrow-up-icon.svg"
+              src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
               width={40}
               height={40}
               alt="Magnify Icon"
@@ -147,13 +148,13 @@ function FiveBoxDesk() {
       <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
         <div className="flex items-center gap-2">
           <Image
-            src="/area-deep-dive/mental-icon.svg"
+            src="/your-gtr/your-gtr/area-deep-dive/mental-icon.svg"
             width={40}
             height={40}
             alt="Mental Icon"
           />
           <Image
-            src="/area-deep-dive/social-icon.svg"
+            src="/your-gtr/your-gtr/area-deep-dive/social-icon.svg"
             width={40}
             height={40}
             alt="Social Icon"
@@ -175,7 +176,7 @@ function FiveBoxDesk() {
         <div className="flex pl-4">
           <button className="" onClick={() => setShowSocialElements(!showSocialElements)}>
             <Image
-              src="/area-deep-dive/arrow-up-icon.svg"
+              src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
               width={40}
               height={40}
               alt="Magnify Icon"
@@ -232,13 +233,13 @@ function FiveBoxDesk() {
       <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
         <div className="flex items-center gap-2">
           <Image
-            src="/area-deep-dive/sense-icon.svg"
+            src="/your-gtr/your-gtr/area-deep-dive/sense-icon.svg"
             width={40}
             height={40}
             alt="Sense Icon"
           />
           <Image
-            src="/area-deep-dive/actions-icon.svg"
+            src="/your-gtr/your-gtr/area-deep-dive/actions-icon.svg"
             width={40}
             height={40}
             alt="Actions Icon"
@@ -260,7 +261,7 @@ function FiveBoxDesk() {
         <div className="flex pl-4">
           <button className="" onClick={() => setShowActionsElements(!showActionsElements)}>
             <Image
-              src="/area-deep-dive/arrow-up-icon.svg"
+              src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
               width={40}
               height={40}
               alt="Magnify Icon"
@@ -317,7 +318,7 @@ function FiveBoxDesk() {
       <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
         <div className="flex items-center gap-2 pl-[39px]">
           <Image
-            src="/area-deep-dive/obtain-icon.svg"
+            src="/your-gtr/your-gtr/area-deep-dive/obtain-icon.svg"
             width={40}
             height={40}
             alt="Obtain Icon"
@@ -339,7 +340,7 @@ function FiveBoxDesk() {
         <div className="flex pl-4">
           <button className="" onClick={() => setShowGetsElements(!showGetsElements)}>
             <Image
-              src="/area-deep-dive/arrow-up-icon.svg"
+              src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
               width={40}
               height={40}
               alt="Magnify Icon"
@@ -396,7 +397,7 @@ function FiveBoxDesk() {
       <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
         <div className="flex items-center gap-2 pl-[39px]">
           <Image
-            src="/area-deep-dive/environment-icon.svg"
+            src="/your-gtr/your-gtr/area-deep-dive/environment-icon.svg"
             width={40}
             height={40}
             alt="Environment Icon"
@@ -418,7 +419,7 @@ function FiveBoxDesk() {
         <div className="flex pl-4">
           <button className="" onClick={() => setShowEnvironmentElements(!showEnvironmentElements)}>
             <Image
-              src="/area-deep-dive/arrow-up-icon.svg"
+              src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
               width={40}
               height={40}
               alt="Magnify Icon"

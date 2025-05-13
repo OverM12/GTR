@@ -33,7 +33,7 @@ export default function EditProfilePage() {
             try {
                 setLoading(true);
                 const response = await userService.getProfile();
-                const userData = response.data;
+                const userData = response.data.data;
 
                 setFormData((prev) => ({
                     ...prev,
@@ -180,7 +180,7 @@ export default function EditProfilePage() {
                                         className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 border border-gray-300 rounded-[24px] flex flex-col items-center justify-center cursor-pointer hover:border-gray-400 transition-colors overflow-hidden relative"
                                         onClick={handleProfilePictureClick}
                                     >
-                                        {profilePictureUrl ? (
+                                        {/* {profilePictureUrl ? (
                                             <Image
                                                 src={profilePictureUrl}
                                                 alt="Profile"
@@ -200,7 +200,7 @@ export default function EditProfilePage() {
                                                 </svg>
                                                 <span className="text-[8px] md:text-[10px] lg:text-xs text-center text-[#2B2E38]">Upload profile pic</span>
                                             </>
-                                        )}
+                                        )} */}
                                         <input
                                             type="file"
                                             ref={fileInputRef}

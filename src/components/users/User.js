@@ -19,7 +19,8 @@ function User() {
       try {
         setLoading(true);
         const response = await userService.getProfile();
-        setUserProfile(response.data);
+        setUserProfile(response.data.data);
+        // console.log("User profile fetched:", response.data);
       } catch (err) {
         console.error("Error fetching user profile:", err);
         setError("Failed to load user profile");
@@ -30,6 +31,15 @@ function User() {
 
     fetchUserProfile();
   }, []);
+  console.log("User profile:", userProfile);
+
+  const getProfileImageUrl = (path) => {
+    if (!path) return null;
+    return path.startsWith("http")
+      ? path
+      : `https://api-test.goodtime.app/${path}`;
+  };
+  
 
   const EditProfileIcon = () => (
     <svg
@@ -87,9 +97,9 @@ function User() {
 
         <div className="flex items-center gap-4 mb-4 pb-4 border-b border-[#9CA0B0]">
           <div className="h-24 w-24 sm:h-32 sm:w-32 rounded-lg overflow-hidden relative">
-            {userProfile.profilePicture ? (
+            {userProfile.profilePicturePath ? (
               <Image
-                src={userProfile.profilePicture}
+                src={getProfileImageUrl(userProfile.profilePicturePath)}
                 alt="Profile"
                 width={128}
                 height={128}
@@ -121,7 +131,7 @@ function User() {
               ))}
             </div>
             <div className='flex flex-col space-y-4'>
-              <p className='font-bold text-sm'>{userProfile.yearOfBirth || 'Not specified'}</p>
+              <p className='font-bold text-sm'>{userProfile.yearOfBirth}</p>
               <p className='font-bold text-sm'>{userProfile.gender ? userProfile.gender.charAt(0).toUpperCase() + userProfile.gender.slice(1) : 'Not specified'}</p>
               <p className='font-bold text-sm'>{userProfile.countryOfOrigin || 'Not specified'}</p>
               <p className='font-bold text-sm'>

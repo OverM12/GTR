@@ -15,9 +15,12 @@ function Menu() {
   const { isOpen, setIsOpen, activeTab, setActiveTab } =
     useContext(NavbarContext);
   const [userData, setUserData] = useState(null);
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [gtrScore, setGtrScore] = useState(0);
 
+  console.log("GtrScore: ", gtrScore);
   // Fetch user data when component mounts
   useEffect(() => {
     const fetchUserData = async () => {
@@ -27,15 +30,15 @@ function Menu() {
         
         // Update to handle the correct response structure
         if (response && response.data) {
-          setUserData(response.data);
+          setUserData(response.data.data);
         }
         
         // Fetch GTR score if date range is available
         if (dateRange.fromDate && dateRange.toDate) {
           try {
             const gtrData = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
-            if (gtrData && gtrData.gtr) {
-              setGtrScore(parseFloat(gtrData.gtr));
+            if (gtrData) {
+              setGtrScore(parseFloat(gtrData.data.gtr));
             } else {
               setGtrScore(0);
             }
@@ -52,6 +55,37 @@ function Menu() {
     };
 
     fetchUserData();
+  }, [dateRange]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!dateRange.fromDate || !dateRange.toDate) {
+        console.log("GtrScore: Date range not complete, skipping fetch");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        console.log("GtrScore: Fetching data for date range:", dateRange);
+        const response = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
+        console.log("GtrScore: Data fetched successfully:", response);
+
+        if (response) {
+          setData(response.data.data);
+          setError(null);
+        } else {
+          setError("No data available for the selected date range");
+        }
+      } catch (err) {
+        console.error("Error loading GTR data:", err);
+        setError("Failed to load GTR data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, [dateRange]);
 
   // Get user initials for display when no profile pic is available
@@ -80,6 +114,8 @@ function Menu() {
     return `${process.env.NEXT_PUBLIC_BASE_URL}/${userData.profilePicturePath}`;
   };
 
+  const mainGtrScore = data?.gtr ? parseFloat(data.gtr).toFixed(1) : "0.0";
+
   return (
     <>
       {isOpen && (
@@ -100,7 +136,7 @@ function Menu() {
               <div className="flex w-full items-center justify-between">
                 <Link href="/users">
                   <div className="flex items-center gap-[8px] py-[16px]">
-                    {loading ? (
+                    {/* {loading ? (
                       <div className="w-[48px] h-[48px] rounded-full bg-gray-600 flex items-center justify-center">
                         <span className="text-white text-sm">...</span>
                       </div>
@@ -118,7 +154,7 @@ function Menu() {
                           {getUserInitials()}
                         </span>
                       </div>
-                    )}
+                    )} */}
                     <p className="text-sm font-semibold text-white">
                       {loading ? "Loading..." : getDisplayName()}
                     </p>
@@ -140,9 +176,10 @@ function Menu() {
                 <div className="relative w-full h-[18px] bg-[#B60A06] rounded-full overflow-hidden">
                   <div
                     className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full border-r-2 border-[#0C2955] flex items-center justify-end pr-1 text-white text-[10.5px] font-medium"
-                    style={{ width: `${gtrScore || 0}%` }}
+                    style={{ width: `${parseFloat(mainGtrScore)}%` }}
                   >
-                    {gtrScore?.toFixed(1) || "0"}
+                    {mainGtrScore}
+
                   </div>
                 </div>
               </div>

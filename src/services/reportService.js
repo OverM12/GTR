@@ -19,7 +19,8 @@ export const reportService = {
           to: toDate
         }
       });
-      return response.data;
+      return response;
+      // console.log("GetGtrreport", response);
     } catch (error) {
       throw error.response ? error.response.data : error;
     }

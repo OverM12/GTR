@@ -34,12 +34,6 @@ const ApexLineChart = () => {
       xaxis: {
         type: "category",
         categories: ["Today"],
-        labels: {
-          formatter: function (value) {
-            return value;
-          },
-        },
-        tickPlacement: "on",
       },
       yaxis: {
         min: 0,
@@ -48,9 +42,7 @@ const ApexLineChart = () => {
       },
       tooltip: {
         x: {
-          formatter: function (value, opts) {
-            return chartData.options.xaxis.categories[opts.dataPointIndex];
-          },
+          formatter: (value, opts) => value,
         },
       },
     },
@@ -58,82 +50,50 @@ const ApexLineChart = () => {
 
   useEffect(() => {
     const fetchChartData = async () => {
-      if (!dateRange.fromDate || !dateRange.toDate) {
-        console.log("ApexLineChart: Date range not complete, skipping fetch");
-        return;
-      }
-      
+      if (!dateRange.fromDate || !dateRange.toDate) return;
+
       try {
         setLoading(true);
-        const data = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
-        
-        const historyData = data?.gtrHistory || [];
-        
+        const response = await reportService.getGtrReport(
+          dateRange.fromDate,
+          dateRange.toDate
+        );
+
+        const historyData = response?.data?.data?.gtrHistory || [];
+
         if (historyData.length > 0) {
-          const formattedDates = historyData.map(item => {
+          const formattedDates = historyData.map((item, index) => {
             const date = new Date(item.date);
-            return `${date.getDate()}/${date.getMonth() + 1}`;
+            const label = `${date.getDate()}/${date.getMonth() + 1}`;
+            return index === historyData.length - 1 ? `Today ${label}` : label;
           });
 
-          formattedDates[formattedDates.length - 1] = `Today ${formattedDates[formattedDates.length - 1]}`;
-          
-          const scores = historyData.map(item => Number(item.gtr) || 0);
+          const scores = historyData.map((item) => Number(item.gtr) || 0);
 
-          setChartData(prevState => ({
-            ...prevState,
-            series: [{
-              name: "GTR Score",
-              data: scores
-            }],
+          setChartData((prev) => ({
+            ...prev,
+            series: [
+              {
+                name: "GTR Score",
+                data: scores,
+              },
+            ],
             options: {
-              ...prevState.options,
+              ...prev.options,
               xaxis: {
-                ...prevState.options.xaxis,
-                categories: formattedDates
+                ...prev.options.xaxis,
+                categories: formattedDates,
               },
               tooltip: {
                 x: {
-                  formatter: function (value, opts) {
-                    return formattedDates[opts.dataPointIndex];
-                  },
+                  formatter: (value, opts) => formattedDates[opts.dataPointIndex],
                 },
-              }
-            }
-          }));
-        } else {
-          // Set default values when no data is available
-          setChartData(prevState => ({
-            ...prevState,
-            series: [{
-              name: "GTR Score",
-              data: [0]
-            }],
-            options: {
-              ...prevState.options,
-              xaxis: {
-                ...prevState.options.xaxis,
-                categories: ["Today"]
-              }
-            }
+              },
+            },
           }));
         }
       } catch (err) {
         console.error("Error loading GTR history data:", err);
-        // Set default values on error
-        setChartData(prevState => ({
-          ...prevState,
-          series: [{
-            name: "GTR Score",
-            data: [0]
-          }],
-          options: {
-            ...prevState.options,
-            xaxis: {
-              ...prevState.options.xaxis,
-              categories: ["Today"]
-            }
-          }
-        }));
       } finally {
         setLoading(false);
       }
@@ -144,10 +104,7 @@ const ApexLineChart = () => {
 
   return (
     <>
-      <div
-        id="chart"
-        className="md:hidden bg-white rounded-[40px] p-[16px] flex flex-col gap-[16px]"
-      >
+      <div className="md:hidden bg-white rounded-[40px] p-[16px] flex flex-col gap-[16px]">
         <div className="p-[8px]">
           <h1 className="font-bold text-[18px]">Good Time Journey</h1>
           {loading ? (
@@ -173,7 +130,7 @@ const ApexLineChart = () => {
             significant impact on this trend.
           </p>
         </div>
-        <button className="border flex gap-[8px] items-center justify-center rounded-[24px] p-4 text-[#31363F]" aria-label="Show forecast">
+        <button className="border flex gap-[8px] items-center justify-center rounded-[24px] p-4 text-[#31363F]">
           <Image
             src="/your-gtr/dashboard/forecast-icon.png"
             width={22}
@@ -182,7 +139,7 @@ const ApexLineChart = () => {
           />
           Show forecast
         </button>
-        <button className="border flex gap-[8px] items-center justify-center rounded-[24px] p-4 text-[#31363F]" aria-label="Show pattern detection">
+        <button className="border flex gap-[8px] items-center justify-center rounded-[24px] p-4 text-[#31363F]">
           <Image
             src="/dashboard/pattern-detection-icon.png"
             width={22}
@@ -193,10 +150,7 @@ const ApexLineChart = () => {
         </button>
       </div>
 
-      <div
-        id="chart"
-        className="hidden md:flex bg-white rounded-[40px] p-[16px] gap-[16px]"
-      >
+      <div className="hidden md:flex bg-white rounded-[40px] p-[16px] gap-[16px]">
         <div className="w-full p-[8px]">
           <h1 className="font-bold text-[18px]">Good Time Journey</h1>
           {loading ? (

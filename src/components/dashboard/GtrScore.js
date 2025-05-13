@@ -17,15 +17,15 @@ function GtrScore() {
         setLoading(false);
         return;
       }
-      
+
       try {
         setLoading(true);
         console.log("GtrScore: Fetching data for date range:", dateRange);
         const response = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
         console.log("GtrScore: Data fetched successfully:", response);
-        
+
         if (response) {
-          setData(response);
+          setData(response.data.data);
           setError(null);
         } else {
           setError("No data available for the selected date range");
@@ -60,7 +60,7 @@ function GtrScore() {
         <h1 className="text-[18px] font-bold">GTR</h1>
         <div className="flex flex-col items-center justify-center py-8">
           <Image
-            src="/dashboard/no-data-icon.png"
+            src="/your-gtr/your-gtr/self-insights/i-icon.png"
             width={64}
             height={64}
             alt="No data available"
@@ -78,21 +78,36 @@ function GtrScore() {
   }
 
   // Extract the main GTR score and area scores from the API data
-  const mainGtrScore = data.gtr ? parseFloat(data.gtr).toFixed(1) : "0.0";
-  
-  // Extract area scores - API structure might be different from the mock data
-  const selfScore = data.self?.gtr ? parseFloat(data.self.gtr).toFixed(1) : "0.0";
-  const socialScore = data.social?.gtr ? parseFloat(data.social.gtr).toFixed(1) : "0.0";
-  const actionsScore = data.actions?.gtr ? parseFloat(data.actions.gtr).toFixed(1) : "0.0";
-  const getsScore = data.gets?.gtr ? parseFloat(data.gets.gtr).toFixed(1) : "0.0";
-  const environmentScore = data.environment?.gtr ? parseFloat(data.environment.gtr).toFixed(1) : "0.0";
+  const mainGtrScore = data?.gtr
+    ? parseFloat(data.gtr).toFixed(1)
+    : "0.0";
+
+  const selfScore = data?.areas?.self?.gtr
+    ? parseFloat(data.areas.self.gtr).toFixed(1)
+    : "0.0";
+
+  const socialScore = data?.areas?.social?.gtr
+    ? parseFloat(data.areas.social.gtr).toFixed(1)
+    : "0.0";
+
+  const actionsScore = data?.areas?.actions?.gtr
+    ? parseFloat(data.areas.actions.gtr).toFixed(1)
+    : "0.0";
+
+  const getsScore = data?.areas?.gets?.gtr
+    ? parseFloat(data.areas.gets.gtr).toFixed(1)
+    : "0.0";
+
+  const environmentScore = data?.areas?.environment?.gtr
+    ? parseFloat(data.areas.environment.gtr).toFixed(1)
+    : "0.0";
 
   return (
     <div className="z-0 flex flex-col gap-[8px] p-[16px] pb-[44px] pt-[30px] w-full rounded-[40px] bg-white">
       <h1 className="text-[18px] font-bold">GTR</h1>
       <div className="flex w-full items-center justify-between">
         <div className="relative w-full h-[48px] bg-[#B60A06] rounded-full overflow-hidden">
-          <div 
+          <div
             className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full border-r-2 border-white flex items-center justify-end pr-1 text-white text-[20px] font-medium"
             style={{ width: `${mainGtrScore}%` }}
           >
@@ -123,7 +138,7 @@ function GtrScore() {
           </div>
           <div className="flex w-full items-center justify-between">
             <div className="relative w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden">
-              <div 
+              <div
                 className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full border-r-2 border-white"
                 style={{ width: `${selfScore}%` }}
               >
@@ -153,7 +168,7 @@ function GtrScore() {
           </div>
           <div className="flex w-full items-center justify-between">
             <div className="relative w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden">
-              <div 
+              <div
                 className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full border-r-2 border-white"
                 style={{ width: `${socialScore}%` }}
               >
@@ -183,7 +198,7 @@ function GtrScore() {
           </div>
           <div className="flex w-full items-center justify-between">
             <div className="relative w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden">
-              <div 
+              <div
                 className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full border-r-2 border-white"
                 style={{ width: `${actionsScore}%` }}
               >
@@ -213,7 +228,7 @@ function GtrScore() {
           </div>
           <div className="flex w-full items-center justify-between">
             <div className="relative w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden">
-              <div 
+              <div
                 className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full border-r-2 border-white"
                 style={{ width: `${getsScore}%` }}
               >
@@ -243,7 +258,7 @@ function GtrScore() {
           </div>
           <div className="flex w-full items-center justify-between">
             <div className="relative w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden">
-              <div 
+              <div
                 className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full border-r-2 border-white"
                 style={{ width: `${environmentScore}%` }}
               >
