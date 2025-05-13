@@ -434,7 +434,7 @@ function Navbar() {
               onClick={() => setIsOpen(true)}
             >
               <Image
-                src="/your-gtr/navbar-icons/menu-icon.png"
+                src="/your-gtr/your-gtr/navbar-icons/menu-icon.png"
                 width={24}
                 height={24}
                 alt="Picture of the author"
@@ -443,7 +443,7 @@ function Navbar() {
             <div className="flex">
               <div className="w-[48px] h-[48px] flex items-center justify-center">
                 <Image
-                  src="/your-gtr/users_img/Icon.svg"
+                  src="/your-gtr/your-gtr/users_img/Icon.svg"
                   width={24}
                   height={24}
                   alt="Picture of the author"
@@ -451,7 +451,7 @@ function Navbar() {
               </div>
               <div className="w-[48px] h-[48px] flex items-center justify-center">
                 <Image
-                  src="/your-gtr/navbar-icons/menu-plus-icon.png"
+                  src="/your-gtr/your-gtr/navbar-icons/menu-plus-icon.png"
                   width={24}
                   height={24}
                   alt="Picture of the author"
@@ -475,7 +475,7 @@ function Navbar() {
               />
               <div className="absolute right-4 top-1/2 -translate-y-1/2">
                 <Image
-                  src="/your-gtr/navbar-icons/arrow-up-icon.png"
+                  src="/your-gtr/your-gtr/navbar-icons/arrow-up-icon.png"
                   width={42}
                   height={42}
                   alt="Search icon"

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import reportService from '@/services/reportService';
+import reportService from "@/services/reportService";
 import { useDateRange } from "@/context/DateRangeContext"; // Import the context
 
 function FiveBoxDesk() {
@@ -25,29 +25,32 @@ function FiveBoxDesk() {
   const [showGetsElements, setShowGetsElements] = useState(false);
   const [showEnvironmentElements, setShowEnvironmentElements] = useState(false);
 
-  // Fetch data whenever date range changes
   useEffect(() => {
     const fetchData = async () => {
       if (!dateRange.fromDate || !dateRange.toDate) {
         console.log("Date range not available yet");
         return;
       }
-      
-      console.log("Fetching data with date range:", dateRange);
-      
+
       try {
         setLoading(true);
-        const data = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
-        console.log("Data fetched successfully:", data);
-        
+        const response = await reportService.getGtrReport(
+          dateRange.fromDate,
+          dateRange.toDate
+        );
+        console.log("Data fetched successfully:", response);
+
+        // Correctly access nested data
+        const data = response.data.data; // Accessing the nested `data` object
+
         // Update state with fetched data
-        setSelfData(data.data.self);
-        console.log("Self data fetched:", data.data.areas.self);
-        setSocialData(data.social);
-        setActionsData(data.actions);
-        setGetsData(data.gets);
-        setEnvironmentData(data.environment);
-        setError(null);
+        setSelfData(data.areas.self);
+        setSocialData(data.areas.social);
+        setActionsData(data.areas.actions);
+        setGetsData(data.areas.gets);
+        setEnvironmentData(data.areas.environment);
+
+        setError(null); // Reset error state if data is fetched successfully
       } catch (error) {
         console.error("Error fetching GTR data:", error);
         setError("Failed to load data. Please try again.");
@@ -57,25 +60,30 @@ function FiveBoxDesk() {
     };
 
     fetchData();
-  }, [dateRange]); // Include dateRange as a dependency
+  }, [dateRange]); // Dependency on dateRange to refetch data when it changes
 
   const selfScore = selfData?.gtr ? parseFloat(selfData.gtr).toFixed(1) : "0.0";
-  const socialScore = socialData?.gtr ? parseFloat(socialData.gtr).toFixed(1) : "90.4";
-  const actionsScore = actionsData?.gtr ? parseFloat(actionsData.gtr).toFixed(1) : "47.0";
-  const getsScore = getsData?.gtr ? parseFloat(getsData.gtr).toFixed(1) : "47.0";
-  const environmentScore = environmentData?.gtr ? parseFloat(environmentData.gtr).toFixed(1) : "47.0";
+  const socialScore = socialData?.gtr
+    ? parseFloat(socialData.gtr).toFixed(1)
+    : "0.0";
+  const actionsScore = actionsData?.gtr
+    ? parseFloat(actionsData.gtr).toFixed(1)
+    : "0.0";
+  const getsScore = getsData?.gtr ? parseFloat(getsData.gtr).toFixed(1) : "0.0";
+  const environmentScore = environmentData?.gtr
+    ? parseFloat(environmentData.gtr).toFixed(1)
+    : "0.0";
 
   const formatElementName = (name) => {
-    if (typeof name !== 'string') return name;
+    if (typeof name !== "string") return name;
     return name
-      .split('_')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
   };
 
   return (
     <div className="hidden md:flex md:flex-col gap-1">
-      
       {/* Self Section */}
       <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
         <div className="flex items-center gap-2 pl-[39px]">
@@ -100,7 +108,10 @@ function FiveBoxDesk() {
           )}
         </div>
         <div className="flex pl-4">
-          <button className="" onClick={() => setShowSelfElements(!showSelfElements)}>
+          <button
+            className=""
+            onClick={() => setShowSelfElements(!showSelfElements)}
+          >
             <Image
               src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
               width={40}
@@ -143,7 +154,7 @@ function FiveBoxDesk() {
           </div>
         </div>
       )}
-      
+
       {/* Social Section */}
       <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
         <div className="flex items-center gap-2">
@@ -174,7 +185,10 @@ function FiveBoxDesk() {
           )}
         </div>
         <div className="flex pl-4">
-          <button className="" onClick={() => setShowSocialElements(!showSocialElements)}>
+          <button
+            className=""
+            onClick={() => setShowSocialElements(!showSocialElements)}
+          >
             <Image
               src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
               width={40}
@@ -259,7 +273,10 @@ function FiveBoxDesk() {
           )}
         </div>
         <div className="flex pl-4">
-          <button className="" onClick={() => setShowActionsElements(!showActionsElements)}>
+          <button
+            className=""
+            onClick={() => setShowActionsElements(!showActionsElements)}
+          >
             <Image
               src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
               width={40}
@@ -338,7 +355,10 @@ function FiveBoxDesk() {
           )}
         </div>
         <div className="flex pl-4">
-          <button className="" onClick={() => setShowGetsElements(!showGetsElements)}>
+          <button
+            className=""
+            onClick={() => setShowGetsElements(!showGetsElements)}
+          >
             <Image
               src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
               width={40}
@@ -417,7 +437,10 @@ function FiveBoxDesk() {
           )}
         </div>
         <div className="flex pl-4">
-          <button className="" onClick={() => setShowEnvironmentElements(!showEnvironmentElements)}>
+          <button
+            className=""
+            onClick={() => setShowEnvironmentElements(!showEnvironmentElements)}
+          >
             <Image
               src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
               width={40}

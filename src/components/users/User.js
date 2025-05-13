@@ -59,7 +59,7 @@ function User() {
   )
 
   const EditProfileButton = () => (
-    <Link href="/your-gtr/edit" className="flex items-center gap-2 border rounded-full px-4 py-2 text-sm hover:bg-gray-50">
+    <Link href="/your-gtr/your-gtr/edit" className="flex items-center gap-2 border rounded-full px-4 py-2 text-sm hover:bg-gray-50">
       <EditProfileIcon />
       Edit Profile
     </Link>

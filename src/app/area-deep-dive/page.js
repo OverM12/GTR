@@ -44,8 +44,11 @@ export default function AreaDeepDive() {
     );
   }
 
-  const totalGtr = data.data?.gtr ? parseFloat(data.data.gtr).toFixed(2) : "0.00";
-console.log(data);
+  const totalGtr = data.data?.gtr
+    ? parseFloat(data.data.gtr).toFixed(2)
+    : "0.00";
+
+  console.log(data);
   return (
     <div className="flex h-dvh py-[32px] px-[16px] flex-col bg-[#F0F2F5] overflow-y-auto">
       <div className="mt-6 bg-white md:rounded-[16px] rounded-[40px] p-8 shadow-sm">
@@ -57,7 +60,7 @@ console.log(data);
             <div className="flex gap-2">
               <button className="p-1">
                 <Image
-                  src="/area-deep-dive/magnify-icon.svg"
+                  src="/your-gtr/your-gtr/area-deep-dive/magnify-icon.svg"
                   width={40}
                   height={40}
                   alt="GTR Magnify Icon"
@@ -80,8 +83,10 @@ console.log(data);
         </div>
 
         <div className="hidden md:flex items-center">
-          <span className="text-gray-700 text-[14px] text-nowrap p-4">Total GTR</span>
-          <div className="w-full flex bg-[#B60A06] rounded-full h-[28px]">
+          <span className="text-gray-700 text-[14px] text-nowrap p-4">
+            Total GTR
+          </span>
+          <div className="w-full flex bg-[#B60A06] overflow-hidden rounded-full h-[28px]">
             <div
               className="bg-[#C6B06A] rounded-l-full"
               style={{ width: `${totalGtr}%` }}
@@ -100,13 +105,7 @@ console.log(data);
           getsData={data?.areas?.gets}
           environmentData={data?.areas?.environment}
         />
-        <FiveBoxDesk
-          selfData={data.data?.areas?.self}
-          socialData={data?.areas?.social}
-          actionsData={data?.areas?.actions}
-          getsData={data?.areas?.gets}
-          environmentData={data?.areas?.environment}
-        />
+        <FiveBoxDesk />
       </div>
     </div>
   );

@@ -27,16 +27,19 @@ function Menu() {
       try {
         setLoading(true);
         const response = await userService.getProfile();
-        
+
         // Update to handle the correct response structure
         if (response && response.data) {
           setUserData(response.data.data);
         }
-        
+
         // Fetch GTR score if date range is available
         if (dateRange.fromDate && dateRange.toDate) {
           try {
-            const gtrData = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
+            const gtrData = await reportService.getGtrReport(
+              dateRange.fromDate,
+              dateRange.toDate
+            );
             if (gtrData) {
               setGtrScore(parseFloat(gtrData.data.gtr));
             } else {
@@ -68,7 +71,10 @@ function Menu() {
       try {
         setLoading(true);
         console.log("GtrScore: Fetching data for date range:", dateRange);
-        const response = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
+        const response = await reportService.getGtrReport(
+          dateRange.fromDate,
+          dateRange.toDate
+        );
         console.log("GtrScore: Data fetched successfully:", response);
 
         if (response) {
@@ -126,8 +132,9 @@ function Menu() {
       )}
 
       <div
-        className={`fixed z-50 min-h-screen text-nowrap top-0 left-0 md:static transition-all duration-300 flex flex-col bg-[#0C2955] overflow-hidden ${isOpen ? "w-[240px] p-4 md:p-4" : "w-0 md:w-[240px]"
-          }`}
+        className={`fixed z-50 min-h-screen text-nowrap top-0 left-0 md:static transition-all duration-300 flex flex-col bg-[#0C2955] overflow-hidden ${
+          isOpen ? "w-[240px] p-4 md:p-4" : "w-0 md:w-[240px]"
+        }`}
       >
         {isOpen && (
           <>
@@ -162,7 +169,7 @@ function Menu() {
                 </Link>
                 <Link href="/edit">
                   <Image
-                    src="/your-gtr/navbar-icons/edit-icon.png"
+                    src="/your-gtr/your-gtr/navbar-icons/edit-icon.png"
                     width={16}
                     height={16}
                     className="rounded-full"
@@ -179,7 +186,6 @@ function Menu() {
                     style={{ width: `${parseFloat(mainGtrScore)}%` }}
                   >
                     {mainGtrScore}
-
                   </div>
                 </div>
               </div>
@@ -189,55 +195,52 @@ function Menu() {
             <div className="pt-[32px] flex flex-col">
               <Link
                 href="/dashboard"
-                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 ${pathname === "/dashboard"
+                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 ${
+                  pathname === "/dashboard"
                     ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
                     : "text-[#C1C6DA]"
-                  }`}
+                }`}
               >
                 <Image
                   src="/your-gtr/your-gtr/navbar-icons/function-line.png"
                   width={24}
                   height={24}
                   alt="Dashboard"
-                  className={
-                    pathname === "/dashboard" ? "filter invert" : ""
-                  }
+                  className={pathname === "/dashboard" ? "filter invert" : ""}
                 />
                 Dashboard
               </Link>
               <Link
                 href="/insights"
-                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 ${pathname === "/insights"
+                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 ${
+                  pathname === "/insights"
                     ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
                     : "text-[#C1C6DA]"
-                  }`}
+                }`}
               >
                 <Image
                   src="/your-gtr/your-gtr/dashboard/insights.svg"
                   width={24}
                   height={24}
                   alt="Insights"
-                  className={
-                    pathname === "/insights" ? "filter invert" : ""
-                  }
+                  className={pathname === "/insights" ? "filter invert" : ""}
                 />
                 Insights
               </Link>
               <Link
                 href="/development"
-                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 ${pathname === "/development"
+                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 ${
+                  pathname === "/development"
                     ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
                     : "text-[#C1C6DA]"
-                  }`}
+                }`}
               >
                 <Image
                   src="/your-gtr/your-gtr/dashboard/devp1.png"
                   width={24}
                   height={24}
                   alt="Development"
-                  className={
-                    pathname === "/development" ? "filter invert" : ""
-                  }
+                  className={pathname === "/development" ? "filter invert" : ""}
                 />
                 Development
               </Link>
