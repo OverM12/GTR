@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import gtrData from "./gtr.json";
+import reportService from "@/services/reportService";
 
 function KeyInfluencers() {
   const [data, setData] = useState(null);
@@ -12,7 +12,7 @@ function KeyInfluencers() {
     const timer = setTimeout(() => {
       try {
         // Use the imported JSON data
-        setData(gtrData.data);
+        setData(reportService.data);
         setLoading(false);
       } catch (err) {
         console.error("Error loading GTR data:", err);
@@ -54,7 +54,7 @@ function KeyInfluencers() {
                   <div className="flex" key={`high-${index}`}>
                     <div className={`flex ${index < highInfluencers.length - 1 ? 'border-b' : ''} w-full py-[16px] text-[14px] items-center font-normal gap-[8px]`}>
                       <Image
-                        src="/your-gtr/dashboard/self-icon.png"
+                        src="/dashboard/self-icon.png"
                         width={27}
                         height={27}
                         alt="GTR Dashboard self-icon"
@@ -93,7 +93,7 @@ function KeyInfluencers() {
                   <div className="flex" key={`low-${index}`}>
                     <div className={`flex ${index < lowInfluencers.length - 1 ? 'border-b' : ''} w-full py-[16px] text-[14px] items-center font-normal gap-[8px]`}>
                       <Image
-                        src="/your-gtr/dashboard/actions-icon.png"
+                        src="/dashboard/actions-icon.png"
                         width={27}
                         height={27}
                         alt="GTR Dashboard actions-icon"

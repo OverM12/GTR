@@ -1,19 +1,73 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDateRange } from "@/context/DateRangeContext";
+import reportService from '@/services/reportService';
 
-export default function SelfBoxMobile({ areaData }) {
+export default function SelfBoxMobile() {
+  const { dateRange } = useDateRange();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [areaData, setAreaData] = useState(null);
   const [expanded, setExpanded] = useState(true);
   const [showElements, setShowElements] = useState(false);
+
+  // Fetch data whenever date range changes
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!dateRange.fromDate || !dateRange.toDate) {
+        console.log("SelfBoxMobile: Date range not available yet");
+        return;
+      }
+      
+      console.log("SelfBoxMobile: Fetching data with date range:", dateRange);
+      
+      try {
+        setLoading(true);
+        const data = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
+        console.log("SelfBoxMobile: Data fetched successfully:", data);
+        
+        // Update state with fetched data - we only need the self data
+        setAreaData(data.self);
+        setError(null);
+      } catch (error) {
+        console.error("SelfBoxMobile: Error fetching GTR data:", error);
+        setError("Failed to load data. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [dateRange]); // Include dateRange as a dependency
 
   const selfScore = areaData?.gtr ? parseFloat(areaData.gtr).toFixed(1) : "0.0";
 
   // Function to format element name for display
   const formatElementName = (name) => {
+    if (typeof name !== 'string') return name;
     return name
       .split('_')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
   };
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="md:hidden mt-8 flex justify-center items-center p-8 h-32">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+      </div>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="md:hidden mt-8 flex justify-center items-center p-8 h-32">
+        <div className="text-red-500">{error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="md:hidden mb-6 mt-8">
@@ -28,14 +82,6 @@ export default function SelfBoxMobile({ areaData }) {
               alt="arrow-up icon"
             />
           </button>
-          {/* <button className="p-1" onClick={() => setExpanded(!expanded)}>
-            <Image
-              src="/area-deep-dive/arrow-up-icon.svg"
-              width={25}
-              height={25}
-              alt="Arrow icon"
-            />
-          </button> */}
         </div>
       </div>
       {expanded && (
@@ -79,13 +125,6 @@ export default function SelfBoxMobile({ areaData }) {
               </div>
             </div>
           ))}
-{/*           
-          {areaData.notes && (
-            <div className="mt-2 mb-4 bg-gray-50 p-3 rounded-md">
-              <h4 className="text-sm font-semibold mb-1">Notes:</h4>
-              <p className="text-sm text-gray-600">{areaData.notes}</p>
-            </div>
-          )} */}
         </div>
       )}
     </div>

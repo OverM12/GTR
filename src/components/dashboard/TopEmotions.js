@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import gtrData from "./gtr.json";
+import reportService from "@/services/reportService";
 
 function TopEmotions() {
   const [data, setData] = useState(null);
@@ -12,7 +12,7 @@ function TopEmotions() {
     const timer = setTimeout(() => {
       try {
         // Use the imported JSON data
-        setData(gtrData.data);
+        setData(reportService.data);
         setLoading(false);
       } catch (err) {
         console.error("Error loading GTR data:", err);
@@ -43,6 +43,8 @@ function TopEmotions() {
                 <div className="py-4 flex justify-center">
                   <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-[#C6B06A]"></div>
                 </div>
+              ) : !data ? (
+                <div className="py-4 text-gray-500">No information found</div>
               ) : (
                 <>
                   <div
@@ -56,11 +58,6 @@ function TopEmotions() {
                     Curious
                   </div>
                 </>
-              )}
-              {!loading && highInfluencers.length === 0 && (
-                <div className="py-4 text-gray-500">
-                  No high influencers found
-                </div>
               )}
             </div>
           </div>
@@ -77,6 +74,8 @@ function TopEmotions() {
                 <div className="py-4 flex justify-center">
                   <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-[#C6B06A]"></div>
                 </div>
+              ) : !data ? (
+                <div className="py-4 text-gray-500">No information found</div>
               ) : (
                 <>
                   <div
@@ -91,15 +90,9 @@ function TopEmotions() {
                   </div>
                 </>
               )}
-              {!loading && highInfluencers.length === 0 && (
-                <div className="py-4 text-gray-500">
-                  No high influencers found
-                </div>
-              )}
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );

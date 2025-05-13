@@ -1,9 +1,55 @@
+"use client";
+import { useState, useEffect } from "react";
 import KeyInfluencers from "@/components/dashboard/KeyInfluencers";
 import TopEmotions from "@/components/dashboard/TopEmotions";
 import ApexLineChart from "@/components/dashboard/ApexLineChart";
 import Image from "next/image";
+import reportService from "@/services/reportService";
+import { useDateRange } from "@/context/DateRangeContext";
 
 export default function Self() {
+  const { dateRange } = useDateRange();
+  const [gtrScore, setGtrScore] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchGtrData = async () => {
+      if (!dateRange.fromDate || !dateRange.toDate) {
+        console.log("Self page: Date range not complete, using default 0");
+        setGtrScore(0);
+        setLoading(false);
+        return;
+      }
+      
+      try {
+        setLoading(true);
+        console.log("Self page: Fetching data for date range:", dateRange);
+        const data = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
+        console.log("Self page: Data fetched successfully:", data);
+        
+        // Set the GTR score from the fetched data or default to 0
+        if (data && data.self && data.self.gtr) {
+          setGtrScore(parseFloat(data.self.gtr));
+        } else {
+          setGtrScore(0);
+        }
+        setError(null);
+      } catch (err) {
+        console.error("Error loading GTR data:", err);
+        setError("Failed to load GTR data");
+        setGtrScore(0);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGtrData();
+  }, [dateRange]);
+
+  // Format the score for display
+  const formattedScore = gtrScore.toFixed(1);
+
   return (
     <div className="w-full h-lvh overflow-auto flex flex-col bg-[#F0F2F5] py-[32px] px-[16px] gap-[16px]">
       <h1 className="text-[#737985] text-[24px]">
@@ -13,11 +59,20 @@ export default function Self() {
 
       <div className="w-full flex flex-col bg-white p-2 rounded-4xl py-6">
         <h1 className="m-2 font-bold">GTR</h1>
-        <div className="w-full overflow-hidden bg-red rounded-full bg-[#B60A06]">
-          <div className="w-[79.4%] items-center justify-end pr-2 text-white flex h-10 bg-[#C6B06A]">
-            79.4%
+        {loading ? (
+          <div className="flex justify-center items-center h-10">
+            <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-[#C6B06A]"></div>
           </div>
-        </div>
+        ) : (
+          <div className="w-full overflow-hidden bg-red rounded-full bg-[#B60A06]">
+            <div 
+              className="items-center justify-end pr-2 text-white flex h-10 bg-[#C6B06A]"
+              style={{ width: `${gtrScore}%` }}
+            >
+              {formattedScore}%
+            </div>
+          </div>
+        )}
       </div>
 
       <KeyInfluencers />

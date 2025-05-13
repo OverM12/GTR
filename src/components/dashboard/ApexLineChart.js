@@ -2,18 +2,21 @@
 import dynamic from "next/dynamic";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import gtrData from "./gtr.json";
+import reportService from "@/services/reportService";
+import { useDateRange } from "@/context/DateRangeContext";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
 const ApexLineChart = () => {
+  const { dateRange } = useDateRange();
+  const [loading, setLoading] = useState(true);
   const [chartData, setChartData] = useState({
     series: [
       {
-        name: "Series 1",
-        data: [52.2, 56.1, 50.0, 48.7, 55.4, 73.8],
+        name: "GTR Score",
+        data: [0],
       },
     ],
     options: {
@@ -30,7 +33,7 @@ const ApexLineChart = () => {
       },
       xaxis: {
         type: "category",
-        categories: ["2/9", "16/9", "1/10", "15/10", "1/11", "Today 16/11"],
+        categories: ["Today"],
         labels: {
           formatter: function (value) {
             return value;
@@ -54,51 +57,90 @@ const ApexLineChart = () => {
   });
 
   useEffect(() => {
-    try {
-      // Get history data from gtr.json
-      const historyData = gtrData.data.gtrHistory || [];
+    const fetchChartData = async () => {
+      if (!dateRange.fromDate || !dateRange.toDate) {
+        console.log("ApexLineChart: Date range not complete, skipping fetch");
+        return;
+      }
+      
+      try {
+        setLoading(true);
+        const data = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
+        
+        const historyData = data?.gtrHistory || [];
+        
+        if (historyData.length > 0) {
+          const formattedDates = historyData.map(item => {
+            const date = new Date(item.date);
+            return `${date.getDate()}/${date.getMonth() + 1}`;
+          });
 
-      if (historyData.length > 0) {
-        // Format dates for display
-        const formattedDates = historyData.map(item => {
-          const date = new Date(item.date);
-          return `${date.getDate()}/${date.getMonth() + 1}`;
-        });
-
-        // Mark the last date as "Today"
-        if (formattedDates.length > 0) {
           formattedDates[formattedDates.length - 1] = `Today ${formattedDates[formattedDates.length - 1]}`;
+          
+          const scores = historyData.map(item => Number(item.gtr) || 0);
+
+          setChartData(prevState => ({
+            ...prevState,
+            series: [{
+              name: "GTR Score",
+              data: scores
+            }],
+            options: {
+              ...prevState.options,
+              xaxis: {
+                ...prevState.options.xaxis,
+                categories: formattedDates
+              },
+              tooltip: {
+                x: {
+                  formatter: function (value, opts) {
+                    return formattedDates[opts.dataPointIndex];
+                  },
+                },
+              }
+            }
+          }));
+        } else {
+          // Set default values when no data is available
+          setChartData(prevState => ({
+            ...prevState,
+            series: [{
+              name: "GTR Score",
+              data: [0]
+            }],
+            options: {
+              ...prevState.options,
+              xaxis: {
+                ...prevState.options.xaxis,
+                categories: ["Today"]
+              }
+            }
+          }));
         }
-
-        const scores = historyData.map(item => item.gtr);
-
-        // Update chart data
+      } catch (err) {
+        console.error("Error loading GTR history data:", err);
+        // Set default values on error
         setChartData(prevState => ({
           ...prevState,
           series: [{
-            name: "Series 1",
-            data: scores
+            name: "GTR Score",
+            data: [0]
           }],
           options: {
             ...prevState.options,
             xaxis: {
               ...prevState.options.xaxis,
-              categories: formattedDates
-            },
-            tooltip: {
-              x: {
-                formatter: function (value, opts) {
-                  return formattedDates[opts.dataPointIndex];
-                },
-              },
+              categories: ["Today"]
             }
           }
         }));
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      console.error("Error loading GTR history data:", err);
-    }
-  }, []);
+    };
+
+    fetchChartData();
+  }, [dateRange]);
 
   return (
     <>
@@ -108,13 +150,19 @@ const ApexLineChart = () => {
       >
         <div className="p-[8px]">
           <h1 className="font-bold text-[18px]">Good Time Journey</h1>
-          <ReactApexChart
-            options={chartData.options}
-            series={chartData.series}
-            type="area"
-            height={300}
-            width="100%"
-          />
+          {loading ? (
+            <div className="flex justify-center items-center h-[300px]">
+              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+            </div>
+          ) : (
+            <ReactApexChart
+              options={chartData.options}
+              series={chartData.series}
+              type="area"
+              height={300}
+              width="100%"
+            />
+          )}
         </div>
         <div className="p-[8px]">
           <h1 className="font-bold text-[18px] mb-[8px]">
@@ -125,7 +173,7 @@ const ApexLineChart = () => {
             significant impact on this trend.
           </p>
         </div>
-        <button className="border flex gap-[8px] items-center justify-center rounded-[24px] p-4 text-[#31363F]">
+        <button className="border flex gap-[8px] items-center justify-center rounded-[24px] p-4 text-[#31363F]" aria-label="Show forecast">
           <Image
             src="/your-gtr/dashboard/forecast-icon.png"
             width={22}
@@ -134,9 +182,9 @@ const ApexLineChart = () => {
           />
           Show forecast
         </button>
-        <button className="border flex gap-[8px] items-center justify-center rounded-[24px] p-4 text-[#31363F]">
+        <button className="border flex gap-[8px] items-center justify-center rounded-[24px] p-4 text-[#31363F]" aria-label="Show pattern detection">
           <Image
-            src="/your-gtr/dashboard/pattern-detection-icon.png"
+            src="/dashboard/pattern-detection-icon.png"
             width={22}
             height={22}
             alt="GTR Dashboard pattern-detection-icon"
@@ -151,13 +199,19 @@ const ApexLineChart = () => {
       >
         <div className="w-full p-[8px]">
           <h1 className="font-bold text-[18px]">Good Time Journey</h1>
-          <ReactApexChart
-            options={chartData.options}
-            series={chartData.series}
-            type="area"
-            height={350}
-            width="100%"
-          />
+          {loading ? (
+            <div className="flex justify-center items-center h-[350px]">
+              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+            </div>
+          ) : (
+            <ReactApexChart
+              options={chartData.options}
+              series={chartData.series}
+              type="area"
+              height={350}
+              width="100%"
+            />
+          )}
         </div>
       </div>
     </>

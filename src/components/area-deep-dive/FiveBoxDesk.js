@@ -1,29 +1,69 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import reportService from '@/services/reportService';
+import { useDateRange } from "@/context/DateRangeContext"; // Import the context
 
-function FiveBoxDesk({ selfData, socialData, actionsData, getsData, environmentData }) {
-  // State for expanded sections
+function FiveBoxDesk() {
+  const { dateRange } = useDateRange(); // Get date range from context
+  const [selfData, setSelfData] = useState(null);
+  const [socialData, setSocialData] = useState(null);
+  const [actionsData, setActionsData] = useState(null);
+  const [getsData, setGetsData] = useState(null);
+  const [environmentData, setEnvironmentData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const [selfExpanded, setSelfExpanded] = useState(true);
   const [socialExpanded, setSocialExpanded] = useState(true);
   const [actionsExpanded, setActionsExpanded] = useState(true);
   const [getsExpanded, setGetsExpanded] = useState(true);
   const [environmentExpanded, setEnvironmentExpanded] = useState(true);
-  
-  // State for showing detailed elements
+
   const [showSelfElements, setShowSelfElements] = useState(false);
   const [showSocialElements, setShowSocialElements] = useState(false);
   const [showActionsElements, setShowActionsElements] = useState(false);
   const [showGetsElements, setShowGetsElements] = useState(false);
   const [showEnvironmentElements, setShowEnvironmentElements] = useState(false);
-  
-  // Get scores from the passed data or use defaults
+
+  // Fetch data whenever date range changes
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!dateRange.fromDate || !dateRange.toDate) {
+        console.log("Date range not available yet");
+        return;
+      }
+      
+      console.log("Fetching data with date range:", dateRange);
+      
+      try {
+        setLoading(true);
+        const data = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
+        console.log("Data fetched successfully:", data);
+        
+        // Update state with fetched data
+        setSelfData(data.self);
+        setSocialData(data.social);
+        setActionsData(data.actions);
+        setGetsData(data.gets);
+        setEnvironmentData(data.environment);
+        setError(null);
+      } catch (error) {
+        console.error("Error fetching GTR data:", error);
+        setError("Failed to load data. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [dateRange]); // Include dateRange as a dependency
+
   const selfScore = selfData?.gtr ? parseFloat(selfData.gtr).toFixed(1) : "0.0";
   const socialScore = socialData?.gtr ? parseFloat(socialData.gtr).toFixed(1) : "90.4";
   const actionsScore = actionsData?.gtr ? parseFloat(actionsData.gtr).toFixed(1) : "47.0";
   const getsScore = getsData?.gtr ? parseFloat(getsData.gtr).toFixed(1) : "47.0";
   const environmentScore = environmentData?.gtr ? parseFloat(environmentData.gtr).toFixed(1) : "47.0";
 
-  // Function to format element name for display
   const formatElementName = (name) => {
     if (typeof name !== 'string') return name;
     return name
@@ -432,6 +472,24 @@ function FiveBoxDesk({ selfData, socialData, actionsData, getsData, environmentD
       )}
     </div>
   );
+
+  // Add loading state
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center p-8 h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#C6B06A]"></div>
+      </div>
+    );
+  }
+
+  // Add error state
+  if (error) {
+    return (
+      <div className="flex justify-center items-center p-8 h-64">
+        <div className="text-red-500">{error}</div>
+      </div>
+    );
+  }
 }
 
 export default FiveBoxDesk;

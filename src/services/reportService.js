@@ -9,8 +9,12 @@ export const reportService = {
    */
   getGtrReport: async (fromDate, toDate) => {
     try {
+      const accessToken = localStorage.getItem('access_token');
       const response = await api.get(`/assessments/sessions/gtr-report`, {
-        params: {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        },
+        params: { 
           from: fromDate,
           to: toDate
         }

@@ -1,7 +1,21 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDateRange } from "@/context/DateRangeContext";
+import reportService from '@/services/reportService';
 
-export default function FiveBoxMobile({ selfData, socialData, actionsData, getsData, environmentData }) {
+export default function FiveBoxMobile() {
+  const { dateRange } = useDateRange();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
+  // State for data
+  const [selfData, setSelfData] = useState(null);
+  const [socialData, setSocialData] = useState(null);
+  const [actionsData, setActionsData] = useState(null);
+  const [getsData, setGetsData] = useState(null);
+  const [environmentData, setEnvironmentData] = useState(null);
+  
+  // State for UI
   const [selfExpanded, setSelfExpanded] = useState(true);
   const [socialExpanded, setSocialExpanded] = useState(true);
   const [actionsExpanded, setActionsExpanded] = useState(true);
@@ -14,7 +28,40 @@ export default function FiveBoxMobile({ selfData, socialData, actionsData, getsD
   const [showGetsElements, setShowGetsElements] = useState(false);
   const [showEnvironmentElements, setShowEnvironmentElements] = useState(false);
   
-  // Get scores from the passed data
+  // Fetch data whenever date range changes
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!dateRange.fromDate || !dateRange.toDate) {
+        console.log("Date range not available yet");
+        return;
+      }
+      
+      console.log("Mobile: Fetching data with date range:", dateRange);
+      
+      try {
+        setLoading(true);
+        const data = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
+        console.log("Mobile: Data fetched successfully:", data);
+        
+        // Update state with fetched data
+        setSelfData(data.self);
+        setSocialData(data.social);
+        setActionsData(data.actions);
+        setGetsData(data.gets);
+        setEnvironmentData(data.environment);
+        setError(null);
+      } catch (error) {
+        console.error("Error fetching GTR data:", error);
+        setError("Failed to load data. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [dateRange]); // Include dateRange as a dependency
+  
+  // Get scores from the data
   const selfScore = selfData?.gtr ? parseFloat(selfData.gtr).toFixed(1) : "0.0";
   const socialScore = socialData?.gtr ? parseFloat(socialData.gtr).toFixed(1) : "0.0";
   const actionsScore = actionsData?.gtr ? parseFloat(actionsData.gtr).toFixed(1) : "0.0";
@@ -29,6 +76,24 @@ export default function FiveBoxMobile({ selfData, socialData, actionsData, getsD
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
   };
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="md:hidden mt-8 flex justify-center items-center p-8 h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#C6B06A]"></div>
+      </div>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="md:hidden mt-8 flex justify-center items-center p-8 h-64">
+        <div className="text-red-500">{error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="md:hidden mt-8">

@@ -1,35 +1,33 @@
-"use client"
-import React, { useState, useEffect, useRef } from 'react'
-import Link from 'next/link'
-import Menu from '@/components/layout/Menu'
-import Navbar from '@/components/layout/Navbar'
-import { userService } from '@/services/userService'
-import { useRouter } from 'next/navigation'
-import Image from 'next/image'
+"use client";
+import React, { useState, useEffect, useRef } from "react";
+import { userService } from "@/services/userService";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function EditProfilePage() {
     const router = useRouter();
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
-    const [error, setError] = useState('');
+    const [error, setError] = useState("");
     const [profilePicture, setProfilePicture] = useState(null);
-    const [profilePictureUrl, setProfilePictureUrl] = useState('');
+    const [profilePictureUrl, setProfilePictureUrl] = useState("");
     const fileInputRef = useRef(null);
     const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        yearOfBirth: '',
-        gender: '',
-        countryOfOrigin: '',
-        currentCountry: '',
-        currentCity: '',
+        name: "",
+        email: "",
+        yearOfBirth: "",
+        gender: "",
+        countryOfOrigin: "",
+        currentCountry: "",
+        currentCity: "",
         termsConsent: true,
         dataPrivacyConsent: true,
-        privacyPolicyConsent: true
-    })
-    const [showDeleteModal, setShowDeleteModal] = useState(false)
+        privacyPolicyConsent: true,
+    });
 
-    // Fetch user data when component mounts
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
@@ -37,25 +35,24 @@ export default function EditProfilePage() {
                 const response = await userService.getProfile();
                 const userData = response.data;
 
-                // Update form data with user profile information
-                setFormData(prev => ({
+                setFormData((prev) => ({
                     ...prev,
-                    name: userData.name || '',
-                    email: userData.email || '',
-                    yearOfBirth: userData.yearOfBirth || '',
-                    gender: userData.gender || '',
-                    countryOfOrigin: userData.countryOfOrigin || '',
-                    currentCountry: userData.currentCountry || '',
-                    currentCity: userData.currentCity || '',
-                    // Load consent values from API
+                    name: userData.name || "",
+                    email: userData.email || "",
+                    yearOfBirth: userData.yearOfBirth || "",
+                    gender: userData.gender || "",
+                    countryOfOrigin: userData.countryOfOrigin || "",
+                    currentCountry: userData.currentCountry || "",
+                    currentCity: userData.currentCity || "",
                     termsConsent: userData.termsConsent !== undefined ? userData.termsConsent : true,
                     dataPrivacyConsent: userData.dataPrivacyConsent !== undefined ? userData.dataPrivacyConsent : true,
-                    privacyPolicyConsent: userData.privacyPolicyConsent !== undefined ? userData.privacyPolicyConsent : true
+                    privacyPolicyConsent: userData.privacyPolicyConsent !== undefined ? userData.privacyPolicyConsent : true,
                 }));
 
-                // Set profile picture if available
-                if (userData.profilePicture) {
-                    setProfilePictureUrl(userData.profilePicture);
+                if (userData.profilePicturePath) {
+                    // ใช้ profilePicturePath จาก API response
+                    const fullImageUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/${userData.profilePicturePath}`;
+                    setProfilePictureUrl(fullImageUrl);
                 }
             } catch (err) {
                 console.error("Error fetching user profile:", err);
@@ -69,12 +66,12 @@ export default function EditProfilePage() {
     }, []);
 
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target
-        setFormData(prev => ({
+        const { name, value, type, checked } = e.target;
+        setFormData((prev) => ({
             ...prev,
-            [name]: type === 'checkbox' ? checked : value
-        }))
-    }
+            [name]: type === "checkbox" ? checked : value,
+        }));
+    };
 
     const handleProfilePictureClick = () => {
         fileInputRef.current.click();
@@ -84,7 +81,6 @@ export default function EditProfilePage() {
         const file = e.target.files[0];
         if (file) {
             setProfilePicture(file);
-            // Create a preview URL
             const previewUrl = URL.createObjectURL(file);
             setProfilePictureUrl(previewUrl);
         }
@@ -95,13 +91,19 @@ export default function EditProfilePage() {
 
         try {
             const formData = new FormData();
-            formData.append('profile_picture', profilePicture);
+            formData.append("profilePicture", profilePicture); // ใช้ key เป็น "profilePicture" ตาม API
 
-            await userService.updateProfilePicture(formData);
-            console.log('Profile picture updated successfully');
+            const response = await userService.updateProfilePicture(formData);
+
+            // อัปเดต URL รูปภาพด้วย path จากเซิร์ฟเวอร์
+            const newProfilePicturePath = response.data.profilePicturePath;
+            const fullImageUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/${newProfilePicturePath}`;
+            setProfilePictureUrl(fullImageUrl);
+
+            return response.data;
         } catch (err) {
-            console.error('Error uploading profile picture:', err);
-            setError('Failed to upload profile picture. Please try again.');
+            console.error("Error uploading profile picture:", err);
+            setError("Failed to upload profile picture. Please try again.");
             throw err;
         }
     };
@@ -109,10 +111,9 @@ export default function EditProfilePage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setSaving(true);
-        setError('');
+        setError("");
 
         try {
-            // Prepare data for API
             const updateData = {
                 name: formData.name,
                 yearOfBirth: parseInt(formData.yearOfBirth),
@@ -120,31 +121,25 @@ export default function EditProfilePage() {
                 countryOfOrigin: formData.countryOfOrigin,
                 currentCountry: formData.currentCountry,
                 currentCity: formData.currentCity,
-                // Include consent values in the update data
                 termsConsent: formData.termsConsent,
                 dataPrivacyConsent: formData.dataPrivacyConsent,
-                privacyPolicyConsent: formData.privacyPolicyConsent
+                privacyPolicyConsent: formData.privacyPolicyConsent,
             };
 
-            // Upload profile picture if changed
             if (profilePicture) {
                 await uploadProfilePicture();
             }
 
-            // Call API to update user profile
             await userService.updateProfile(updateData);
-
-            // Redirect to profile page after successful update
-            router.push('/');
+            router.push("/");
         } catch (err) {
-            console.error('Error updating profile:', err);
-            setError(err.message || 'Failed to update profile. Please try again.');
+            console.error("Error updating profile:", err);
+            setError(err.message || "Failed to update profile. Please try again.");
         } finally {
             setSaving(false);
         }
-    }
+    };
 
-    // Show loading state
     if (loading) {
         return (
             <div className="flex justify-center items-center min-h-screen bg-gray-50">
@@ -158,7 +153,7 @@ export default function EditProfilePage() {
 
     return (
         <>
-            <div className="flex ">
+            <div className="flex">
                 <div className="bg-gray-50 w-full min-h-screen">
                     <div className="max-w-2xl h-lvh overflow-auto mx-auto w-full px-4 sm:px-6 lg:px-8 mt-4 pb-8">
                         <h1 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold mb-4">Edit Profile</h1>
@@ -177,34 +172,39 @@ export default function EditProfilePage() {
                         </div>
 
                         <form onSubmit={handleSubmit} className="bg-white rounded-xl md:rounded-[40px] p-3 md:p-4 lg:p-6 shadow-sm mb-4 md:mb-6">
-                        <div className="flex flex-col items-start gap-4 p-3 md:p-4 lg:p-[16px] self-stretch">
+                            <div className="flex flex-col items-start gap-4 p-3 md:p-4 lg:p-[16px] self-stretch">
                                 <h2 className="text-base md:text-lg lg:text-xl font-bold">User Profile</h2>
 
                                 <div className="flex w-full">
-                                    <div 
+                                    <div
                                         className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 border border-gray-300 rounded-[24px] flex flex-col items-center justify-center cursor-pointer hover:border-gray-400 transition-colors overflow-hidden relative"
                                         onClick={handleProfilePictureClick}
                                     >
                                         {profilePictureUrl ? (
-                                            <Image 
-                                                src={profilePictureUrl} 
-                                                alt="Profile" 
-                                                layout="fill" 
+                                            <Image
+                                                src={profilePictureUrl}
+                                                alt="Profile"
+                                                layout="fill"
                                                 objectFit="cover"
                                                 className="w-full h-full"
                                             />
                                         ) : (
                                             <>
-                                                <svg className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                                                <svg
+                                                    className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                >
                                                     <path d="M11 11V5H13V11H19V13H13V19H11V13H5V11H11Z" fill="black" />
                                                 </svg>
                                                 <span className="text-[8px] md:text-[10px] lg:text-xs text-center text-[#2B2E38]">Upload profile pic</span>
                                             </>
                                         )}
-                                        <input 
-                                            type="file" 
-                                            ref={fileInputRef} 
-                                            className="hidden" 
+                                        <input
+                                            type="file"
+                                            ref={fileInputRef}
+                                            className="hidden"
                                             accept="image/*"
                                             onChange={handleFileChange}
                                         />
@@ -471,5 +471,5 @@ export default function EditProfilePage() {
                 )}
             </div>
         </>
-    )
-}
+    );
+};

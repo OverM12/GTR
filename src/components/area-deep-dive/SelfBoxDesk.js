@@ -1,18 +1,49 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDateRange } from "@/context/DateRangeContext";
 
-export default function SelfBoxDesk({ areaData }) {
+export default function SelfBoxDesk() {
+  const { dateRange, loading, gtrData } = useDateRange();
+  const [error, setError] = useState(null);
+  const [areaData, setAreaData] = useState(null);
   const [showElements, setShowElements] = useState(false);
+
+  // Update component data when gtrData changes
+  useEffect(() => {
+    if (gtrData) {
+      setAreaData(gtrData.self);
+      setError(null);
+    }
+  }, [gtrData]);
 
   const selfScore = areaData?.gtr ? parseFloat(areaData.gtr).toFixed(1) : "0.0";
 
   // Function to format element name for display
   const formatElementName = (name) => {
+    if (typeof name !== 'string') return name;
     return name
       .split('_')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
   };
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="hidden md:flex md:justify-center md:items-center p-8 h-32">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+      </div>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="hidden md:flex md:justify-center md:items-center p-8 h-32">
+        <div className="text-red-500">{error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="hidden md:block">

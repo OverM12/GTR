@@ -3,15 +3,14 @@ import Image from "next/image";
 import { NavbarContext } from "@/context/NavbarProvider";
 import { useContext, useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
+import { useDateRange } from "@/context/DateRangeContext"; // Import the context
+import reportService from '@/services/reportService'; // Import reportService
 
 function Navbar() {
   const { setIsOpen } = useContext(NavbarContext);
+  const { dateRange, setDateRange } = useDateRange(); // Use the context
   const pathname = usePathname();
   const [viewMode, setViewMode] = useState("M"); // D, W, M, Y for Day, Week, Month, Year
-  const [dateRange, setDateRange] = useState({
-    fromDate: "",
-    toDate: "",
-  });
   const [isSelectingDate, setIsSelectingDate] = useState(false);
   const [selectingField, setSelectingField] = useState("fromDate"); // "fromDate" or "toDate"
   const datePickerRef = useRef(null);
@@ -28,21 +27,44 @@ function Navbar() {
   const [currentCalendarYear, setCurrentCalendarYear] = useState(
     new Date().getFullYear()
   );
-
-  // Initialize date range on component mount
-  useEffect(() => {
-    // Set default date range based on the initial view mode (Month)
-    updateDateRangeForViewMode("M");
-  }, []);
+  const [loading, setLoading] = useState(false);
 
   // Format date for display (MM/DD/YYYY)
   const formatDateForDisplay = (dateString) => {
     if (!dateString) return "";
     const date = new Date(dateString);
-    return `${(date.getMonth() + 1).toString().padStart(2, "0")}/${date
-      .getDate()
-      .toString()
-      .padStart(2, "0")}/${date.getFullYear()}`;
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = getMonthName(date.getMonth()); // Using existing getMonthName function
+    const year = date.getFullYear() + 543; // Convert to Buddhist Era
+    return `${day} ${month} ${year}`;
+  };
+
+  // Fetch data based on current date range
+  const fetchDataForDateRange = async (fromDate, toDate) => {
+    if (!fromDate || !toDate) {
+      console.log("Date range not complete, skipping fetch");
+      return;
+    }
+    
+    try {
+      setLoading(true);
+      // Get the access token from localStorage
+      const accessToken = localStorage.getItem('accessToken');
+      
+      if (!accessToken) {
+        console.error("No access token found. Please log in again.");
+        return;
+      }
+      
+      console.log("Navbar: Fetching data for date range:", { fromDate, toDate });
+      const data = await reportService.getGtrReport(fromDate, toDate, accessToken);
+      console.log("Navbar: Data fetched successfully:", data);
+      // The data is now fetched and will be used by components via the DateRangeContext
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Update date range based on view mode
@@ -72,11 +94,30 @@ function Navbar() {
         fromDate.setDate(today.getDate() - 30);
     }
 
-    setDateRange({
-      fromDate: fromDate.toISOString().split("T")[0],
-      toDate: today.toISOString().split("T")[0],
-    });
+    // Format dates for API
+    const fromDateStr = fromDate.toISOString().split("T")[0];
+    const toDateStr = today.toISOString().split("T")[0];
+
+    // Update the date range in the context
+    const newDateRange = {
+      fromDate: fromDateStr,
+      toDate: toDateStr,
+    };
+
+    setDateRange(newDateRange);
+    
+    // Immediately fetch data with the new date range
+    fetchDataForDateRange(fromDateStr, toDateStr);
+
+    // Log the date range for debugging
+    console.log("Date range updated:", newDateRange);
   };
+
+  // Initialize with default view mode
+  useEffect(() => {
+    // Set initial view mode and update date range
+    updateDateRangeForViewMode(viewMode);
+  }, [viewMode]);
 
   // Handle view mode change
   const handleViewModeChange = (mode) => {
@@ -93,16 +134,24 @@ function Navbar() {
   // Handle date selection in the custom date picker
   const handleDateClick = (date) => {
     if (selectingField === "fromDate") {
-      setDateRange((prev) => ({ ...prev, fromDate: date }));
+      const newDateRange = { ...dateRange, fromDate: date };
+      setDateRange(newDateRange);
+      console.log("From date updated:", newDateRange);
       setSelectingField("toDate");
     } else {
+      let newDateRange;
       // If selecting end date, ensure it's not before start date
       if (date < dateRange.fromDate) {
-        setDateRange((prev) => ({ fromDate: date, toDate: prev.fromDate }));
+        newDateRange = { fromDate: date, toDate: dateRange.fromDate };
       } else {
-        setDateRange((prev) => ({ ...prev, toDate: date }));
+        newDateRange = { ...dateRange, toDate: date };
       }
+      setDateRange(newDateRange);
+      console.log("To date updated:", newDateRange);
       setShowDatePicker(false);
+      
+      // Fetch data immediately after both dates are selected
+      fetchDataForDateRange(newDateRange.fromDate, newDateRange.toDate);
     }
   };
 
@@ -186,17 +235,15 @@ function Navbar() {
           onClick={() => handleDateClick(date)}
           className={`w-8 h-8 flex items-center justify-center cursor-pointer text-sm transition-colors
             ${isInRange && !isStartDate && !isEndDate ? "bg-orange-100" : ""}
-            ${
-              isStartDate || isEndDate
-                ? "bg-[#FF9933] text-white rounded-full"
-                : "rounded-full"
+            ${isStartDate || isEndDate
+              ? "bg-[#FF9933] text-white rounded-full"
+              : "rounded-full"
             }
-            ${
-              date === new Date().toISOString().split("T")[0] &&
+            ${date === new Date().toISOString().split("T")[0] &&
               !isStartDate &&
               !isEndDate
-                ? "border border-gray-400"
-                : ""
+              ? "border border-gray-400"
+              : ""
             }
             hover:bg-gray-200 hover:rounded-full`}
         >
@@ -330,10 +377,9 @@ function Navbar() {
       <div
         ref={fromDateRef}
         className={`bg-[#F0F2F5] px-[16px] py-[8px] w-fit rounded-[16px] cursor-pointer
-          ${
-            selectingField === "fromDate" && isSelectingDate
-              ? "border-2 border-[#FF9933]"
-              : ""
+          ${selectingField === "fromDate" && isSelectingDate
+            ? "border-2 border-[#FF9933]"
+            : ""
           }`}
         onClick={() => handleOpenDatePicker("fromDate")}
       >
@@ -345,10 +391,9 @@ function Navbar() {
       <div
         ref={toDateRef}
         className={`bg-[#F0F2F5] px-[16px] py-[8px] w-fit rounded-[16px] cursor-pointer
-          ${
-            selectingField === "toDate" && isSelectingDate
-              ? "border-2 border-[#FF9933]"
-              : ""
+          ${selectingField === "toDate" && isSelectingDate
+            ? "border-2 border-[#FF9933]"
+            : ""
           }`}
         onClick={() => handleOpenDatePicker("toDate")}
       >
@@ -380,9 +425,8 @@ function Navbar() {
     <div className="z-50">
       <div className="sticky top-0 md:hidden w-full bg-white drop-shadow-sm shadow-[0px_-3px_8px_rgba(0,0,0,0.5)] py-[16px] px-[16px]">
         <div
-          className={`flex flex-col ${
-            pathname != "/" ? "h-fit" : "h-[94px]"
-          } md:h-[88px]`}
+          className={`flex flex-col ${pathname != "/" ? "h-fit" : "h-[94px]"
+            } md:h-[88px]`}
         >
           <div className="w-full flex justify-between">
             <div
@@ -421,7 +465,7 @@ function Navbar() {
 
       <div className="hidden md:flex w-full items-center gap-8 bg-white drop-shadow-sm shadow-[0px_-3px_8px_rgba(0,0,0,0.5)] py-[16px] px-[16px]">
         {/* Area Deep Dive Layout */}
-        {pathname === "/your-gtr/area-deep-dive" && (
+        {pathname === "/area-deep-dive" && (
           <>
             {renderDateRangeDisplay()}
             <div className="relative flex-1">
@@ -445,46 +489,42 @@ function Navbar() {
         )}
 
         {/* Dashboard Layout */}
-        {pathname === "/your-gtr/your-gtr/dashboard" && (
+        {pathname === "/dashboard" && (
           <>
             <div className="flex items-center">
               <div className="flex rounded-full overflow-hidden">
                 <button
-                  className={`px-4 py-1 text-sm ${
-                    viewMode === "D"
-                      ? "bg-[#ff9933] text-black"
-                      : "bg-[#c1c6da] text-white"
-                  } rounded-l-full`}
+                  className={`px-4 py-1 text-sm ${viewMode === "D"
+                    ? "bg-[#ff9933] text-black"
+                    : "bg-[#c1c6da] text-white"
+                    } rounded-l-full`}
                   onClick={() => handleViewModeChange("D")}
                 >
                   D
                 </button>
                 <button
-                  className={`px-4 py-1 text-sm ${
-                    viewMode === "W"
-                      ? "bg-[#ff9933] text-black"
-                      : "bg-[#c1c6da] text-white"
-                  }`}
+                  className={`px-4 py-1 text-sm ${viewMode === "W"
+                    ? "bg-[#ff9933] text-black"
+                    : "bg-[#c1c6da] text-white"
+                    }`}
                   onClick={() => handleViewModeChange("W")}
                 >
                   W
                 </button>
                 <button
-                  className={`px-4 py-1 text-sm ${
-                    viewMode === "M"
-                      ? "bg-[#ff9933] text-black"
-                      : "bg-[#c1c6da] text-white"
-                  }`}
+                  className={`px-4 py-1 text-sm ${viewMode === "M"
+                    ? "bg-[#ff9933] text-black"
+                    : "bg-[#c1c6da] text-white"
+                    }`}
                   onClick={() => handleViewModeChange("M")}
                 >
                   M
                 </button>
                 <button
-                  className={`px-4 py-1 text-sm ${
-                    viewMode === "Y"
-                      ? "bg-[#ff9933] text-black"
-                      : "bg-[#c1c6da] text-white"
-                  } rounded-r-full`}
+                  className={`px-4 py-1 text-sm ${viewMode === "Y"
+                    ? "bg-[#ff9933] text-black"
+                    : "bg-[#c1c6da] text-white"
+                    } rounded-r-full`}
                   onClick={() => handleViewModeChange("Y")}
                 >
                   Y
@@ -495,46 +535,42 @@ function Navbar() {
           </>
         )}
 
-        {pathname === "/your-gtr/development" && (
+        {pathname === "/development" && (
           <>
             <div className="flex items-center">
               <div className="flex rounded-full overflow-hidden">
                 <button
-                  className={`px-4 py-1 text-sm ${
-                    viewMode === "D"
-                      ? "bg-[#ff9933] text-black"
-                      : "bg-[#c1c6da] text-white"
-                  } rounded-l-full`}
+                  className={`px-4 py-1 text-sm ${viewMode === "D"
+                    ? "bg-[#ff9933] text-black"
+                    : "bg-[#c1c6da] text-white"
+                    } rounded-l-full`}
                   onClick={() => handleViewModeChange("D")}
                 >
                   D
                 </button>
                 <button
-                  className={`px-4 py-1 text-sm ${
-                    viewMode === "W"
-                      ? "bg-[#ff9933] text-black"
-                      : "bg-[#c1c6da] text-white"
-                  }`}
+                  className={`px-4 py-1 text-sm ${viewMode === "W"
+                    ? "bg-[#ff9933] text-black"
+                    : "bg-[#c1c6da] text-white"
+                    }`}
                   onClick={() => handleViewModeChange("W")}
                 >
                   W
                 </button>
                 <button
-                  className={`px-4 py-1 text-sm ${
-                    viewMode === "M"
-                      ? "bg-[#ff9933] text-black"
-                      : "bg-[#c1c6da] text-white"
-                  }`}
+                  className={`px-4 py-1 text-sm ${viewMode === "M"
+                    ? "bg-[#ff9933] text-black"
+                    : "bg-[#c1c6da] text-white"
+                    }`}
                   onClick={() => handleViewModeChange("M")}
                 >
                   M
                 </button>
                 <button
-                  className={`px-4 py-1 text-sm ${
-                    viewMode === "Y"
-                      ? "bg-[#ff9933] text-black"
-                      : "bg-[#c1c6da] text-white"
-                  } rounded-r-full`}
+                  className={`px-4 py-1 text-sm ${viewMode === "Y"
+                    ? "bg-[#ff9933] text-black"
+                    : "bg-[#c1c6da] text-white"
+                    } rounded-r-full`}
                   onClick={() => handleViewModeChange("Y")}
                 >
                   Y
@@ -546,56 +582,52 @@ function Navbar() {
         )}
 
         {/* Insights Layout */}
-        {(pathname === "/your-gtr/insights" ||
+        {(pathname === "/insights" ||
           pathname.includes("/insights/")) && (
-          <>
-            <div className="flex items-center">
-              <div className="flex rounded-full overflow-hidden">
-                <button
-                  className={`px-4 py-1 text-sm ${
-                    viewMode === "D"
+            <>
+              <div className="flex items-center">
+                <div className="flex rounded-full overflow-hidden">
+                  <button
+                    className={`px-4 py-1 text-sm ${viewMode === "D"
                       ? "bg-[#ff9933] text-black"
                       : "bg-[#c1c6da] text-white"
-                  } rounded-l-full`}
-                  onClick={() => handleViewModeChange("D")}
-                >
-                  D
-                </button>
-                <button
-                  className={`px-4 py-1 text-sm ${
-                    viewMode === "W"
+                      } rounded-l-full`}
+                    onClick={() => handleViewModeChange("D")}
+                  >
+                    D
+                  </button>
+                  <button
+                    className={`px-4 py-1 text-sm ${viewMode === "W"
                       ? "bg-[#ff9933] text-black"
                       : "bg-[#c1c6da] text-white"
-                  }`}
-                  onClick={() => handleViewModeChange("W")}
-                >
-                  W
-                </button>
-                <button
-                  className={`px-4 py-1 text-sm ${
-                    viewMode === "M"
+                      }`}
+                    onClick={() => handleViewModeChange("W")}
+                  >
+                    W
+                  </button>
+                  <button
+                    className={`px-4 py-1 text-sm ${viewMode === "M"
                       ? "bg-[#ff9933] text-black"
                       : "bg-[#c1c6da] text-white"
-                  }`}
-                  onClick={() => handleViewModeChange("M")}
-                >
-                  M
-                </button>
-                <button
-                  className={`px-4 py-1 text-sm ${
-                    viewMode === "Y"
+                      }`}
+                    onClick={() => handleViewModeChange("M")}
+                  >
+                    M
+                  </button>
+                  <button
+                    className={`px-4 py-1 text-sm ${viewMode === "Y"
                       ? "bg-[#ff9933] text-black"
                       : "bg-[#c1c6da] text-white"
-                  } rounded-r-full`}
-                  onClick={() => handleViewModeChange("Y")}
-                >
-                  Y
-                </button>
+                      } rounded-r-full`}
+                    onClick={() => handleViewModeChange("Y")}
+                  >
+                    Y
+                  </button>
+                </div>
               </div>
-            </div>
-            {renderDateRangeDisplay()}
-          </>
-        )}
+              {renderDateRangeDisplay()}
+            </>
+          )}
 
         <div className="w-full flex justify-end">
           <button className="flex self-end items-center p-4 rounded-[22px] bg-[#FF9933] text-[12px] font-medium px-5">

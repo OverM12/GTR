@@ -1,7 +1,21 @@
-import Image from "next/image";
-import { useState } from "react";
 
-function FiveBoxDesk({ socialData, actionsData, getsData, environmentData }) {
+import Image from "next/image";
+import { useState, useEffect } from "react";
+import { useDateRange } from "@/context/DateRangeContext";
+import reportService from '@/services/reportService';
+
+function FiveBoxDesk() {
+  const { dateRange } = useDateRange();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
+  // State for data
+  const [selfData, setSelfData] = useState(null);
+  const [socialData, setSocialData] = useState(null);
+  const [actionsData, setActionsData] = useState(null);
+  const [getsData, setGetsData] = useState(null);
+  const [environmentData, setEnvironmentData] = useState(null);
+  
   // State for expanded sections
   const [selfExpanded, setSelfExpanded] = useState(true);
   const [socialExpanded, setSocialExpanded] = useState(true);
@@ -14,10 +28,42 @@ function FiveBoxDesk({ socialData, actionsData, getsData, environmentData }) {
   const [showSocialElements, setShowSocialElements] = useState(false);
   const [showActionsElements, setShowActionsElements] = useState(false);
   const [showGetsElements, setShowGetsElements] = useState(false);
-  const [showEnvironmentElements, setShowEnvironmentElements] = useState(false);
   
-  // Get scores from the passed data or use defaults
-  const selfScore = 77.5; // Default self score
+  // Update component data when gtrData changes
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!dateRange.fromDate || !dateRange.toDate) {
+        console.log("Date range not available yet");
+        return;
+      }
+      
+      console.log("FourBoxDesk: Fetching data with date range:", dateRange);
+      
+      try {
+        setLoading(true);
+        const data = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
+        console.log("FourBoxDesk: Data fetched successfully:", data);
+        
+        // Update state with fetched data
+        setSelfData(data.self);
+        setSocialData(data.social);
+        setActionsData(data.actions);
+        setGetsData(data.gets);
+        setEnvironmentData(data.environment);
+        setError(null);
+      } catch (error) {
+        console.error("Error fetching GTR data:", error);
+        setError("Failed to load data. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [dateRange]); // Include dateRange as a dependency
+  
+  // Get scores from the data
+  const selfScore = selfData?.gtr ? parseFloat(selfData.gtr).toFixed(1) : "77.5";
   const socialScore = socialData?.gtr ? parseFloat(socialData.gtr).toFixed(1) : "90.4";
   const actionsScore = actionsData?.gtr ? parseFloat(actionsData.gtr).toFixed(1) : "47.0";
   const getsScore = getsData?.gtr ? parseFloat(getsData.gtr).toFixed(1) : "47.0";
@@ -31,6 +77,24 @@ function FiveBoxDesk({ socialData, actionsData, getsData, environmentData }) {
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
   };
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="hidden md:flex md:justify-center md:items-center p-8 h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#C6B06A]"></div>
+      </div>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="hidden md:flex md:justify-center md:items-center p-8 h-64">
+        <div className="text-red-500">{error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="hidden md:flex md:flex-col gap-1">
@@ -71,45 +135,42 @@ function FiveBoxDesk({ socialData, actionsData, getsData, environmentData }) {
       </div>
 
       {/* Self Elements */}
-      {showSelfElements && (
+      {showSelfElements && selfData?.elements && (
         <div className="ml-24 mb-4 pl-6 border-l-2 border-gray-200">
           <div className="grid grid-cols-1 gap-3">
-            <div className="flex items-center">
-              <div className="flex items-center w-1/4">
-                <span className="text-gray-700">Self Acceptance</span>
-              </div>
-              <div className="w-3/4 relative h-[20px] bg-[#B60A06] rounded-full overflow-hidden ml-4">
-                <div
-                  className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full flex items-center justify-end"
-                  style={{ width: `24%` }}
-                >
-                  <span className="absolute text-white font-medium text-xs px-2">
-                    24%
+            {selfData.elements.map((element, index) => (
+              <div key={index} className="flex items-center">
+                <div className="flex items-center w-1/4">
+                  {element.isHigh && (
+                    <span className="mr-2 text-blue-500 text-lg">●</span>
+                  )}
+                  {element.isLow && (
+                    <span className="mr-2 text-red-500 text-lg">●</span>
+                  )}
+                  <span className="text-gray-700">
+                    {formatElementName(element.element)}
                   </span>
                 </div>
-              </div>
-            </div>
-            <div className="flex items-center">
-              <div className="flex items-center w-1/4">
-                <span className="text-gray-700">Sense Of Purpose</span>
-              </div>
-              <div className="w-3/4 relative h-[20px] bg-[#B60A06] rounded-full overflow-hidden ml-4">
-                <div
-                  className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full flex items-center justify-end"
-                  style={{ width: `97%` }}
-                >
-                  <span className="absolute text-white font-medium text-xs px-2">
-                    97%
-                  </span>
+                <div className="w-3/4 relative h-[20px] bg-[#B60A06] rounded-full overflow-hidden ml-4">
+                  <div
+                    className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full flex items-center justify-end"
+                    style={{ width: `${element.gtr}%` }}
+                  >
+                    <span className="absolute text-white font-medium text-xs px-2">
+                      {element.gtr}%
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
+            ))}
           </div>
           
-          <div className="mt-4 bg-gray-50 p-3 rounded-md">
-            <h4 className="text-sm font-semibold mb-1">Notes:</h4>
-            <p className="text-sm text-gray-600">Focus on self-acceptance to improve overall well-being.</p>
-          </div>
+          {selfData.notes && (
+            <div className="mt-4 bg-gray-50 p-3 rounded-md">
+              <h4 className="text-sm font-semibold mb-1">Notes:</h4>
+              <p className="text-sm text-gray-600">{selfData.notes}</p>
+            </div>
+          )}
         </div>
       )}
       
@@ -151,17 +212,6 @@ function FiveBoxDesk({ socialData, actionsData, getsData, environmentData }) {
               alt="Magnify Icon"
             />
           </button>
-          {/* <button
-            className=""
-            onClick={() => setSocialExpanded(!socialExpanded)}
-          >
-            <Image
-              src="/area-deep-dive/arrow-up-icon.svg"
-              width={25}
-              height={25}
-              alt="Toggle Icon"
-            />
-          </button> */}
         </div>
       </div>
 
@@ -195,13 +245,6 @@ function FiveBoxDesk({ socialData, actionsData, getsData, environmentData }) {
               </div>
             ))}
           </div>
-{/*           
-          {socialData.notes && (
-            <div className="mt-4 bg-gray-50 p-3 rounded-md">
-              <h4 className="text-sm font-semibold mb-1">Notes:</h4>
-              <p className="text-sm text-gray-600">{socialData.notes}</p>
-            </div>
-          )} */}
         </div>
       )}
 
@@ -243,17 +286,6 @@ function FiveBoxDesk({ socialData, actionsData, getsData, environmentData }) {
               alt="Magnify Icon"
             />
           </button>
-          {/* <button
-            className=""
-            onClick={() => setActionsExpanded(!actionsExpanded)}
-          >
-            <Image
-              src="/area-deep-dive/arrow-up-icon.svg"
-              width={25}
-              height={25}
-              alt="Toggle Icon"
-            />
-          </button> */}
         </div>
       </div>
 
@@ -287,13 +319,6 @@ function FiveBoxDesk({ socialData, actionsData, getsData, environmentData }) {
               </div>
             ))}
           </div>
-          
-          {/* {actionsData.notes && (
-            <div className="mt-4 bg-gray-50 p-3 rounded-md">
-              <h4 className="text-sm font-semibold mb-1">Notes:</h4>
-              <p className="text-sm text-gray-600">{actionsData.notes}</p>
-            </div>
-          )} */}
         </div>
       )}
 
@@ -329,17 +354,6 @@ function FiveBoxDesk({ socialData, actionsData, getsData, environmentData }) {
               alt="Magnify Icon"
             />
           </button>
-          {/* <button
-            className=""
-            onClick={() => setGetsExpanded(!getsExpanded)}
-          >
-            <Image
-              src="/area-deep-dive/arrow-up-icon.svg"
-              width={25}
-              height={25}
-              alt="Toggle Icon"
-            />
-          </button> */}
         </div>
       </div>
 
@@ -373,13 +387,6 @@ function FiveBoxDesk({ socialData, actionsData, getsData, environmentData }) {
               </div>
             ))}
           </div>
-          
-          {/* {getsData.notes && (
-            <div className="mt-4 bg-gray-50 p-3 rounded-md">
-              <h4 className="text-sm font-semibold mb-1">Notes:</h4>
-              <p className="text-sm text-gray-600">{getsData.notes}</p>
-            </div>
-          )} */}
         </div>
       )}
 
@@ -415,17 +422,6 @@ function FiveBoxDesk({ socialData, actionsData, getsData, environmentData }) {
               alt="Magnify Icon"
             />
           </button>
-          {/* <button
-            className=""
-            onClick={() => setEnvironmentExpanded(!environmentExpanded)}
-          >
-            <Image
-              src="/area-deep-dive/arrow-up-icon.svg"
-              width={25}
-              height={25}
-              alt="Toggle Icon"
-            />
-          </button> */}
         </div>
       </div>
 
@@ -459,13 +455,6 @@ function FiveBoxDesk({ socialData, actionsData, getsData, environmentData }) {
               </div>
             ))}
           </div>
-          
-          {/* {environmentData.notes && (
-            <div className="mt-4 bg-gray-50 p-3 rounded-md">
-              <h4 className="text-sm font-semibold mb-1">Notes:</h4>
-              <p className="text-sm text-gray-600">{environmentData.notes}</p>
-            </div>
-          )} */}
         </div>
       )}
     </div>

@@ -1,48 +1,46 @@
-import api from './api';
+import axios from "axios";
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+const getAuthToken = () => {
+  return localStorage.getItem("accessToken");
+};
 
 export const userService = {
   getProfile: async () => {
-    try {
-      const response = await api.get('/users/me');
-      return response.data;
-    } catch (error) {
-      throw error.response ? error.response.data : error;
-    }
+    const response = await axios.get(`${API_BASE_URL}/users/me`, {
+      headers: {
+        Authorization: `Bearer ${getAuthToken()}`,
+      },
+    });
+    return response;
   },
-  
-  updateProfile: async (userData) => {
-    try {
-      const response = await api.patch('/users/me', userData);
-      return response.data;
-    } catch (error) {
-      throw error.response ? error.response.data : error;
-    }
-  },
-  
-  updateProfilePicture: async (formData) => {
-    try {
-      const response = await api.post('/users/me/picture', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-      return response.data;
-    } catch (error) {
-      throw error.response ? error.response.data : error;
-    }
-  },
-  
-  deleteAccount: async () => {
-    try {
-      const response = await api.delete('/users/me');
-      // Clear local storage on successful deletion
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('userData');
-      return response.data;
-    } catch (error) {
-      throw error.response ? error.response.data : error;
-    }
-  }
-};
 
-export default userService;
+  updateProfile: async (data) => {
+    const response = await axios.patch(`${API_BASE_URL}/users/me`, data, {
+      headers: {
+        Authorization: `Bearer ${getAuthToken()}`,
+      },
+    });
+    return response;
+  },
+
+  updateProfilePicture: async (formData) => {
+    const response = await axios.post(`${API_BASE_URL}/users/me/picture`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${getAuthToken()}`,
+      },
+    });
+    return response;
+  },
+
+  deleteAccount: async () => {
+    const response = await axios.delete(`${API_BASE_URL}/users/me`, {
+      headers: {
+        Authorization: `Bearer ${getAuthToken()}`,
+      },
+    });
+    return response;
+  },
+};
