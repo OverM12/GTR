@@ -13,16 +13,16 @@ function GtrScore() {
   useEffect(() => {
     const fetchData = async () => {
       if (!dateRange.fromDate || !dateRange.toDate) {
-        console.log("GtrScore: Date range not complete, skipping fetch");
+        // //console.log("GtrScore: Date range not complete, skipping fetch");
         setLoading(false);
         return;
       }
 
       try {
         setLoading(true);
-        console.log("GtrScore: Fetching data for date range:", dateRange);
+        // //console.log("GtrScore: Fetching data for date range:", dateRange);
         const response = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
-        console.log("GtrScore: Data fetched successfully:", response);
+        // //console.log("GtrScore: Data fetched successfully:", response);
 
         if (response) {
           setData(response.data.data);

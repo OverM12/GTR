@@ -3,6 +3,9 @@ import { useState, useEffect } from 'react';
 import AreaDeepDive from '../area-deep-dive/page';
 import Self from '../self/page';
 import Social from '../social/page';
+import Action from '../actions/page';
+import Environment from '../environment/page';
+import Gets from '../gets/page';
 import reportService from '@/services/reportService';
 import Image from 'next/image';
 import { useDateRange } from '@/context/DateRangeContext';
@@ -13,6 +16,7 @@ function TabNavigation() {
   const [reportData, setReportData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectingField, setSelectingField] = useState("fromDate");
 
   useEffect(() => {
     const fetchReportData = async () => {
@@ -80,8 +84,8 @@ function TabNavigation() {
     { id: 'Overview', label: 'Overview' },
     { id: 'Self', label: 'Self' },
     { id: 'Social', label: 'Social' },
-    { id: 'Action', label: 'Actions' },
-    { id: 'Obtainments', label: 'Obtainments' },
+    { id: 'Action', label: 'Action' },
+    { id: 'Obtainments', label: 'Obtainment' },
     { id: 'Gets', label: 'Gets' }
   ];
 
@@ -106,22 +110,13 @@ function TabNavigation() {
       case 'Social':
         return <Social reportData={reportData?.social} />;
       case 'Action':
-        return <div className="h-screen bg-[#F3F4F6] flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-bold mb-2">Actions</h2>
-            <p>GTR Score: {reportData?.actions?.gtr || 0}%</p>
-          </div>
-        </div>;
+        return <Action reportData={reportData?.action} />;
+      case 'Obtainments':
+        return <Environment reportData={reportData?.environment} />;
       case 'Gets':
-        return <div className="h-screen bg-[#F3F4F6] flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-bold mb-2">Gets & Environment</h2>
-            <p>Gets Score: {reportData?.gets?.gtr || 0}%</p>
-            <p>Environment Score: {reportData?.environment?.gtr || 0}%</p>
-          </div>
-        </div>;
+        return <Gets reportData={reportData?.gets} />;
       default:
-        return <AreaDeepDive reportData={reportData} />;
+        return <Gets reportData={reportData} />;
     }
   };
 
@@ -149,7 +144,7 @@ function TabNavigation() {
         <div className="flex mt-2 gap-4 text-xs text-gray-600">
           <p className="flex items-center">
             <Image
-              src="/your-gtr/your-gtr/dashboard/energy-flow-icon.png"
+              src="/your-gtr/dashboard/energy-flow-icon.png"
               width={17}
               height={17}
               alt="Energy flow icon"
@@ -158,7 +153,7 @@ function TabNavigation() {
           </p>
           <p className="flex items-center">
             <Image
-              src="/your-gtr/your-gtr/dashboard/energy-tension-icon.png"
+              src="/your-gtr/dashboard/energy-tension-icon.png"
               width={17}
               height={17}
               alt="Energy tension icon"

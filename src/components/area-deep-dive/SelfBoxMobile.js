@@ -15,16 +15,16 @@ export default function SelfBoxMobile() {
   useEffect(() => {
     const fetchData = async () => {
       if (!dateRange.fromDate || !dateRange.toDate) {
-        console.log("SelfBoxMobile: Date range not available yet");
+        //console.log("SelfBoxMobile: Date range not available yet");
         return;
       }
       
-      console.log("SelfBoxMobile: Fetching data with date range:", dateRange);
+      //console.log("SelfBoxMobile: Fetching data with date range:", dateRange);
       
       try {
         setLoading(true);
         const data = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
-        console.log("SelfBoxMobile: Data fetched successfully:", data);
+        //console.log("SelfBoxMobile: Data fetched successfully:", data);
         
         // Update state with fetched data - we only need the self data
         setAreaData(data.self);

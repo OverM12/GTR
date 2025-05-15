@@ -20,7 +20,7 @@ export const reportService = {
         }
       });
       return response;
-      // console.log("GetGtrreport", response);
+      // //console.log("GetGtrreport", response);
     } catch (error) {
       throw error.response ? error.response.data : error;
     }

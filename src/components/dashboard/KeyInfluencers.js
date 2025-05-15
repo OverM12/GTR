@@ -19,8 +19,8 @@ function KeyInfluencers() {
 
         const keyInfluencers = response?.data?.data?.keyInfluencers;
 
-        console.log("✅ API response:", response);
-        console.log("✅ Extracted keyInfluencers:", keyInfluencers);
+        //console.log("✅ API response:", response);
+        //console.log("✅ Extracted keyInfluencers:", keyInfluencers);
 
         setData(keyInfluencers || {});
       } catch (err) {

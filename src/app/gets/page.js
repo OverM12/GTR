@@ -7,7 +7,7 @@ import Image from "next/image";
 import reportService from "@/services/reportService";
 import { useDateRange } from "@/context/DateRangeContext";
 
-export default function Actions() {
+export default function Gets() {
   const { dateRange } = useDateRange();
   const [gtrScore, setGtrScore] = useState(0);
   const [reflectionText, setReflectionText] = useState("");
@@ -17,7 +17,7 @@ export default function Actions() {
   useEffect(() => {
     const fetchGtrData = async () => {
       if (!dateRange.fromDate || !dateRange.toDate) {
-        //console.log("actions page: Date range not complete, using default 0");
+        //console.log("gets page: Date range not complete, using default 0");
         setGtrScore(0);
         setReflectionText(""); // Ensure reflectionText is cleared
         setLoading(false);
@@ -26,21 +26,21 @@ export default function Actions() {
 
       try {
         setLoading(true);
-        //console.log("actions page: Fetching data for date range:", dateRange);
+        //console.log("gets page: Fetching data for date range:", dateRange);
         const data = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
-        //console.log("actions page: Data fetched successfully:", data);
+        //console.log("gets page: Data fetched successfully:", data);
 
-        // Check for actions data in the response
-        const actionsData = data.data.data.areas.actions;
-        if (actionsData && actionsData.gtr) {
-          setGtrScore(parseFloat(actionsData.gtr));
+        // Check for gets data in the response
+        const getsData = data.data.data.areas.gets;
+        if (getsData && getsData.gtr) {
+          setGtrScore(parseFloat(getsData.gtr));
         } else {
           setGtrScore(0); // Default to 0 if gtr score is not available
         }
 
         // Handle the reflection text or any other data
-        if (actionsData && actionsData.reflection) {
-          setReflectionText(actionsData.reflection);
+        if (getsData && getsData.reflection) {
+          setReflectionText(getsData.reflection);
         } else {
           setReflectionText(""); // Default to empty if reflection is not available
         }
@@ -65,7 +65,7 @@ export default function Actions() {
   return (
     <div className="w-full h-lvh overflow-auto flex flex-col bg-[#F0F2F5] py-[32px] px-[16px] gap-[16px]">
       <h1 className="text-[#737985] text-[24px]">
-        Insights / <strong className="text-black">Actions</strong>
+        Insights / <strong className="text-black">Gets</strong>
       </h1>
 
       <div className="w-full flex flex-col bg-white p-2 rounded-4xl py-6">
@@ -95,7 +95,7 @@ export default function Actions() {
       <div className="flex flex-col bg-white p-4 rounded-4xl">
         <div className="reflection-content">
           <h3 className="font-semibold mb-2">
-            Your personal actions reflection notes
+            Your personal gets reflection notes
           </h3>
           <p className="text-sm text-gray-500 mb-4">
             These are the notes you made during the assessment. Now that
@@ -103,7 +103,7 @@ export default function Actions() {
           </p>
 
           <div className="w-full bg-[#F0F2F5] rounded-[24px] p-[32px] flex flex-col justify-center">
-            <h1 className="font-bold">Reflection on my current actions</h1>
+            <h1 className="font-bold">Reflection on my current gets</h1>
             <p className="text-[16px] mt-4">{reflectionText || "No reflection added."}</p>
           </div>
 
@@ -115,7 +115,7 @@ export default function Actions() {
               alt="GTR Icon"
               width={20}
               height={20}
-              src="/your-gtr/your-gtr/actions-insights/edit-icon.svg"
+              src="/your-gtr/your-gtr/self-insights/edit-icon.svg"
             />
             Edit reflection
           </button>

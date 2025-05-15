@@ -33,16 +33,16 @@ function FiveBoxDesk() {
   useEffect(() => {
     const fetchData = async () => {
       if (!dateRange.fromDate || !dateRange.toDate) {
-        console.log("Date range not available yet");
+        //console.log("Date range not available yet");
         return;
       }
       
-      console.log("FourBoxDesk: Fetching data with date range:", dateRange);
+      //console.log("FourBoxDesk: Fetching data with date range:", dateRange);
       
       try {
         setLoading(true);
         const data = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
-        console.log("FourBoxDesk: Data fetched successfully:", data);
+        //console.log("FourBoxDesk: Data fetched successfully:", data);
         
         // Update state with fetched data
         setSelfData(data.self);

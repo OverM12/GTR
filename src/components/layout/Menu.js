@@ -20,7 +20,7 @@ function Menu() {
   const [error, setError] = useState(null);
   const [gtrScore, setGtrScore] = useState(0);
 
-  console.log("GtrScore: ", gtrScore);
+  // //console.log("GtrScore: ", gtrScore);
   // Fetch user data when component mounts
   useEffect(() => {
     const fetchUserData = async () => {
@@ -63,19 +63,19 @@ function Menu() {
   useEffect(() => {
     const fetchData = async () => {
       if (!dateRange.fromDate || !dateRange.toDate) {
-        console.log("GtrScore: Date range not complete, skipping fetch");
+        // //console.log("GtrScore: Date range not complete, skipping fetch");
         setLoading(false);
         return;
       }
 
       try {
         setLoading(true);
-        console.log("GtrScore: Fetching data for date range:", dateRange);
+        // //console.log("GtrScore: Fetching data for date range:", dateRange);
         const response = await reportService.getGtrReport(
           dateRange.fromDate,
           dateRange.toDate
         );
-        console.log("GtrScore: Data fetched successfully:", response);
+        // //console.log("GtrScore: Data fetched successfully:", response);
 
         if (response) {
           setData(response.data.data);
@@ -244,6 +244,24 @@ function Menu() {
                 />
                 Development
               </Link>
+
+              {/* <Link
+                href="/area-deep-dive"
+                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 ${
+                  pathname === "/area-deep-dive"
+                    ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
+                    : "text-[#C1C6DA]"
+                }`}
+              >
+                <Image
+                  src="/your-gtr/your-gtr/self-insights/Ellipse 21.svg"
+                  width={10}
+                  height={10}
+                  alt="Development"
+                  className={pathname === "/area-deep-dive" ? "filter invert" : ""}
+                />
+                Self
+              </Link> */}
 
               {/* Rest of the menu items remain unchanged */}
             </div>

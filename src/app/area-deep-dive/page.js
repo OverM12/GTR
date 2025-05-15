@@ -44,11 +44,9 @@ export default function AreaDeepDive() {
     );
   }
 
-  const totalGtr = data.data?.gtr
-    ? parseFloat(data.data.gtr).toFixed(2)
-    : "0.00";
+  const totalGtr = data.data?.gtr ? parseFloat(data.data.gtr).toFixed(2) : "0.00";
 
-  console.log(data);
+  //console.log(data);
   return (
     <div className="flex h-dvh py-[32px] px-[16px] flex-col bg-[#F0F2F5] overflow-y-auto">
       <div className="mt-6 bg-white md:rounded-[16px] rounded-[40px] p-8 shadow-sm">

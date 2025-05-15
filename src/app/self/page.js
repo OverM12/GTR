@@ -17,7 +17,7 @@ export default function Self() {
   useEffect(() => {
     const fetchGtrData = async () => {
       if (!dateRange.fromDate || !dateRange.toDate) {
-        console.log("Self page: Date range not complete, using default 0");
+        //console.log("Self page: Date range not complete, using default 0");
         setGtrScore(0);
         setReflectionText(""); // Ensure reflectionText is cleared
         setLoading(false);
@@ -26,9 +26,9 @@ export default function Self() {
 
       try {
         setLoading(true);
-        console.log("Self page: Fetching data for date range:", dateRange);
+        //console.log("Self page: Fetching data for date range:", dateRange);
         const data = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
-        console.log("Self page: Data fetched successfully:", data);
+        //console.log("Self page: Data fetched successfully:", data);
 
         // Check for self data in the response
         const selfData = data.data.data.areas.self;

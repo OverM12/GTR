@@ -20,7 +20,7 @@ function User() {
         setLoading(true);
         const response = await userService.getProfile();
         setUserProfile(response.data.data);
-        // console.log("User profile fetched:", response.data);
+        // //console.log("User profile fetched:", response.data);
       } catch (err) {
         console.error("Error fetching user profile:", err);
         setError("Failed to load user profile");
@@ -31,7 +31,7 @@ function User() {
 
     fetchUserProfile();
   }, []);
-  console.log("User profile:", userProfile);
+  //console.log("User profile:", userProfile);
 
   const getProfileImageUrl = (path) => {
     if (!path) return null;
@@ -97,7 +97,7 @@ function User() {
 
         <div className="flex items-center gap-4 mb-4 pb-4 border-b border-[#9CA0B0]">
           <div className="h-24 w-24 sm:h-32 sm:w-32 rounded-lg overflow-hidden relative">
-            {userProfile.profilePicturePath ? (
+            {/* {userProfile.profilePicturePath ? (
               <Image
                 src={getProfileImageUrl(userProfile.profilePicturePath)}
                 alt="Profile"
@@ -109,7 +109,7 @@ function User() {
               <div className="w-full h-full bg-gray-600 flex items-center justify-center">
                 <span className="text-white text-2xl font-semibold">{getUserInitials()}</span>
               </div>
-            )}
+            )} */}
             <div className="absolute top-1 right-1 cursor-pointer sm:hidden">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path d="M15.7279 9.57678L14.3137 8.16256L5 17.4763V18.8905H6.41421L15.7279 9.57678ZM17.1421 8.16256L18.5563 6.74835L17.1421 5.33414L15.7279 6.74835L17.1421 8.16256ZM7.24264 20.8905H3V16.6479L16.435 3.21282C16.8256 2.82229 17.4587 2.82229 17.8492 3.21282L20.6777 6.04124C21.0682 6.43177 21.0682 7.06493 20.6777 7.45546L7.24264 20.8905Z" fill="#31363F" />

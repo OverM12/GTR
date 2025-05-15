@@ -3,40 +3,73 @@ import Image from "next/image";
 import { NavbarContext } from "@/context/NavbarProvider";
 import { useContext, useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { useDateRange } from "@/context/DateRangeContext"; // Import the context
-import reportService from '@/services/reportService'; // Import reportService
+import { useDateRange } from "@/context/DateRangeContext";
+import reportService from '@/services/reportService';
 
 function Navbar() {
   const { setIsOpen } = useContext(NavbarContext);
-  const { dateRange, setDateRange } = useDateRange(); // Use the context
+  const { dateRange, setDateRange } = useDateRange();
   const pathname = usePathname();
-  const [viewMode, setViewMode] = useState("M"); // D, W, M, Y for Day, Week, Month, Year
-  const [isSelectingDate, setIsSelectingDate] = useState(false);
-  const [selectingField, setSelectingField] = useState("fromDate"); // "fromDate" or "toDate"
-  const datePickerRef = useRef(null);
-  const fromDateRef = useRef(null);
-  const toDateRef = useRef(null);
+  const [viewMode, setViewMode] = useState("M"); // Default to "M"
+  
+  // Add these missing state variables
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [datePickerPosition, setDatePickerPosition] = useState({
-    top: 0,
-    left: 0,
-  });
-  const [currentCalendarMonth, setCurrentCalendarMonth] = useState(
-    new Date().getMonth()
-  );
-  const [currentCalendarYear, setCurrentCalendarYear] = useState(
-    new Date().getFullYear()
-  );
+  const [selectingField, setSelectingField] = useState(null);
+  const [isSelectingDate, setIsSelectingDate] = useState(false);
+  const [currentCalendarMonth, setCurrentCalendarMonth] = useState(new Date().getMonth());
+  const [currentCalendarYear, setCurrentCalendarYear] = useState(new Date().getFullYear());
   const [loading, setLoading] = useState(false);
 
+  // Fix: define refs for date fields
+  const fromDateRef = useRef(null);
+  const toDateRef = useRef(null);
+  const datePickerRef = useRef(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedViewMode = localStorage.getItem('viewMode');
+      if (savedViewMode) setViewMode(savedViewMode);
+    }
+  }, []);
+
+  // Load date range from localStorage on initial render
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedDateRange = localStorage.getItem('dateRange');
+      if (savedDateRange) {
+        const parsedDateRange = JSON.parse(savedDateRange);
+        setDateRange(parsedDateRange);
+        // Also set the view mode if it's saved
+        const savedViewMode = localStorage.getItem('viewMode');
+        if (savedViewMode) {
+          setViewMode(savedViewMode);
+        }
+      } else {
+        // Initialize with default view mode if no saved data
+        updateDateRangeForViewMode(viewMode);
+      }
+    }
+  }, []);
+
+  // Save date range to localStorage whenever it changes
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (dateRange.fromDate && dateRange.toDate) {
+        localStorage.setItem('dateRange', JSON.stringify(dateRange));
+        localStorage.setItem('viewMode', viewMode);
+      }
+    }
+  }, [dateRange, viewMode]);
+
+  // Format date for display (MM/DD/YYYY)
   // Format date for display (MM/DD/YYYY)
   const formatDateForDisplay = (dateString) => {
     if (!dateString) return "";
     const date = new Date(dateString);
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = getMonthName(date.getMonth()); // Using existing getMonthName function
-    const year = date.getFullYear() + 543; // Convert to Buddhist Era
-    return `${day} ${month} ${year}`;
+    const day = date.getDate().toString().padStart(2, "0"); // Ensuring 2 digits for day
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Ensuring 2 digits for month
+    const year = date.getFullYear(); // Using the full year as is
+    return `${month}/${day}/${year}`; // Return in MM/DD/YYYY format
   };
 
   // Fetch data based on current date range
@@ -45,21 +78,22 @@ function Navbar() {
       console.log("Date range not complete, skipping fetch");
       return;
     }
-    
+
     try {
       setLoading(true);
-      // Get the access token from localStorage
-      const accessToken = localStorage.getItem('accessToken');
-      
+      let accessToken;
+      if (typeof window !== "undefined") {
+        accessToken = localStorage.getItem('accessToken');
+      }
+
       if (!accessToken) {
         console.error("No access token found. Please log in again.");
         return;
       }
-      
+
       console.log("Navbar: Fetching data for date range:", { fromDate, toDate });
       const data = await reportService.getGtrReport(fromDate, toDate, accessToken);
       console.log("Navbar: Data fetched successfully:", data);
-      // The data is now fetched and will be used by components via the DateRangeContext
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -72,7 +106,6 @@ function Navbar() {
     const today = new Date();
     let fromDate = new Date(today);
 
-    // Set date range based on selected view mode
     switch (mode) {
       case "D":
         // Just today
@@ -105,18 +138,16 @@ function Navbar() {
     };
 
     setDateRange(newDateRange);
-    
-    // Immediately fetch data with the new date range
     fetchDataForDateRange(fromDateStr, toDateStr);
-
-    // Log the date range for debugging
     console.log("Date range updated:", newDateRange);
   };
 
   // Initialize with default view mode
   useEffect(() => {
-    // Set initial view mode and update date range
-    updateDateRangeForViewMode(viewMode);
+    // Only initialize if there's no saved date range
+    if (!localStorage.getItem('dateRange')) {
+      updateDateRangeForViewMode(viewMode);
+    }
   }, [viewMode]);
 
   // Handle view mode change
@@ -149,7 +180,7 @@ function Navbar() {
       setDateRange(newDateRange);
       console.log("To date updated:", newDateRange);
       setShowDatePicker(false);
-      
+
       // Fetch data immediately after both dates are selected
       fetchDataForDateRange(newDateRange.fromDate, newDateRange.toDate);
     }
@@ -406,6 +437,9 @@ function Navbar() {
     </div>
   );
 
+  // Remove this duplicate definition (around line 441)
+  // const datePickerRef = useRef(null);
+
   // Close the date picker when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -419,7 +453,7 @@ function Navbar() {
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [datePickerRef]);
+  }, []);
 
   return (
     <div className="z-50">
@@ -475,7 +509,7 @@ function Navbar() {
               />
               <div className="absolute right-4 top-1/2 -translate-y-1/2">
                 <Image
-                  src="/your-gtr/your-gtr/navbar-icons/arrow-up-icon.png"
+                  src="/your-gtr/your-gtr/navbar-icons/magnify-icon.png"
                   width={42}
                   height={42}
                   alt="Search icon"
@@ -631,7 +665,7 @@ function Navbar() {
 
         <div className="w-full flex justify-end">
           <button className="flex self-end items-center p-4 rounded-[22px] bg-[#FF9933] text-[12px] font-medium px-5">
-            Start New Log
+            Start New Assessment
           </button>
         </div>
       </div>

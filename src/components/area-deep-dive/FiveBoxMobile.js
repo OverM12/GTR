@@ -32,16 +32,16 @@ export default function FiveBoxMobile() {
   useEffect(() => {
     const fetchData = async () => {
       if (!dateRange.fromDate || !dateRange.toDate) {
-        console.log("Date range not available yet");
+        //console.log("Date range not available yet");
         return;
       }
       
-      console.log("Mobile: Fetching data with date range:", dateRange);
+      //console.log("Mobile: Fetching data with date range:", dateRange);
       
       try {
         setLoading(true);
         const data = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
-        console.log("Mobile: Data fetched successfully:", data);
+        //console.log("Mobile: Data fetched successfully:", data);
         
         // Update state with fetched data
         setSelfData(data.self);
@@ -129,31 +129,36 @@ export default function FiveBoxMobile() {
         {/* Self Elements */}
         {showSelfElements && selfData?.elements && (
           <div className="mt-4 pl-4 border-l-2 border-gray-200">
-            {selfData.elements.map((element, index) => (
-              <div key={index} className="mb-4">
-                <div className="flex justify-between items-center mb-1">
-                  <div className="flex items-center">
-                    {element.isHigh && (
-                      <span className="mr-2 text-blue-500">●</span>
-                    )}
-                    {element.isLow && (
-                      <span className="mr-2 text-red-500">●</span>
-                    )}
-                    <span className="text-gray-700">
-                      {formatElementName(element.element)}
+            {selfData.elements.map((element, index) => {
+              const percent = parseFloat(element.gtr).toFixed(1);
+              return (
+                <div key={index} className="mb-4 flex items-center gap-2">
+                  {/* Icon for isHigh or isLow */}
+                  {element.isHigh && (
+                    <span className="text-blue-600 text-lg" title="High">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="#2563eb"><circle cx="12" cy="12" r="8"/></svg>
                     </span>
+                  )}
+                  {element.isLow && (
+                    <span className="text-red-600 text-lg" title="Low">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="#dc2626"><circle cx="12" cy="12" r="8"/></svg>
+                    </span>
+                  )}
+                  {/* Label */}
+                  <span className="w-32 text-gray-700 text-xs">{formatElementName(element.element)}</span>
+                  {/* Bar */}
+                  <div className="flex-1 flex items-center relative h-[16px]">
+                    <div className="absolute left-0 top-0 h-full w-full bg-[#B60A06] rounded-full"></div>
+                    <div
+                      className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full flex items-center"
+                      style={{ width: `${percent}%` }}
+                    >
+                      <span className="text-white text-xs font-semibold pl-2">{percent}%</span>
+                    </div>
                   </div>
-                  <span className="text-gray-700 font-medium">{element.gtr}%</span>
                 </div>
-                <div className="relative h-[16px] bg-[#B60A06] rounded-full overflow-hidden">
-                  <div
-                    className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full"
-                    style={{ width: `${element.gtr}%` }}
-                  >
-                  </div>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>

@@ -1,7 +1,9 @@
+"use client";
 import ApexLineChart from "@/components/dashboard/ApexLineChart";
 import GtrScore from "@/components/dashboard/GtrScore";
 import KeyInfluencers from "@/components/dashboard/KeyInfluencers";
 import Trends from "@/components/dashboard/Trends";
+import { useState, useEffect } from "react";
 
 export default function Dashboard() {
   return (
@@ -15,4 +17,8 @@ export default function Dashboard() {
       </div>
     </div>
   );
+}
+
+function DashboardPage() {
+  const [selectingField, setSelectingField] = useState("fromDate");
 }

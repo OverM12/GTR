@@ -2,8 +2,10 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import reportService from "@/services/reportService";
+import { useDateRange } from "@/context/DateRangeContext"; // กรณีใช้ date range ด้วย
 
 function TopEmotions() {
+  const { dateRange } = useDateRange(); // ใช้ช่วงวันที่ถ้ามี
   const [positiveEmotions, setPositiveEmotions] = useState([]);
   const [negativeEmotions, setNegativeEmotions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,14 +13,15 @@ function TopEmotions() {
   useEffect(() => {
     const fetchEmotions = async () => {
       try {
-        const response = await reportService.getGtrReport();
+        const response = await reportService.getGtrReport(
+          dateRange.fromDate,
+          dateRange.toDate
+        );
         const data = response?.data?.data;
 
-        const pos = data?.topEmotions?.positive || [];
-        const neg = data?.topEmotions?.negative || [];
-
-        setPositiveEmotions(pos);
-        setNegativeEmotions(neg);
+        // ✅ ดึงจาก response จริง
+        setPositiveEmotions(data?.topEmotions?.positive || []);
+        setNegativeEmotions(data?.topEmotions?.negative || []);
       } catch (err) {
         console.error("Error loading topEmotions:", err);
         setPositiveEmotions([]);
@@ -29,13 +32,15 @@ function TopEmotions() {
     };
 
     fetchEmotions();
-  }, []);
+  }, [dateRange]); // ดึงใหม่เมื่อ dateRange เปลี่ยน
 
   const renderEmotionList = (list) =>
     list.map((item, index) => (
       <div
         key={index}
-        className={`flex ${index < list.length - 1 ? "border-b" : ""} w-full py-[16px] text-[14px] items-center font-normal gap-[8px]`}
+        className={`flex ${
+          index < list.length - 1 ? "border-b" : ""
+        } w-full py-[16px] text-[14px] items-center font-normal gap-[8px]`}
       >
         {item.emotion}
       </div>
@@ -62,7 +67,9 @@ function TopEmotions() {
               ) : positiveEmotions.length > 0 ? (
                 renderEmotionList(positiveEmotions)
               ) : (
-                <div className="py-4 text-gray-500">No positive emotions found</div>
+                <div className="py-4 text-gray-500">
+                  No positive emotions found
+                </div>
               )}
             </div>
           </div>
@@ -83,7 +90,9 @@ function TopEmotions() {
               ) : negativeEmotions.length > 0 ? (
                 renderEmotionList(negativeEmotions)
               ) : (
-                <div className="py-4 text-gray-500">No negative emotions found</div>
+                <div className="py-4 text-gray-500">
+                  No negative emotions found
+                </div>
               )}
             </div>
           </div>

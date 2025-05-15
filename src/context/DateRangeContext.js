@@ -18,15 +18,15 @@ export function DateRangeProvider({ children }) {
   useEffect(() => {
     const fetchData = async () => {
       if (!dateRange.fromDate || !dateRange.toDate) {
-        console.log("DateRangeContext: Date range not complete, skipping fetch");
+        //console.log("DateRangeContext: Date range not complete, skipping fetch");
         return;
       }
       
       try {
         setLoading(true);
-        console.log("DateRangeContext: Fetching data for date range:", dateRange);
+        //console.log("DateRangeContext: Fetching data for date range:", dateRange);
         const data = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
-        console.log("DateRangeContext: Data fetched successfully");
+        //console.log("DateRangeContext: Data fetched successfully");
         setGtrData(data);
       } catch (error) {
         console.error("DateRangeContext: Error fetching data:", error);
