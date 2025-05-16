@@ -27,10 +27,7 @@ function FiveBoxDesk() {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!dateRange.fromDate || !dateRange.toDate) {
-        //console.log("Date range not available yet");
-        return;
-      }
+      if (!dateRange.fromDate || !dateRange.toDate) return;
 
       try {
         setLoading(true);
@@ -38,19 +35,16 @@ function FiveBoxDesk() {
           dateRange.fromDate,
           dateRange.toDate
         );
-        //console.log("Data fetched successfully:", response);
 
-        // Correctly access nested data
-        const data = response.data.data; // Accessing the nested `data` object
+        const data = response.data.data;
 
-        // Update state with fetched data
         setSelfData(data.areas.self);
         setSocialData(data.areas.social);
         setActionsData(data.areas.actions);
         setGetsData(data.areas.gets);
         setEnvironmentData(data.areas.environment);
 
-        setError(null); // Reset error state if data is fetched successfully
+        setError(null);
       } catch (error) {
         console.error("Error fetching GTR data:", error);
         setError("Failed to load data. Please try again.");
@@ -60,7 +54,7 @@ function FiveBoxDesk() {
     };
 
     fetchData();
-  }, [dateRange]); // Dependency on dateRange to refetch data when it changes
+  }, [dateRange]);
 
   const selfScore = selfData?.gtr ? parseFloat(selfData.gtr).toFixed(1) : "0.0";
   const socialScore = socialData?.gtr ? parseFloat(socialData.gtr).toFixed(1) : "0.0";
@@ -75,6 +69,62 @@ function FiveBoxDesk() {
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
   };
+
+  const renderElements = (data, show) => {
+    if (!show || !data?.elements) return null;
+
+    return (
+      <div className="ml-24 mb-4 pl-32 pr-13 border-l-2 border-gray-200 ease-in-out">
+        <div className="flex flex-col gap-3">
+          {data.elements.map((element, index) => {
+            const percent = parseFloat(element.gtr).toFixed(1);
+            return (
+              <div key={index} className="flex items-center">
+                <div className="flex items-center justify-end w-[220px] min-w-[220px] pr-4">
+                  {element.isHigh && (
+                    <span className="mr-2 text-blue-600 text-lg" title="High">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="#2563eb"><circle cx="12" cy="12" r="8"/></svg>
+                    </span>
+                  )}
+                  {element.isLow && (
+                    <span className="mr-2 text-red-600 text-lg" title="Low">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="#dc2626"><circle cx="12" cy="12" r="8"/></svg>
+                    </span>
+                  )}
+                  <span className="text-gray-700 text-sm whitespace-nowrap">{formatElementName(element.element)}</span>
+                </div>
+                <div className="flex-1 flex items-center relative h-[30px]">
+                  <div className="absolute left-0 top-0 h-[30px] w-full bg-[#B60A06] rounded-full"></div>
+                  <div
+                    className="absolute left-0 top-0 h-[30px] bg-[#C6B06A] rounded-l-full flex items-center transition-all duration-500 ease-in-out"
+                    style={{ width: `${percent}%` }}
+                  >
+                    <span className="text-white text-xs font-semibold pl-2">{percent}%</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center p-8 h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#C6B06A]"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center p-8 h-64">
+        <div className="text-red-500">{error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="hidden md:flex md:flex-col gap-1">
@@ -93,7 +143,7 @@ function FiveBoxDesk() {
           {selfExpanded && (
             <div className="flex w-full h-[28px] bg-[#B60A06] rounded-full">
               <div
-                className="flex justify-end items-center pr-2 text-white bg-[#C6B06A] rounded-l-full"
+                className="flex justify-end items-center pr-2 text-white bg-[#C6B06A] rounded-l-full transition-all duration-500 ease-in-out"
                 style={{ width: `${selfScore}%` }}
               >
                 {selfScore}%
@@ -103,8 +153,9 @@ function FiveBoxDesk() {
         </div>
         <div className="flex pl-4">
           <button
-            className=""
+            className="transform transition-transform duration-300"
             onClick={() => setShowSelfElements(!showSelfElements)}
+            style={{ transform: showSelfElements ? 'rotate(180deg)' : 'rotate(0deg)' }}
           >
             <Image
               src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
@@ -116,42 +167,7 @@ function FiveBoxDesk() {
         </div>
       </div>
 
-      {/* Self Elements */}
-      {showSelfElements && selfData?.elements && (
-        <div className="ml-24 mb-4 pl-6 border-l-2 border-gray-200">
-          <div className="flex flex-col gap-3">
-            {selfData.elements.map((element, index) => {
-              const percent = parseFloat(element.gtr).toFixed(1);
-              return (
-                <div key={index} className="flex items-center">
-                  <div className="flex items-center justify-end w-[220px] min-w-[220px] pr-4">
-                    {element.isHigh && (
-                      <span className="mr-2 text-blue-600 text-lg" title="High">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#2563eb"><circle cx="12" cy="12" r="8"/></svg>
-                      </span>
-                    )}
-                    {element.isLow && (
-                      <span className="mr-2 text-red-600 text-lg" title="Low">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#dc2626"><circle cx="12" cy="12" r="8"/></svg>
-                      </span>
-                    )}
-                    <span className="text-gray-700 text-sm whitespace-nowrap">{formatElementName(element.element)}</span>
-                  </div>
-                  <div className="flex-1 flex items-center relative h-[22px]">
-                    <div className="absolute left-0 top-0 h-full w-full bg-[#B60A06] rounded-full"></div>
-                    <div
-                      className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full flex items-center"
-                      style={{ width: `${percent}%` }}
-                    >
-                      <span className="text-white text-xs font-semibold pl-2">{percent}%</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
+      {renderElements(selfData, showSelfElements)}
 
       {/* Social Section */}
       <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
@@ -174,7 +190,7 @@ function FiveBoxDesk() {
           {socialExpanded && (
             <div className="flex w-full h-[28px] bg-[#B60A06] rounded-full">
               <div
-                className="flex justify-end items-center pr-2 text-white bg-[#C6B06A] rounded-l-full"
+                className="flex justify-end items-center pr-2 text-white bg-[#C6B06A] rounded-l-full transition-all duration-500 ease-in-out"
                 style={{ width: `${socialScore}%` }}
               >
                 {socialScore}%
@@ -184,8 +200,9 @@ function FiveBoxDesk() {
         </div>
         <div className="flex pl-4">
           <button
-            className=""
+            className="transform transition-transform duration-300"
             onClick={() => setShowSocialElements(!showSocialElements)}
+            style={{ transform: showSocialElements ? 'rotate(180deg)' : 'rotate(0deg)' }}
           >
             <Image
               src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
@@ -194,56 +211,10 @@ function FiveBoxDesk() {
               alt="Magnify Icon"
             />
           </button>
-          {/* <button
-            className=""
-            onClick={() => setSocialExpanded(!socialExpanded)}
-          >
-            <Image
-              src="/area-deep-dive/arrow-up-icon.svg"
-              width={25}
-              height={25}
-              alt="Toggle Icon"
-            />
-          </button> */}
         </div>
       </div>
 
-      {/* Social Elements */}
-      {showSocialElements && socialData?.elements && (
-        <div className="ml-24 mb-4 pl-6 border-l-2 border-gray-200">
-          <div className="flex flex-col gap-3">
-            {socialData.elements.map((element, index) => {
-              const percent = parseFloat(element.gtr).toFixed(1);
-              return (
-                <div key={index} className="flex items-center">
-                  <div className="flex items-center justify-end w-[220px] min-w-[220px] pr-4">
-                    {element.isHigh && (
-                      <span className="mr-2 text-blue-600 text-lg" title="High">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#2563eb"><circle cx="12" cy="12" r="8"/></svg>
-                      </span>
-                    )}
-                    {element.isLow && (
-                      <span className="mr-2 text-red-600 text-lg" title="Low">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#dc2626"><circle cx="12" cy="12" r="8"/></svg>
-                      </span>
-                    )}
-                    <span className="text-gray-700 text-sm whitespace-nowrap">{formatElementName(element.element)}</span>
-                  </div>
-                  <div className="flex-1 flex items-center relative h-[22px]">
-                    <div className="absolute left-0 top-0 h-full w-full bg-[#B60A06] rounded-full"></div>
-                    <div
-                      className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full flex items-center"
-                      style={{ width: `${percent}%` }}
-                    >
-                      <span className="text-white text-xs font-semibold pl-2">{percent}%</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
+      {renderElements(socialData, showSocialElements)}
 
       {/* Actions Section */}
       <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
@@ -266,7 +237,7 @@ function FiveBoxDesk() {
           {actionsExpanded && (
             <div className="flex w-full h-[28px] bg-[#B60A06] rounded-full">
               <div
-                className="flex justify-end items-center pr-2 text-white bg-[#C6B06A] rounded-l-full"
+                className="flex justify-end items-center pr-2 text-white bg-[#C6B06A] rounded-l-full transition-all duration-500 ease-in-out"
                 style={{ width: `${actionsScore}%` }}
               >
                 {actionsScore}%
@@ -276,8 +247,9 @@ function FiveBoxDesk() {
         </div>
         <div className="flex pl-4">
           <button
-            className=""
+            className="transform transition-transform duration-300"
             onClick={() => setShowActionsElements(!showActionsElements)}
+            style={{ transform: showActionsElements ? 'rotate(180deg)' : 'rotate(0deg)' }}
           >
             <Image
               src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
@@ -289,42 +261,7 @@ function FiveBoxDesk() {
         </div>
       </div>
 
-      {/* Actions Elements */}
-      {showActionsElements && actionsData?.elements && (
-        <div className="ml-24 mb-4 pl-6 border-l-2 border-gray-200">
-          <div className="flex flex-col gap-3">
-            {actionsData.elements.map((element, index) => {
-              const percent = parseFloat(element.gtr).toFixed(1);
-              return (
-                <div key={index} className="flex items-center">
-                  <div className="flex items-center justify-end w-[220px] min-w-[220px] pr-4">
-                    {element.isHigh && (
-                      <span className="mr-2 text-blue-600 text-lg" title="High">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#2563eb"><circle cx="12" cy="12" r="8"/></svg>
-                      </span>
-                    )}
-                    {element.isLow && (
-                      <span className="mr-2 text-red-600 text-lg" title="Low">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#dc2626"><circle cx="12" cy="12" r="8"/></svg>
-                      </span>
-                    )}
-                    <span className="text-gray-700 text-sm whitespace-nowrap">{formatElementName(element.element)}</span>
-                  </div>
-                  <div className="flex-1 flex items-center relative h-[22px]">
-                    <div className="absolute left-0 top-0 h-full w-full bg-[#B60A06] rounded-full"></div>
-                    <div
-                      className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full flex items-center"
-                      style={{ width: `${percent}%` }}
-                    >
-                      <span className="text-white text-xs font-semibold pl-2">{percent}%</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
+      {renderElements(actionsData, showActionsElements)}
 
       {/* Obtainments Section */}
       <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
@@ -341,7 +278,7 @@ function FiveBoxDesk() {
           {getsExpanded && (
             <div className="flex w-full h-[28px] bg-[#B60A06] rounded-full">
               <div
-                className="flex justify-end items-center pr-2 text-white bg-[#C6B06A] rounded-l-full"
+                className="flex justify-end items-center pr-2 text-white bg-[#C6B06A] rounded-l-full transition-all duration-500 ease-in-out"
                 style={{ width: `${getsScore}%` }}
               >
                 {getsScore}%
@@ -351,8 +288,9 @@ function FiveBoxDesk() {
         </div>
         <div className="flex pl-4">
           <button
-            className=""
+            className="transform transition-transform duration-300"
             onClick={() => setShowGetsElements(!showGetsElements)}
+            style={{ transform: showGetsElements ? 'rotate(180deg)' : 'rotate(0deg)' }}
           >
             <Image
               src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
@@ -364,42 +302,7 @@ function FiveBoxDesk() {
         </div>
       </div>
 
-      {/* Obtainments Elements */}
-      {showGetsElements && getsData?.elements && (
-        <div className="ml-24 mb-4 pl-6 border-l-2 border-gray-200">
-          <div className="flex flex-col gap-3">
-            {getsData.elements.map((element, index) => {
-              const percent = parseFloat(element.gtr).toFixed(1);
-              return (
-                <div key={index} className="flex items-center">
-                  <div className="flex items-center justify-end w-[220px] min-w-[220px] pr-4">
-                    {element.isHigh && (
-                      <span className="mr-2 text-blue-600 text-lg" title="High">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#2563eb"><circle cx="12" cy="12" r="8"/></svg>
-                      </span>
-                    )}
-                    {element.isLow && (
-                      <span className="mr-2 text-red-600 text-lg" title="Low">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#dc2626"><circle cx="12" cy="12" r="8"/></svg>
-                      </span>
-                    )}
-                    <span className="text-gray-700 text-sm whitespace-nowrap">{formatElementName(element.element)}</span>
-                  </div>
-                  <div className="flex-1 flex items-center relative h-[22px]">
-                    <div className="absolute left-0 top-0 h-full w-full bg-[#B60A06] rounded-full"></div>
-                    <div
-                      className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full flex items-center"
-                      style={{ width: `${percent}%` }}
-                    >
-                      <span className="text-white text-xs font-semibold pl-2">{percent}%</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
+      {renderElements(getsData, showGetsElements)}
 
       {/* Environment Section */}
       <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
@@ -416,7 +319,7 @@ function FiveBoxDesk() {
           {environmentExpanded && (
             <div className="flex w-full h-[28px] bg-[#B60A06] rounded-full">
               <div
-                className="flex justify-end items-center pr-2 text-white bg-[#C6B06A] rounded-l-full"
+                className="flex justify-end items-center pr-2 text-white bg-[#C6B06A] rounded-l-full transition-all duration-500 ease-in-out"
                 style={{ width: `${environmentScore}%` }}
               >
                 {environmentScore}%
@@ -426,8 +329,9 @@ function FiveBoxDesk() {
         </div>
         <div className="flex pl-4">
           <button
-            className=""
+            className="transform transition-transform duration-300"
             onClick={() => setShowEnvironmentElements(!showEnvironmentElements)}
+            style={{ transform: showEnvironmentElements ? 'rotate(180deg)' : 'rotate(0deg)' }}
           >
             <Image
               src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
@@ -439,62 +343,9 @@ function FiveBoxDesk() {
         </div>
       </div>
 
-      {/* Environment Elements */}
-      {showEnvironmentElements && environmentData?.elements && (
-        <div className="ml-24 mb-4 pl-6 border-l-2 border-gray-200">
-          <div className="flex flex-col gap-3">
-            {environmentData.elements.map((element, index) => {
-              const percent = parseFloat(element.gtr).toFixed(1);
-              return (
-                <div key={index} className="flex items-center">
-                  <div className="flex items-center justify-end w-[220px] min-w-[220px] pr-4">
-                    {element.isHigh && (
-                      <span className="mr-2 text-blue-600 text-lg" title="High">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#2563eb"><circle cx="12" cy="12" r="8"/></svg>
-                      </span>
-                    )}
-                    {element.isLow && (
-                      <span className="mr-2 text-red-600 text-lg" title="Low">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#dc2626"><circle cx="12" cy="12" r="8"/></svg>
-                      </span>
-                    )}
-                    <span className="text-gray-700 text-sm whitespace-nowrap">{formatElementName(element.element)}</span>
-                  </div>
-                  <div className="flex-1 flex items-center relative h-[22px]">
-                    <div className="absolute left-0 top-0 h-full w-full bg-[#B60A06] rounded-full"></div>
-                    <div
-                      className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full flex items-center"
-                      style={{ width: `${percent}%` }}
-                    >
-                      <span className="text-white text-xs font-semibold pl-2">{percent}%</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
+      {renderElements(environmentData, showEnvironmentElements)}
     </div>
   );
-
-  // Add loading state
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center p-8 h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#C6B06A]"></div>
-      </div>
-    );
-  }
-
-  // Add error state
-  if (error) {
-    return (
-      <div className="flex justify-center items-center p-8 h-64">
-        <div className="text-red-500">{error}</div>
-      </div>
-    );
-  }
 }
 
 export default FiveBoxDesk;

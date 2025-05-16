@@ -123,8 +123,12 @@ export default function Signup() {
                         <div className="pt-4 sm:pt-[24px]">
                             <button
                                 type="submit"
-                                disabled={loading}
-                                className="w-full text-center bg-[#ff9933] rounded-[24px] px-3 sm:px-4 py-2 sm:py-3 text-black font-medium text-sm sm:text-base hover:bg-[#f08827] transition-colors disabled:opacity-50"
+                                disabled={loading || !termsAccepted}
+                                className={`w-full text-center rounded-[24px] px-3 sm:px-4 py-2 sm:py-3 text-black font-medium text-sm sm:text-base transition-colors ${
+                                    termsAccepted 
+                                    ? "bg-[#ff9933] hover:bg-[#f08827]" 
+                                    : "bg-gray-300 cursor-not-allowed"
+                                } disabled:opacity-50`}
                             >
                                 {loading ? "Creating Account..." : "Create Account"}
                             </button>

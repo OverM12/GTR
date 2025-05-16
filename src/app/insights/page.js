@@ -9,14 +9,23 @@ import Gets from '../gets/page';
 import reportService from '@/services/reportService';
 import Image from 'next/image';
 import { useDateRange } from '@/context/DateRangeContext';
-
+import { useSearchParams, useRouter } from 'next/navigation';
 function TabNavigation() {
-  const [activeTab, setActiveTab] = useState('Overview');
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const activeTabFromUrl = searchParams.get('tab') || 'Overview';
+  
+  const [activeTab, setActiveTab] = useState(activeTabFromUrl);
   const { dateRange } = useDateRange();
   const [reportData, setReportData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectingField, setSelectingField] = useState("fromDate");
+
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
+    router.push(`?tab=${tabId}`);
+  };
 
   useEffect(() => {
     const fetchReportData = async () => {
@@ -36,11 +45,8 @@ function TabNavigation() {
       
       try {
         setLoading(true);
-        console.log("Insights page: Fetching data for date range:", dateRange);
         const data = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
-        console.log("Insights page: Data fetched successfully");
         
-        // Ensure all properties exist with default values of 0
         const processedData = {
           gtr: data?.gtr || 0,
           self: data?.self || { gtr: 0 },
@@ -50,7 +56,6 @@ function TabNavigation() {
           environment: data?.environment || { gtr: 0 }
         };
         
-        // Ensure each section has a gtr property with default 0
         if (!processedData.self.gtr) processedData.self.gtr = 0;
         if (!processedData.social.gtr) processedData.social.gtr = 0;
         if (!processedData.actions.gtr) processedData.actions.gtr = 0;
@@ -63,7 +68,6 @@ function TabNavigation() {
         console.error("Error loading report data:", err);
         setError("Failed to load report data");
         
-        // Set default data with zeros when there's an error
         setReportData({
           gtr: 0,
           self: { gtr: 0 },
@@ -84,7 +88,7 @@ function TabNavigation() {
     { id: 'Overview', label: 'Overview' },
     { id: 'Self', label: 'Self' },
     { id: 'Social', label: 'Social' },
-    { id: 'Action', label: 'Action' },
+    { id: 'Actions', label: 'Actions' },
     { id: 'Obtainments', label: 'Obtainment' },
     { id: 'Gets', label: 'Gets' }
   ];
@@ -109,7 +113,7 @@ function TabNavigation() {
         return <Self reportData={reportData?.self} />;
       case 'Social':
         return <Social reportData={reportData?.social} />;
-      case 'Action':
+      case 'Actions':
         return <Action reportData={reportData?.action} />;
       case 'Obtainments':
         return <Environment reportData={reportData?.environment} />;
@@ -123,12 +127,12 @@ function TabNavigation() {
   return (
     <div className="w-full bg-gray-100 py-4">
       <div className="w-full p-4">
-        <div className="flex border-b border-gray-200">
+        <div className="flex flex-wrap md:flex-nowrap overflow-x-auto border-b border-gray-200">
           {tabs.map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`px-6 py-2 font-medium text-sm transition-all duration-300 relative
+              onClick={() => handleTabChange(tab.id)}
+              className={`px-3 md:px-6 py-2 font-medium text-xs md:text-sm whitespace-nowrap transition-all duration-300 relative
                 ${activeTab === tab.id 
                   ? 'text-black' 
                   : 'text-gray-400'}`}

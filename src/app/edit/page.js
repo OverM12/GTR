@@ -188,7 +188,7 @@ export default function EditProfilePage() {
                                                 objectFit="cover"
                                                 className="w-full h-full"
                                             />
-                                        ) : (
+                                        ) : ( */}
                                             <>
                                                 <svg
                                                     className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8"
@@ -200,7 +200,7 @@ export default function EditProfilePage() {
                                                 </svg>
                                                 <span className="text-[8px] md:text-[10px] lg:text-xs text-center text-[#2B2E38]">Upload profile pic</span>
                                             </>
-                                        )} */}
+                                        {/* )} */}
                                         <input
                                             type="file"
                                             ref={fileInputRef}

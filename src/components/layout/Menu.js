@@ -132,7 +132,7 @@ function Menu() {
       )}
 
       <div
-        className={`fixed z-50 min-h-screen text-nowrap top-0 left-0 md:static transition-all duration-300 flex flex-col bg-[#0C2955] overflow-hidden ${
+        className={`fixed z-100 min-h-screen text-nowrap top-0 left-0 md:static transition-all duration-300 flex flex-col bg-[#0C2955] overflow-hidden ${
           isOpen ? "w-[240px] p-4 md:p-4" : "w-0 md:w-[240px]"
         }`}
       >

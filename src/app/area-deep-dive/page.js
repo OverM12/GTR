@@ -5,6 +5,10 @@ import SelfBoxMobile from "@/components/area-deep-dive/SelfBoxMobile";
 import SelfBoxDesk from "@/components/area-deep-dive/SelfBoxDesk";
 import FiveBoxMobile from "@/components/area-deep-dive/FiveBoxMobile";
 import FiveBoxDesk from "@/components/area-deep-dive/FiveBoxDesk";
+import ApexLineChart from "@/components/dashboard/ApexLineChart";
+import GtrScore from "@/components/dashboard/GtrScore";
+import KeyInfluencers from "@/components/dashboard/KeyInfluencers";
+import Trends from "@/components/dashboard/Trends";
 import reportService from "@/services/reportService";
 import { useDateRange } from "@/context/DateRangeContext";
 
@@ -48,8 +52,8 @@ export default function AreaDeepDive() {
 
   //console.log(data);
   return (
-    <div className="flex h-dvh py-[32px] px-[16px] flex-col bg-[#F0F2F5] overflow-y-auto">
-      <div className="mt-6 bg-white md:rounded-[16px] rounded-[40px] p-8 shadow-sm">
+    <div className="flex h-dvh py-[32px] px-[16px] flex-col bg-[#F0F2F5] overflow-y-auto gap-8">
+      <div className="mt-6 bg-white md:rounded-[40px] rounded-[40px] p-8 shadow-sm">
         <h2 className="text-xl font-bold mb-4">GTR</h2>
 
         <div className="md:hidden mb-6 mt-8">
@@ -80,7 +84,7 @@ export default function AreaDeepDive() {
           )}
         </div>
 
-        <div className="hidden md:flex items-center">
+        <div className="hidden md:flex items-center pr-32">
           <span className="text-gray-700 text-[14px] text-nowrap p-4">
             Total GTR
           </span>
@@ -95,15 +99,17 @@ export default function AreaDeepDive() {
             </div>
           </div>
         </div>
-
-        <FiveBoxMobile
-          selfData={data.data?.areas?.self}
-          socialData={data?.areas?.social}
-          actionsData={data?.areas?.actions}
-          getsData={data?.areas?.gets}
-          environmentData={data?.areas?.environment}
-        />
+        <FiveBoxMobile />
         <FiveBoxDesk />
+      </div>
+      <div>
+        <KeyInfluencers />
+      </div>
+      <div>
+        <Trends />
+      </div>
+      <div>
+        <ApexLineChart />
       </div>
     </div>
   );

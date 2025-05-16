@@ -3,6 +3,7 @@ import ApexLineChart from "@/components/dashboard/ApexLineChart";
 import GtrScore from "@/components/dashboard/GtrScore";
 import KeyInfluencers from "@/components/dashboard/KeyInfluencers";
 import Trends from "@/components/dashboard/Trends";
+import TopEmotions from "@/components/dashboard/TopEmotions";
 import { useState, useEffect } from "react";
 
 export default function Dashboard() {
@@ -13,6 +14,7 @@ export default function Dashboard() {
         <GtrScore />
         <KeyInfluencers />
         <Trends />
+        <TopEmotions />
         <ApexLineChart />
       </div>
     </div>
