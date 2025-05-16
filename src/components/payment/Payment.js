@@ -88,7 +88,7 @@ function Payment() {
             <div className="flex items-center justify-between w-full flex-wrap md:flex-nowrap">
               <div className="flex items-center gap-3">
                 <div className="text-blue-600">
-                  <Image src="/your-gtr/users_img/visa.svg" alt="Payment Icon" className="w-[40px] h-[40px]" width={1920} height={1080} />
+                  <Image src="/your-gtr/your-gtr/users_img/visa.svg" alt="Payment Icon" className="w-[40px] h-[40px]" width={1920} height={1080} />
                 </div>
                 <div>
                   <div className="text-sm text-gray-500">Payment Method</div>

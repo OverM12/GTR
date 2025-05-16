@@ -73,7 +73,7 @@ export default function DevelopmentPage() {
               <div className="flex">
                 <div className="flex-shrink-0 bg-gray-100 rounded-2xl p-4 mr-4 h-fit">
                   <Image
-                    src="/your-gtr/self-insights/mental-icon.svg"
+                    src="/your-gtr/your-gtr/self-insights/mental-icon.svg"
                     width={50}
                     height={50}
                     alt="Energy icon"
@@ -92,7 +92,7 @@ export default function DevelopmentPage() {
               <div className="flex">
                 <div className="flex-shrink-0 bg-gray-100 rounded-2xl p-4 mr-4 h-fit">
                   <Image
-                    src="/your-gtr/self-insights/big-energy-icon.svg"
+                    src="/your-gtr/your-gtr/self-insights/big-energy-icon.svg"
                     width={45}
                     height={45}
                     alt="Energy icon"
@@ -111,7 +111,7 @@ export default function DevelopmentPage() {
               <div className="flex">
                 <div className="flex-shrink-0 bg-gray-100 rounded-2xl p-4 mr-4 h-fit">
                   <Image
-                    src="/your-gtr/self-insights/energy-tension-icon.png"
+                    src="/your-gtr/your-gtr/self-insights/energy-tension-icon.png"
                     width={45}
                     height={45}
                     alt="Sense icon"

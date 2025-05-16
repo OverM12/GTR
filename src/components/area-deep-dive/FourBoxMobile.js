@@ -115,7 +115,7 @@ export default function FourBoxMobile() {
           <div className="flex gap-2">
             <button className="p-1" onClick={() => setShowSelfElements(!showSelfElements)}>
               <Image
-                src="/your-gtr/area-deep-dive/arrow-up-icon.svg"
+                src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
                 width={40}
                 height={40}
                 alt="arrow-up icon"
@@ -182,7 +182,7 @@ export default function FourBoxMobile() {
           <div className="flex gap-2">
             <button className="p-1" onClick={() => setShowSocialElements(!showSocialElements)}>
               <Image
-                src="/your-gtr/area-deep-dive/arrow-up-icon.svg"
+                src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
                 width={40}
                 height={40}
                 alt="arrow-up icon"
@@ -249,7 +249,7 @@ export default function FourBoxMobile() {
           <div className="flex gap-2">
             <button className="p-1" onClick={() => setShowActionsElements(!showActionsElements)}>
               <Image
-                src="/your-gtr/area-deep-dive/arrow-up-icon.svg"
+                src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
                 width={40}
                 height={40}
                 alt="arrow-up icon"
@@ -316,7 +316,7 @@ export default function FourBoxMobile() {
           <div className="flex gap-2">
             <button className="p-1" onClick={() => setShowGetsElements(!showGetsElements)}>
               <Image
-                src="/your-gtr/area-deep-dive/arrow-up-icon.svg"
+                src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
                 width={40}
                 height={40}
                 alt="arrow-up icon"
@@ -383,7 +383,7 @@ export default function FourBoxMobile() {
           <div className="flex gap-2">
             <button className="p-1" onClick={() => setShowEnvironmentElements(!showEnvironmentElements)}>
               <Image
-                src="/your-gtr/area-deep-dive/arrow-up-icon.svg"
+                src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
                 width={40}
                 height={40}
                 alt="arrow-up icon"
