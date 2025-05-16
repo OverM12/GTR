@@ -6,6 +6,7 @@ import Social from '../social/page';
 import Action from '../actions/page';
 import Environment from '../environment/page';
 import Gets from '../gets/page';
+import SelfCard from '@/components/self/SelfCard';
 import reportService from '@/services/reportService';
 import Image from 'next/image';
 import { useDateRange } from '@/context/DateRangeContext';

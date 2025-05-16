@@ -249,7 +249,7 @@ function SelfCard() {
                 <div className="flex justify-center p-4 px-10 bg-[#F0F2F5] rounded-[24px] w-[160px] h-[100px]">
                   <div className="p-2 flex items-center justify-center">
                     <Image
-                      src="/area-deep-dive/sense-icon.svg"
+                      src="/your-gtr/your-gtr/area-deep-dive/sense-icon.svg"
                       width={50}
                       height={50}
                       alt="Energy icon"

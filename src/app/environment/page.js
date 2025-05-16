@@ -69,7 +69,7 @@ export default function Environment() {
   return (
     <div className="w-full flex flex-col bg-[#F0F2F5] py-[32px] px-[16px] gap-[16px]">
       <h1 className="text-[#737985] text-[24px]">
-        Insights / <strong className="text-black">Environment</strong>
+        Insights / <strong className="text-black">Obtainment</strong>
       </h1>
 
       <div className="w-full flex flex-col bg-white p-2 rounded-4xl py-6 pr-16">
@@ -179,6 +179,44 @@ export default function Environment() {
       `}</style> */}
 
       <ApexLineChart />
+
+      <div className="w-full flex flex-col bg-white p-6 rounded-4xl">
+        <div className="mb-6">
+          <h2 className="font-semibold text-lg">Your personal Self Environment notes</h2>
+          <p className="text-sm text-gray-500">These are the notes you made during the assessment. Now that you've seen the bigger picture, would you like to add anything?</p>
+        </div>
+        
+        {loading ? (
+          <div className="flex justify-center items-center h-10">
+            <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-[#C6B06A]"></div>
+          </div>
+        ) : (
+          <div className="w-full bg-[#F0F2F5] rounded-[24px] p-[32px]">
+            {environmentData?.notes ? (
+              <div className="whitespace-pre-wrap text-gray-700">
+                {environmentData.notes}
+              </div>
+            ) : (
+              <div className="text-gray-700">
+                No reflection notes yet. Click 'Edit reflection' to add your thoughts.
+              </div>
+            )}
+          </div>
+        )}
+        
+        <button
+          className="border rounded-full flex items-center mt-4 px-4 py-2 gap-2 self-start"
+          onClick={() => {/* Add edit functionality here */}}
+        >
+          <Image
+            alt="Edit Icon"
+            width={20}
+            height={20}
+            src="/your-gtr/your-gtr/self-insights/edit-icon.svg"
+          />
+          Edit reflection
+        </button>
+      </div>
     </div>
   );
 }

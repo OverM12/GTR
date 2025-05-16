@@ -59,13 +59,13 @@ function GtrScore() {
       <div className="flex flex-col gap-[8px] p-[16px] pb-[44px] pt-[30px] w-full rounded-[40px] bg-white">
         <h1 className="text-[18px] font-bold">GTR</h1>
         <div className="flex flex-col items-center justify-center py-8">
-          <Image
+          {/* <Image
             src="/your-gtr/your-gtr/self-insights/i-icon.png"
             width={64}
             height={64}
             alt="No data available"
             className="mb-4"
-          />
+          /> */}
           <div className="text-gray-500 text-center">
             {error || "No GTR data available for the selected date range"}
           </div>

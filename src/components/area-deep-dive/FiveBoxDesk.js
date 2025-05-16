@@ -27,14 +27,25 @@ function FiveBoxDesk() {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!dateRange.fromDate || !dateRange.toDate) return;
+      if (!dateRange.fromDate || !dateRange.toDate) {
+        setError("Please select a date range");
+        setLoading(false);
+        return;
+      }
 
       try {
         setLoading(true);
+        setError(null);
+        
         const response = await reportService.getGtrReport(
           dateRange.fromDate,
           dateRange.toDate
         );
+
+        if (!response.data || !response.data.data || !response.data.data.areas) {
+          setError("No data available for the selected date range");
+          return;
+        }
 
         const data = response.data.data;
 
@@ -44,10 +55,9 @@ function FiveBoxDesk() {
         setGetsData(data.areas.gets);
         setEnvironmentData(data.areas.environment);
 
-        setError(null);
       } catch (error) {
         console.error("Error fetching GTR data:", error);
-        setError("Failed to load data. Please try again.");
+        setError("Failed to load data. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -55,6 +65,30 @@ function FiveBoxDesk() {
 
     fetchData();
   }, [dateRange]);
+
+  // Show loading spinner while data is being fetched
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-[#C6B06A]"></div>
+      </div>
+    );
+  }
+
+  // Show error message if there's an error
+  if (error) {
+    return (
+      <div className="flex flex-col justify-center items-center min-h-[400px]">
+        {/* <Image
+          src="/your-gtr/your-gtr/area-deep-dive/no-data-icon.svg"
+          width={80}
+          height={80}
+          alt="No Data"
+        /> */}
+        <p className="text-gray-500 mt-4">{error}</p>
+      </div>
+    );
+  }
 
   const selfScore = selfData?.gtr ? parseFloat(selfData.gtr).toFixed(1) : "0.0";
   const socialScore = socialData?.gtr ? parseFloat(socialData.gtr).toFixed(1) : "0.0";
@@ -72,7 +106,6 @@ function FiveBoxDesk() {
 
   const renderElements = (data, show) => {
     if (!show || !data?.elements) return null;
-
     return (
       <div className="ml-24 mb-4 pl-32 pr-13 border-l-2 border-gray-200 ease-in-out">
         <div className="flex flex-col gap-3">

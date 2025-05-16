@@ -9,6 +9,7 @@ import ApexLineChart from "@/components/dashboard/ApexLineChart";
 import GtrScore from "@/components/dashboard/GtrScore";
 import KeyInfluencers from "@/components/dashboard/KeyInfluencers";
 import Trends from "@/components/dashboard/Trends";
+import SelfCard from "@/components/self/SelfCard";
 import reportService from "@/services/reportService";
 import { useDateRange } from "@/context/DateRangeContext";
 
@@ -111,6 +112,9 @@ export default function AreaDeepDive() {
       <div>
         <ApexLineChart />
       </div>
+      {/* <div>
+        <SelfCard />
+      </div> */}
     </div>
   );
 }
