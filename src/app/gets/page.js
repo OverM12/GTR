@@ -182,8 +182,8 @@ export default function Gets() {
 
       <div className="w-full flex flex-col bg-white p-6 rounded-4xl">
         <div className="mb-6">
-          <h2 className="font-semibold text-lg">Your personal Gets reflection notes</h2>
-          <p className="text-sm text-gray-500">These are the notes you made during the assessment. Now that you've seen the bigger picture, would you like to add anything?</p>
+          <h2 className="font-semibold text-lg">Your personal Self Actions notes</h2>
+          <p className="text-sm text-gray-500">These are the notes you made during the assessment. Now that you&apos;ve seen the bigger picture, would you like to add anything?</p>
         </div>
         
         {loading ? (
@@ -198,7 +198,7 @@ export default function Gets() {
               </div>
             ) : (
               <div className="text-gray-700">
-                No reflection notes yet. Click 'Edit reflection' to add your thoughts.
+                No reflection notes yet. Click &apos;Edit reflection&apos; to add your thoughts.
               </div>
             )}
           </div>
