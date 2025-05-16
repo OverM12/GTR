@@ -165,7 +165,7 @@ function FiveBoxDesk() {
       <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
         <div className="flex items-center gap-2 pl-[39px]">
           <Image
-            src="/your-gtr/your-gtr/dashboard/self-icon.png"
+            src="/your-gtr/dashboard/self-icon.png"
             width={40}
             height={40}
             alt="Self Icon"
@@ -191,7 +191,7 @@ function FiveBoxDesk() {
             style={{ transform: showSelfElements ? 'rotate(180deg)' : 'rotate(0deg)' }}
           >
             <Image
-              src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
+              src="/your-gtr/area-deep-dive/arrow-up-icon.svg"
               width={40}
               height={40}
               alt="Magnify Icon"
@@ -206,13 +206,13 @@ function FiveBoxDesk() {
       <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
         <div className="flex items-center gap-2">
           <Image
-            src="/your-gtr/your-gtr/area-deep-dive/mental-icon.svg"
+            src="/your-gtr/area-deep-dive/mental-icon.svg"
             width={40}
             height={40}
             alt="Mental Icon"
           />
           <Image
-            src="/your-gtr/your-gtr/area-deep-dive/social-icon.svg"
+            src="/your-gtr/area-deep-dive/social-icon.svg"
             width={40}
             height={40}
             alt="Social Icon"
@@ -238,7 +238,7 @@ function FiveBoxDesk() {
             style={{ transform: showSocialElements ? 'rotate(180deg)' : 'rotate(0deg)' }}
           >
             <Image
-              src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
+              src="/your-gtr/area-deep-dive/arrow-up-icon.svg"
               width={40}
               height={40}
               alt="Magnify Icon"
@@ -253,13 +253,13 @@ function FiveBoxDesk() {
       <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
         <div className="flex items-center gap-2">
           <Image
-            src="/your-gtr/your-gtr/area-deep-dive/sense-icon.svg"
+            src="/your-gtr/area-deep-dive/sense-icon.svg"
             width={40}
             height={40}
             alt="Sense Icon"
           />
           <Image
-            src="/your-gtr/your-gtr/area-deep-dive/actions-icon.svg"
+            src="/your-gtr/area-deep-dive/actions-icon.svg"
             width={40}
             height={40}
             alt="Actions Icon"
@@ -285,7 +285,7 @@ function FiveBoxDesk() {
             style={{ transform: showActionsElements ? 'rotate(180deg)' : 'rotate(0deg)' }}
           >
             <Image
-              src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
+              src="/your-gtr/area-deep-dive/arrow-up-icon.svg"
               width={40}
               height={40}
               alt="Magnify Icon"
@@ -300,7 +300,7 @@ function FiveBoxDesk() {
       <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
         <div className="flex items-center gap-2 pl-[39px]">
           <Image
-            src="/your-gtr/your-gtr/area-deep-dive/obtain-icon.svg"
+            src="/your-gtr/area-deep-dive/obtain-icon.svg"
             width={40}
             height={40}
             alt="Obtain Icon"
@@ -326,7 +326,7 @@ function FiveBoxDesk() {
             style={{ transform: showGetsElements ? 'rotate(180deg)' : 'rotate(0deg)' }}
           >
             <Image
-              src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
+              src="/your-gtr/area-deep-dive/arrow-up-icon.svg"
               width={40}
               height={40}
               alt="Magnify Icon"
@@ -341,7 +341,7 @@ function FiveBoxDesk() {
       <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
         <div className="flex items-center gap-2 pl-[39px]">
           <Image
-            src="/your-gtr/your-gtr/area-deep-dive/environment-icon.svg"
+            src="/your-gtr/area-deep-dive/environment-icon.svg"
             width={40}
             height={40}
             alt="Environment Icon"
@@ -367,7 +367,7 @@ function FiveBoxDesk() {
             style={{ transform: showEnvironmentElements ? 'rotate(180deg)' : 'rotate(0deg)' }}
           >
             <Image
-              src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
+              src="/your-gtr/area-deep-dive/arrow-up-icon.svg"
               width={40}
               height={40}
               alt="Magnify Icon"

@@ -60,7 +60,7 @@ function GtrScore() {
         <h1 className="text-[18px] font-bold">GTR</h1>
         <div className="flex flex-col items-center justify-center py-8">
           {/* <Image
-            src="/your-gtr/your-gtr/self-insights/i-icon.png"
+            src="/your-gtr/self-insights/i-icon.png"
             width={64}
             height={64}
             alt="No data available"
@@ -119,7 +119,7 @@ function GtrScore() {
         <div className="flex flex-col w-full">
           <div className="flex text-[14px] font-bold items-center gap-[8px]">
             <Image
-              src="/your-gtr/your-gtr/dashboard/self-icon.png"
+              src="/your-gtr/dashboard/self-icon.png"
               width={27}
               height={27}
               alt="GTR Dashboard self-icon"
@@ -129,7 +129,7 @@ function GtrScore() {
           <div className="flex text-[18px] font-bold items-center gap-[8px]">
             {selfScore}%
             <Image
-              src="/your-gtr/your-gtr/dashboard/arrow-up-icon.png"
+              src="/your-gtr/dashboard/arrow-up-icon.png"
               width={27}
               height={27}
               alt="GTR Dashboard arrow-up-icon"
@@ -149,7 +149,7 @@ function GtrScore() {
         <div className="flex flex-col w-full">
           <div className="flex text-[14px] font-bold items-center gap-[8px]">
             <Image
-              src="/your-gtr/your-gtr/dashboard/social-icon.png"
+              src="/your-gtr/dashboard/social-icon.png"
               width={27}
               height={27}
               alt="GTR Dashboard social-icon"
@@ -159,7 +159,7 @@ function GtrScore() {
           <div className="flex text-[18px] font-bold items-center gap-[8px]">
             {socialScore}%
             <Image
-              src="/your-gtr/your-gtr/dashboard/down-icon.png"
+              src="/your-gtr/dashboard/down-icon.png"
               width={27}
               height={27}
               alt="GTR Dashboard down-icon"
@@ -179,7 +179,7 @@ function GtrScore() {
         <div className="flex flex-col w-full">
           <div className="flex text-[14px] font-bold items-center gap-[8px]">
             <Image
-              src="/your-gtr/your-gtr/dashboard/actions-icon.png"
+              src="/your-gtr/dashboard/actions-icon.png"
               width={27}
               height={27}
               alt="GTR Dashboard actions-icon"
@@ -189,7 +189,7 @@ function GtrScore() {
           <div className="flex text-[18px] font-bold items-center gap-[8px]">
             {actionsScore}%
             <Image
-              src="/your-gtr/your-gtr/dashboard/arrow-up-icon.png"
+              src="/your-gtr/dashboard/arrow-up-icon.png"
               width={27}
               height={27}
               alt="GTR Dashboard arrow-up-icon"
@@ -209,7 +209,7 @@ function GtrScore() {
         <div className="flex flex-col w-full">
           <div className="flex text-[14px] font-bold items-center gap-[8px]">
             <Image
-              src="/your-gtr/your-gtr/dashboard/obtainments-icon.png"
+              src="/your-gtr/dashboard/obtainments-icon.png"
               width={27}
               height={27}
               alt="GTR Dashboard obtainments-icon"
@@ -219,7 +219,7 @@ function GtrScore() {
           <div className="flex text-[18px] font-bold items-center gap-[8px]">
             {getsScore}%
             <Image
-              src="/your-gtr/your-gtr/dashboard/arrow-up-icon.png"
+              src="/your-gtr/dashboard/arrow-up-icon.png"
               width={27}
               height={27}
               alt="GTR Dashboard arrow-up-icon"
@@ -239,7 +239,7 @@ function GtrScore() {
         <div className="flex flex-col w-full">
           <div className="flex text-[14px] font-bold items-center gap-[8px]">
             <Image
-              src="/your-gtr/your-gtr/dashboard/environment-icon.png"
+              src="/your-gtr/dashboard/environment-icon.png"
               width={27}
               height={27}
               alt="GTR Dashboard environment-icon"
@@ -249,7 +249,7 @@ function GtrScore() {
           <div className="flex text-[18px] font-bold items-center gap-[8px]">
             {environmentScore}%
             <Image
-              src="/your-gtr/your-gtr/dashboard/arrow-up-icon.png"
+              src="/your-gtr/dashboard/arrow-up-icon.png"
               width={27}
               height={27}
               alt="GTR Dashboard arrow-up-icon"

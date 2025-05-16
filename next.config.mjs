@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	basePath: '/your-gtr',
+	basePath: '',
 };
 
 export default nextConfig;

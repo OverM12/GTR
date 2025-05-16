@@ -63,7 +63,7 @@ export default function AreaDeepDive() {
             <div className="flex gap-2">
               <button className="p-1">
                 <Image
-                  src="/your-gtr/your-gtr/area-deep-dive/magnify-icon.svg"
+                  src="/your-gtr/area-deep-dive/magnify-icon.svg"
                   width={40}
                   height={40}
                   alt="GTR Magnify Icon"

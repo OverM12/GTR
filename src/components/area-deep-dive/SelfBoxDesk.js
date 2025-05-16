@@ -64,7 +64,7 @@ export default function SelfBoxDesk() {
         <div className="flex gap-2 ml-2">
           <button className="p-1" onClick={() => setShowElements(!showElements)}>
             <Image
-              src="/area-deep-dive/arrow-up-icon.svg"
+              src="/your-gtr/area-deep-dive/arrow-up-icon.svg"
               width={40}
               height={40}
               alt="Arrow icon"

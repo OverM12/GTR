@@ -82,7 +82,7 @@ export default function Social() {
           <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
             <div className="flex items-center gap-2 pl-[39px]">
               {/* <Image
-                src="/your-gtr/your-gtr/dashboard/social-icon.png"
+                src="/your-gtr/dashboard/social-icon.png"
                 width={40}
                 height={40}
                 alt="Social Icon"
@@ -106,7 +106,7 @@ export default function Social() {
                 onClick={() => setShowSocialElements(!showSocialElements)}
               >
                 <Image
-                  src="/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg"
+                  src="/your-gtr/area-deep-dive/arrow-up-icon.svg"
                   width={40}
                   height={40}
                   alt="Magnify Icon"
@@ -212,7 +212,7 @@ export default function Social() {
             alt="Edit Icon"
             width={20}
             height={20}
-            src="/your-gtr/your-gtr/self-insights/edit-icon.svg"
+            src="/your-gtr/self-insights/edit-icon.svg"
           />
           Edit reflection
         </button>
