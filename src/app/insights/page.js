@@ -92,8 +92,8 @@ function TabNavigation() {
     { id: "Self", label: "Self" },
     { id: "Social", label: "Social" },
     { id: "Actions", label: "Actions" },
-    { id: "Obtainments", label: "Obtainment" },
-    { id: "Gets", label: "Gets" },
+    { id: "Place", label: "Place" },
+    { id: "Obtainment", label: "Obtainment" },
   ];
 
   const renderTabContent = () => {
@@ -118,12 +118,12 @@ function TabNavigation() {
         return <Social reportData={reportData?.social} />;
       case "Actions":
         return <Action reportData={reportData?.actions} />; // แก้ชื่อจาก action -> actions
-      case "Obtainments":
+      case "Place":
         return <Environment reportData={reportData?.environment} />;
-      case "Gets":
+      case "Obtainment":
         return <Gets reportData={reportData?.gets} />;
       default:
-        return <Gets reportData={reportData} />;
+        return <div></div>;
     }
   };
 

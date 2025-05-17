@@ -104,44 +104,53 @@ function FiveBoxDesk() {
       .join(" ");
   };
 
-  const renderElements = (data, show) => {
-    if (!show || !data?.elements) return null;
-    return (
-      <div className="ml-24 mb-4 pl-32 pr-13 border-l-2 border-gray-200 ease-in-out">
-        <div className="flex flex-col gap-3">
-          {data.elements.map((element, index) => {
-            const percent = parseFloat(element.gtr).toFixed(1);
-            return (
-              <div key={index} className="flex items-center">
-                <div className="flex items-center justify-end w-[220px] min-w-[220px] pr-4">
-                  {element.isHigh && (
-                    <span className="mr-2 text-blue-600 text-lg" title="High">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="#2563eb"><circle cx="12" cy="12" r="8"/></svg>
-                    </span>
-                  )}
-                  {element.isLow && (
-                    <span className="mr-2 text-red-600 text-lg" title="Low">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="#dc2626"><circle cx="12" cy="12" r="8"/></svg>
-                    </span>
-                  )}
-                  <span className="text-gray-700 text-sm whitespace-nowrap">{formatElementName(element.element)}</span>
-                </div>
-                <div className="flex-1 flex items-center relative h-[30px]">
-                  <div className="absolute left-0 top-0 h-[30px] w-full bg-[#B60A06] rounded-full"></div>
-                  <div
-                    className="absolute left-0 top-0 h-[30px] bg-[#C6B06A] rounded-l-full flex items-center transition-all duration-500 ease-in-out"
-                    style={{ width: `${percent}%` }}
+const renderElements = (data, show) => {
+  if (!show || !data?.elements) return null;
+  return (
+    <div className="ml-24 mb-4 pl-32 pr-13 border-l-2 border-gray-200 ease-in-out">
+      <div className="flex flex-col gap-3">
+        {data.elements.map((element, index) => {
+          const percent = parseFloat(element.gtr).toFixed(1);
+          return (
+            <div key={index} className="flex items-center">
+              <div className="flex items-center justify-end w-[220px] min-w-[220px] pr-4">
+                {element.isHigh && (
+                  <span className="mr-2 text-blue-600 text-lg" title="High">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#2563eb"><circle cx="12" cy="12" r="8"/></svg>
+                  </span>
+                )}
+                {element.isLow && (
+                  <span className="mr-2 text-red-600 text-lg" title="Low">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#dc2626"><circle cx="12" cy="12" r="8"/></svg>
+                  </span>
+                )}
+                <span className="text-gray-700 text-sm whitespace-nowrap">{formatElementName(element.element)}</span>
+              </div>
+              <div className="flex-1 flex items-center relative h-[30px]">
+                <div className="absolute left-0 top-0 h-[30px] w-full bg-[#B60A06] rounded-full"></div>
+                <div
+                  className="absolute left-0 top-0 h-[30px] bg-[#C6B06A] rounded-l-full flex items-center transition-all duration-500 ease-in-out"
+                  style={{ width: `${percent}%` }}
+                >
+                  <span 
+                    className="text-white text-xs font-semibold pl-2" 
+                    style={{
+                      position: 'absolute',
+                      right: percent > 2. ? '2px' : '-35px',
+                      color: '#fff'
+                    }}
                   >
-                    <span className="text-white text-xs font-semibold pl-2">{percent}%</span>
-                  </div>
+                    {percent}%
+                  </span>
                 </div>
               </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
       </div>
-    );
-  };
+    </div>
+  );
+};
 
   if (loading) {
     return (
@@ -172,16 +181,26 @@ function FiveBoxDesk() {
           />
           <span className="text-gray-700">Self</span>
         </div>
-        <div className="flex w-full pl-21">
+        <div className="flex-1 flex items-center relative h-[30px] ml-4">
           {selfExpanded && (
-            <div className="flex w-full h-[28px] bg-[#B60A06] rounded-full">
+            <>
+              <div className="absolute left-0 top-0 h-[30px] w-full bg-[#B60A06] rounded-full"></div>
               <div
-                className="flex justify-end items-center pr-2 text-white bg-[#C6B06A] rounded-l-full transition-all duration-500 ease-in-out"
+                className="absolute left-0 top-0 h-[30px] bg-[#C6B06A] rounded-l-full flex items-center transition-all duration-500 ease-in-out"
                 style={{ width: `${selfScore}%` }}
               >
-                {selfScore}%
+                <span 
+                  className="text-white text-xs font-semibold pl-2" 
+                  style={{
+                    position: 'absolute',
+                    right: parseFloat(selfScore) > 3 ? '2px' : '-35px',
+                    color: '#fff'
+                  }}
+                >
+                  {selfScore}%
+                </span>
               </div>
-            </div>
+            </>
           )}
         </div>
         <div className="flex pl-4">
@@ -219,16 +238,26 @@ function FiveBoxDesk() {
           />
           <span className="text-gray-700">Social</span>
         </div>
-        <div className="flex w-full pl-17">
+        <div className="flex-1 flex items-center relative h-[30px] ml-4">
           {socialExpanded && (
-            <div className="flex w-full h-[28px] bg-[#B60A06] rounded-full">
+            <>
+              <div className="absolute left-0 top-0 h-[30px] w-full bg-[#B60A06] rounded-full"></div>
               <div
-                className="flex justify-end items-center pr-2 text-white bg-[#C6B06A] rounded-l-full transition-all duration-500 ease-in-out"
+                className="absolute left-0 top-0 h-[30px] bg-[#C6B06A] rounded-l-full flex items-center transition-all duration-500 ease-in-out"
                 style={{ width: `${socialScore}%` }}
               >
-                {socialScore}%
+                <span 
+                  className="text-white text-xs font-semibold pl-2" 
+                  style={{
+                    position: 'absolute',
+                    right: parseFloat(socialScore) > 3 ? '2px' : '-35px',
+                    color: '#fff'
+                  }}
+                >
+                  {socialScore}%
+                </span>
               </div>
-            </div>
+            </>
           )}
         </div>
         <div className="flex pl-4">
@@ -266,16 +295,26 @@ function FiveBoxDesk() {
           />
           <span className="text-gray-700">Actions</span>
         </div>
-        <div className="flex w-full pl-15">
+        <div className="flex-1 flex items-center relative h-[30px] ml-4">
           {actionsExpanded && (
-            <div className="flex w-full h-[28px] bg-[#B60A06] rounded-full">
+            <>
+              <div className="absolute left-0 top-0 h-[30px] w-full bg-[#B60A06] rounded-full"></div>
               <div
-                className="flex justify-end items-center pr-2 text-white bg-[#C6B06A] rounded-l-full transition-all duration-500 ease-in-out"
+                className="absolute left-0 top-0 h-[30px] bg-[#C6B06A] rounded-l-full flex items-center transition-all duration-500 ease-in-out"
                 style={{ width: `${actionsScore}%` }}
               >
-                {actionsScore}%
+                <span 
+                  className="text-white text-xs font-semibold pl-2" 
+                  style={{
+                    position: 'absolute',
+                    right: parseFloat(actionsScore) > 3 ? '2px' : '-35px',
+                    color: '#fff'
+                  }}
+                >
+                  {actionsScore}%
+                </span>
               </div>
-            </div>
+            </>
           )}
         </div>
         <div className="flex pl-4">
@@ -307,16 +346,26 @@ function FiveBoxDesk() {
           />
           <span className="text-gray-700">Obtainments</span>
         </div>
-        <div className="flex w-full pl-8">
+        <div className="flex-1 flex items-center relative h-[30px] ml-4">
           {getsExpanded && (
-            <div className="flex w-full h-[28px] bg-[#B60A06] rounded-full">
+            <>
+              <div className="absolute left-0 top-0 h-[30px] w-full bg-[#B60A06] rounded-full"></div>
               <div
-                className="flex justify-end items-center pr-2 text-white bg-[#C6B06A] rounded-l-full transition-all duration-500 ease-in-out"
+                className="absolute left-0 top-0 h-[30px] bg-[#C6B06A] rounded-l-full flex items-center transition-all duration-500 ease-in-out"
                 style={{ width: `${getsScore}%` }}
               >
-                {getsScore}%
+                <span 
+                  className="text-white text-xs font-semibold pl-2" 
+                  style={{
+                    position: 'absolute',
+                    right: parseFloat(getsScore) > 3 ? '2px' : '-35px',
+                    color: '#fff'
+                  }}
+                >
+                  {getsScore}%
+                </span>
               </div>
-            </div>
+            </>
           )}
         </div>
         <div className="flex pl-4">
@@ -348,16 +397,26 @@ function FiveBoxDesk() {
           />
           <span className="text-gray-700">Environment</span>
         </div>
-        <div className="flex w-full pl-9">
+        <div className="flex-1 flex items-center relative h-[30px] ml-4">
           {environmentExpanded && (
-            <div className="flex w-full h-[28px] bg-[#B60A06] rounded-full">
+            <>
+              <div className="absolute left-0 top-0 h-[30px] w-full bg-[#B60A06] rounded-full"></div>
               <div
-                className="flex justify-end items-center pr-2 text-white bg-[#C6B06A] rounded-l-full transition-all duration-500 ease-in-out"
+                className="absolute left-0 top-0 h-[30px] bg-[#C6B06A] rounded-l-full flex items-center transition-all duration-500 ease-in-out"
                 style={{ width: `${environmentScore}%` }}
               >
-                {environmentScore}%
+                <span 
+                  className="text-white text-xs font-semibold pl-2" 
+                  style={{
+                    position: 'absolute',
+                    right: parseFloat(environmentScore) > 3 ? '2px' : '-35px',
+                    color: '#fff'
+                  }}
+                >
+                  {environmentScore}%
+                </span>
               </div>
-            </div>
+            </>
           )}
         </div>
         <div className="flex pl-4">

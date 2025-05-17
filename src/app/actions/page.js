@@ -89,18 +89,26 @@ export default function Actions() {
               />
               <span className="text-gray-700">Actions</span> */}
             </div>
-            <div className="flex w-full pl-0">
-              <div className="flex w-full h-[28px] bg-[#B60A06] rounded-full">
-                <div
-                  className="flex justify-end items-center pr-2 text-white bg-[#C6B06A] rounded-l-full transition-all duration-1000 ease-in-out"
-                  style={{ width: `${formattedScore}%` }}
+            <div className="flex-1 flex items-center relative h-[30px] ml-4">
+              <div className="absolute left-0 top-0 h-[30px] w-full bg-[#B60A06] rounded-full"></div>
+              <div
+                className="absolute left-0 top-0 h-[30px] bg-[#C6B06A] rounded-l-full flex items-center transition-all duration-1000 ease-in-out"
+                style={{ width: `${formattedScore}%` }}
+              >
+                <span 
+                  className="text-white text-xs font-semibold pl-2" 
+                  style={{
+                    position: 'absolute',
+                    right: parseFloat(formattedScore) > 3 ? '2px' : '-35px',
+                    color: '#fff'
+                  }}
                 >
                   {formattedScore}%
-                </div>
+                </span>
               </div>
             </div>
             <div className="flex pl-4">
-              <button
+              {/* <button
                 className="transform transition-transform duration-300"
                 style={{ transform: showActionsElements ? 'rotate(180deg)' : 'rotate(0deg)' }}
                 onClick={() => setShowActionsElements(!showActionsElements)}
@@ -111,13 +119,13 @@ export default function Actions() {
                   height={40}
                   alt="Magnify Icon"
                 />
-              </button>
+              </button> */}
             </div>
           </div>
         )}
 
         {/* Actions Elements */}
-        {showActionsElements && actionsData?.elements && (
+        {/* {showActionsElements && actionsData?.elements && (
           <div className="ml-24 mb-4 pl-32 pr-32 border-l-2 border-gray-200 animate-fadeIn">
             <div className="flex flex-col gap-3">
               {actionsData.elements.map((element, index) => {
@@ -151,7 +159,7 @@ export default function Actions() {
               })}
             </div>
           </div>
-        )}
+        )} */}
       </div>
 
       {/* <style jsx>{`

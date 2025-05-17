@@ -128,13 +128,13 @@ function GtrScore() {
           </div>
           <div className="flex text-[18px] font-bold items-center gap-[8px]">
             {selfScore}%
-            <Image
+            {/* <Image
               src="/your-gtr/your-gtr/dashboard/arrow-up-icon.png"
               width={27}
               height={27}
               alt="GTR Dashboard arrow-up-icon"
               className="mt-2"
-            />
+            /> */}
           </div>
           <div className="flex w-full items-center justify-between">
             <div className="relative w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden">
@@ -158,13 +158,13 @@ function GtrScore() {
           </div>
           <div className="flex text-[18px] font-bold items-center gap-[8px]">
             {socialScore}%
-            <Image
+            {/* <Image
               src="/your-gtr/your-gtr/dashboard/down-icon.png"
               width={27}
               height={27}
               alt="GTR Dashboard down-icon"
               className="mt-2"
-            />
+            /> */}
           </div>
           <div className="flex w-full items-center justify-between">
             <div className="relative w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden">
@@ -188,13 +188,13 @@ function GtrScore() {
           </div>
           <div className="flex text-[18px] font-bold items-center gap-[8px]">
             {actionsScore}%
-            <Image
+            {/* <Image
               src="/your-gtr/your-gtr/dashboard/arrow-up-icon.png"
               width={27}
               height={27}
               alt="GTR Dashboard arrow-up-icon"
               className="mt-2"
-            />
+            /> */}
           </div>
           <div className="flex w-full items-center justify-between">
             <div className="relative w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden">
@@ -218,13 +218,13 @@ function GtrScore() {
           </div>
           <div className="flex text-[18px] font-bold items-center gap-[8px]">
             {getsScore}%
-            <Image
+            {/* <Image
               src="/your-gtr/your-gtr/dashboard/arrow-up-icon.png"
               width={27}
               height={27}
               alt="GTR Dashboard arrow-up-icon"
               className="mt-2"
-            />
+            /> */}
           </div>
           <div className="flex w-full items-center justify-between">
             <div className="relative w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden">
@@ -248,13 +248,13 @@ function GtrScore() {
           </div>
           <div className="flex text-[18px] font-bold items-center gap-[8px]">
             {environmentScore}%
-            <Image
+            {/* <Image
               src="/your-gtr/your-gtr/dashboard/arrow-up-icon.png"
               width={27}
               height={27}
               alt="GTR Dashboard arrow-up-icon"
               className="mt-2"
-            />
+            /> */}
           </div>
           <div className="flex w-full items-center justify-between">
             <div className="relative w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden">
