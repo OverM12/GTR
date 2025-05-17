@@ -184,7 +184,7 @@ const renderElements = (data, show) => {
         <div className="flex-1 flex items-center relative h-[30px] ml-4">
           {selfExpanded && (
             <>
-              <div className="absolute left-0 top-0 h-[30px] w-full bg-[#B60A06] rounded-full"></div>
+              <div className="absolute left-0 top-0 h-[30px] w-[1000px] bg-[#B60A06] rounded-full"></div>
               <div
                 className="absolute left-0 top-0 h-[30px] bg-[#C6B06A] rounded-l-full flex items-center transition-all duration-500 ease-in-out"
                 style={{ width: `${selfScore}%` }}
@@ -241,7 +241,7 @@ const renderElements = (data, show) => {
         <div className="flex-1 flex items-center relative h-[30px] ml-4">
           {socialExpanded && (
             <>
-              <div className="absolute left-0 top-0 h-[30px] w-full bg-[#B60A06] rounded-full"></div>
+              <div className="absolute left-0 top-0 h-[30px] w-[1000px] bg-[#B60A06] rounded-full"></div>
               <div
                 className="absolute left-0 top-0 h-[30px] bg-[#C6B06A] rounded-l-full flex items-center transition-all duration-500 ease-in-out"
                 style={{ width: `${socialScore}%` }}
@@ -298,7 +298,7 @@ const renderElements = (data, show) => {
         <div className="flex-1 flex items-center relative h-[30px] ml-4">
           {actionsExpanded && (
             <>
-              <div className="absolute left-0 top-0 h-[30px] w-full bg-[#B60A06] rounded-full"></div>
+              <div className="absolute left-0 top-0 h-[30px] w-[1000px] bg-[#B60A06] rounded-full"></div>
               <div
                 className="absolute left-0 top-0 h-[30px] bg-[#C6B06A] rounded-l-full flex items-center transition-all duration-500 ease-in-out"
                 style={{ width: `${actionsScore}%` }}
@@ -349,7 +349,7 @@ const renderElements = (data, show) => {
         <div className="flex-1 flex items-center relative h-[30px] ml-4">
           {getsExpanded && (
             <>
-              <div className="absolute left-0 top-0 h-[30px] w-full bg-[#B60A06] rounded-full"></div>
+              <div className="absolute left-0 top-0 h-[30px] w-[1000px] bg-[#B60A06] rounded-full"></div>
               <div
                 className="absolute left-0 top-0 h-[30px] bg-[#C6B06A] rounded-l-full flex items-center transition-all duration-500 ease-in-out"
                 style={{ width: `${getsScore}%` }}
@@ -400,7 +400,7 @@ const renderElements = (data, show) => {
         <div className="flex-1 flex items-center relative h-[30px] ml-4">
           {environmentExpanded && (
             <>
-              <div className="absolute left-0 top-0 h-[30px] w-full bg-[#B60A06] rounded-full"></div>
+              <div className="absolute left-0 top-0 h-[30px] w-[1000px] bg-[#B60A06] rounded-full"></div>
               <div
                 className="absolute left-0 top-0 h-[30px] bg-[#C6B06A] rounded-l-full flex items-center transition-all duration-500 ease-in-out"
                 style={{ width: `${environmentScore}%` }}

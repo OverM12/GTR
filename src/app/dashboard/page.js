@@ -7,6 +7,13 @@ import TopEmotions from "@/components/dashboard/TopEmotions";
 import { useState, useEffect } from "react";
 
 export default function Dashboard() {
+  const [selectingField, setSelectingField] = useState("fromDate");
+
+  useEffect(() => {
+    // Scroll to top when component mounts
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="flex flex-col h-lvh overflow-auto bg-[#F0F2F5]">
       <div className="flex flex-col gap-[16px] py-[32px] px-[16px]">
@@ -19,8 +26,4 @@ export default function Dashboard() {
       </div>
     </div>
   );
-}
-
-function DashboardPage() {
-  const [selectingField, setSelectingField] = useState("fromDate");
 }
