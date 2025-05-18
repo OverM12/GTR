@@ -100,8 +100,9 @@ export default function AreaDeepDive() {
             </div>
           </div>
         </div>
-        <FiveBoxMobile />
         <FiveBoxDesk />
+        <FiveBoxMobile />
+        
       </div>
       <div>
         <KeyInfluencers />

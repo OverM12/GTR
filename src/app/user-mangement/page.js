@@ -45,61 +45,71 @@ function UserManagement() {
     });
 
     useEffect(() => {
-        try {
-            setLoading(true);
-            let sortedData = [...mockData.data];
-
-            // Apply search filter
-            if (searchTerm) {
-                sortedData = sortedData.filter(user =>
-                    user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    user.email?.toLowerCase().includes(searchTerm.toLowerCase())
-                );
-            }
-
-            // Apply sorting based on data type
-            sortedData.sort((a, b) => {
-                // Handle null or undefined values
-                const valueA = a[sortField] === undefined || a[sortField] === null ? '' : a[sortField];
-                const valueB = b[sortField] === undefined || b[sortField] === null ? '' : b[sortField];
-
-                // Sort based on data type
-                if (sortField === 'id') {
-                    // Numeric sorting for IDs
-                    const numA = parseInt(valueA) || 0;
-                    const numB = parseInt(valueB) || 0;
-                    return sortOrder === 'asc' ? numA - numB : numB - numA;
-                } else if (sortField === 'yearOfBirth') {
-                    // Special handling for Year of Birth
-                    console.log('Sorting by year:', valueA, valueB);
-                    const yearA = parseInt(valueA) || 0;
-                    const yearB = parseInt(valueB) || 0;
-                    console.log('Parsed years:', yearA, yearB);
-                    return sortOrder === 'asc' ? yearA - yearB : yearB - yearA;
-                } else if (sortField === 'createdAt' || sortField === 'lastAssessment') {
-                    // Date sorting
-                    const dateA = valueA ? new Date(valueA).getTime() : 0;
-                    const dateB = valueB ? new Date(valueB).getTime() : 0;
-                    return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
-                } else {
-                    // String sorting with localeCompare for proper alphabetical order
-                    const strA = String(valueA).toLowerCase();
-                    const strB = String(valueB).toLowerCase();
-                    return sortOrder === 'asc'
-                        ? strA.localeCompare(strB, 'th')
-                        : strB.localeCompare(strA, 'th');
+        const fetchUsers = async () => {
+            try {
+                setLoading(true);
+                // const token = localStorage.getItem("accessToken"); // ใช้ key ที่คุณเก็บ token ไว้
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdmMjY0YTY0LWQzZjctNGNkMS05ZmI5LWE2OTQxOTI1ZDI0OSIsImVtYWlsIjoiYWRtaW5AZ29vZHRpbWUuYXBwIiwibmFtZSI6IkFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQ3NTY0MDA2LCJleHAiOjE3NDc4MjMyMDZ9.GjpmvzNML5TM8o4i2WRJC06LgSDY5FF_DBi5R6GqUis"
+                if (!token) {
+                    throw new Error("Token not found in localStorage.");
                 }
-            });
-
-            setUsers(sortedData);
-            setError(null);
-        } catch (err) {
-            console.error("Error loading mock data:", err);
-            setError("Failed to load user data. Please try again later.");
-        } finally {
-            setLoading(false);
-        }
-    }, [sortField, sortOrder, searchTerm]);
+    
+                const response = await fetch(`https://api-test.goodtime.app/users?page=${currentPage}&pageSize=${itemsPerPage}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+    
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+    
+                const json = await response.json();
+    
+                let sortedData = json.data;
+    
+                // Apply search filter
+                if (searchTerm) {
+                    sortedData = sortedData.filter(user =>
+                        user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        user.email?.toLowerCase().includes(searchTerm.toLowerCase())
+                    );
+                }
+    
+                // Sort data
+                sortedData.sort((a, b) => {
+                    const valueA = a[sortField] === undefined || a[sortField] === null ? '' : a[sortField];
+                    const valueB = b[sortField] === undefined || b[sortField] === null ? '' : b[sortField];
+    
+                    if (sortField === 'yearOfBirth') {
+                        const yearA = parseInt(valueA) || 0;
+                        const yearB = parseInt(valueB) || 0;
+                        return sortOrder === 'asc' ? yearA - yearB : yearB - yearA;
+                    } else if (sortField === 'createdAt' || sortField === 'lastAssessment') {
+                        const dateA = valueA ? new Date(valueA).getTime() : 0;
+                        const dateB = valueB ? new Date(valueB).getTime() : 0;
+                        return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+                    } else {
+                        const strA = String(valueA).toLowerCase();
+                        const strB = String(valueB).toLowerCase();
+                        return sortOrder === 'asc'
+                            ? strA.localeCompare(strB, 'th')
+                            : strB.localeCompare(strA, 'th');
+                    }
+                });
+    
+                setUsers(sortedData);
+                setError(null);
+            } catch (err) {
+                console.error("Error fetching user data:", err);
+                setError("Failed to load user data. Please try again later.");
+            } finally {
+                setLoading(false);
+            }
+        };
+    
+        fetchUsers();
+    }, [sortField, sortOrder, searchTerm, currentPage, itemsPerPage]);    
 
     // Save settings to localStorage whenever they change
     useEffect(() => {
@@ -279,7 +289,7 @@ function UserManagement() {
                                                                     </span>
                                                                 </div>
                                                             )}
-                                                            <span className="font-medium">{user.name}</span>
+                                                            <span>{user.name}</span>
                                                         </div>
                                                     </td>
                                                     <td className="py-3 px-4">{user.email}</td>

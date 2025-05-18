@@ -106,7 +106,7 @@ function GtrScore() {
     <div className="z-0 flex flex-col gap-[8px] p-[16px] pb-[44px] pt-[30px] w-full rounded-[40px] bg-white">
       <h1 className="text-[18px] font-bold">GTR</h1>
       <div className="flex w-full items-center justify-between">
-        <div className="relative w-full h-[48px] bg-[#B60A06] rounded-full overflow-hidden">
+        <div className="relative w-full h-[28px] bg-[#B60A06] rounded-full overflow-hidden">
           <div
             className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full border-r-2 border-white flex items-center justify-end pr-1 text-white text-[20px] font-medium"
             style={{ width: `${mainGtrScore}%` }}

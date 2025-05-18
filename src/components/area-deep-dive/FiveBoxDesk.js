@@ -3,6 +3,22 @@ import { useState, useEffect } from "react";
 import reportService from "@/services/reportService";
 import { useDateRange } from "@/context/DateRangeContext"; // Import the context
 
+// Image path constants
+const IMAGE_PATHS = {
+  // Area icons
+  SELF_ICON: "/your-gtr/your-gtr/dashboard/self-icon.png",
+  SOCIAL_ICON: "/your-gtr/your-gtr/area-deep-dive/social-icon.svg",
+  MENTAL_ICON: "/your-gtr/your-gtr/area-deep-dive/mental-icon.svg",
+  ACTIONS_ICON: "/your-gtr/your-gtr/area-deep-dive/actions-icon.svg",
+  SENSE_ICON: "/your-gtr/your-gtr/area-deep-dive/sense-icon.svg",
+  OBTAIN_ICON: "/your-gtr/your-gtr/area-deep-dive/obtain-icon.svg",
+  ENVIRONMENT_ICON: "/your-gtr/your-gtr/area-deep-dive/environment-icon.svg",
+
+  // UI elements
+  ARROW_UP_ICON: "/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg",
+  NO_DATA_ICON: "/your-gtr/your-gtr/area-deep-dive/no-data-icon.svg"
+};
+
 function FiveBoxDesk() {
   const { dateRange } = useDateRange(); // Get date range from context
   const [selfData, setSelfData] = useState(null);
@@ -36,7 +52,7 @@ function FiveBoxDesk() {
       try {
         setLoading(true);
         setError(null);
-        
+
         const response = await reportService.getGtrReport(
           dateRange.fromDate,
           dateRange.toDate
@@ -80,7 +96,7 @@ function FiveBoxDesk() {
     return (
       <div className="flex flex-col justify-center items-center min-h-[400px]">
         {/* <Image
-          src="/your-gtr/your-gtr/your-gtr/area-deep-dive/no-data-icon.svg"
+          src={IMAGE_PATHS.NO_DATA_ICON}
           width={80}
           height={80}
           alt="No Data"
@@ -104,53 +120,68 @@ function FiveBoxDesk() {
       .join(" ");
   };
 
-const renderElements = (data, show) => {
-  if (!show || !data?.elements) return null;
-  return (
-    <div className="ml-24 mb-4 pl-32 pr-13 border-l-2 border-gray-200 ease-in-out">
-      <div className="flex flex-col gap-3">
-        {data.elements.map((element, index) => {
-          const percent = parseFloat(element.gtr).toFixed(1);
-          return (
-            <div key={index} className="flex items-center">
-              <div className="flex items-center justify-end w-[220px] min-w-[220px] pr-4">
-                {element.isHigh && (
-                  <span className="mr-2 text-blue-600 text-lg" title="High">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#2563eb"><circle cx="12" cy="12" r="8"/></svg>
-                  </span>
-                )}
-                {element.isLow && (
-                  <span className="mr-2 text-red-600 text-lg" title="Low">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#dc2626"><circle cx="12" cy="12" r="8"/></svg>
-                  </span>
-                )}
-                <span className="text-gray-700 text-sm whitespace-nowrap">{formatElementName(element.element)}</span>
-              </div>
-              <div className="flex-1 flex items-center relative h-[30px]">
-                <div className="absolute left-0 top-0 h-[30px] w-full bg-[#B60A06] rounded-full"></div>
-                <div
-                  className="absolute left-0 top-0 h-[30px] bg-[#C6B06A] rounded-l-full flex items-center transition-all duration-500 ease-in-out"
-                  style={{ width: `${percent}%` }}
-                >
-                  <span 
-                    className="text-white text-xs font-semibold pl-2" 
-                    style={{
-                      position: 'absolute',
-                      right: percent > 2. ? '2px' : '-35px',
-                      color: '#fff'
-                    }}
-                  >
-                    {percent}%
-                  </span>
+  const renderElements = (data, show) => {
+    if (!show || !data?.elements) return null;
+    return (
+      <div className="ml-24 mb-4 pl-32 pr-13 border-l-2 border-gray-200 ease-in-out">
+        <div className="flex flex-col gap-3">
+          {data.elements.map((element, index) => {
+            const percent = parseFloat(element.gtr).toFixed(1);
+            return (
+              <div key={index} className="flex items-center">
+                <div className="flex items-center w-[220px] min-w-[220px] pr-4">
+                  {/* {element.isHigh && (
+                    <span className="mr-2 text-blue-600 text-lg" title="High">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="#2563eb"><circle cx="12" cy="12" r="8" /></svg>
+                    </span>
+                  )}
+                  {element.isLow && (
+                    <span className="mr-2 text-red-600 text-lg" title="Low">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="#dc2626"><circle cx="12" cy="12" r="8" /></svg>
+                    </span>
+                  )} */}
+                  <span className="text-gray-700 text-sm">{formatElementName(element.element)}</span>
                 </div>
+
+                <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden">
+                  <div
+                    className="h-[30px] bg-[#C6B06A] flex items-center transition-all duration-500 ease-in-out"
+                    style={{ width: `${percent}%` }}
+                  >
+                    <span
+                    className="text-white text-xs font-semibold pl-2 pr-2"
+                    >
+                      {percent}%
+                    </span>
+                  </div>
+                </div>
+                {/* <div className="flex-1 flex items-center relative h-[30px]">
+                  <div className="h-[30px] w-full bg-[#B60A06] rounded-full overflow-hidden flex"></div>
+                  <div
+                    className="h-[30px] bg-[#C6B06A] rounded-full flex items-center transition-all duration-500 ease-in-out"
+                    style={{ width: `${percent}%` }}
+                  >
+                    <span
+                      className="text-white text-xs font-semibold pl-2"
+                      style={{
+                        position: 'absolute',
+                        right: percent > 3. ? '2px' : '-35px',
+                        color: '#fff'
+                      }}
+                    >
+                      {percent}%
+                    </span>
+                  </div>
+                </div> */}
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
+
+
 
   if (loading) {
     return (
@@ -171,36 +202,28 @@ const renderElements = (data, show) => {
   return (
     <div className="hidden md:flex md:flex-col gap-1">
       {/* Self Section */}
-      <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
+      <div className="flex pl-12 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
         <div className="flex items-center gap-2 pl-[39px]">
           <Image
-            src="/your-gtr/your-gtr/dashboard/self-icon.png"
+            src={IMAGE_PATHS.SELF_ICON}
             width={40}
             height={40}
             alt="Self Icon"
           />
           <span className="text-gray-700">Self</span>
         </div>
-        <div className="flex-1 flex items-center relative h-[30px] ml-4">
+        <div className="flex-1 flex items-center justify-end relative h-[30px] ml-4">
           {selfExpanded && (
-            <>
-              <div className="absolute left-0 top-0 h-[30px] w-[1000px] bg-[#B60A06] rounded-full"></div>
+            <div className="w-[1250px] bg-[#B60A06] h-[30px] rounded-full relative overflow-hidden">
               <div
-                className="absolute left-0 top-0 h-[30px] bg-[#C6B06A] rounded-l-full flex items-center transition-all duration-500 ease-in-out"
-                style={{ width: `${selfScore}%` }}
+                className="h-[30px] bg-[#C6B06A] rounded-l-full flex items-center justify-end transition-all duration-500 ease-in-out"
+                style={{ width: `${Math.max(parseFloat(selfScore), 12)}%` }}
               >
-                <span 
-                  className="text-white text-xs font-semibold pl-2" 
-                  style={{
-                    position: 'absolute',
-                    right: parseFloat(selfScore) > 3 ? '2px' : '-35px',
-                    color: '#fff'
-                  }}
-                >
+                <span className="text-white text-xs font-semibold pr-2">
                   {selfScore}%
                 </span>
               </div>
-            </>
+            </div>
           )}
         </div>
         <div className="flex pl-4">
@@ -222,42 +245,34 @@ const renderElements = (data, show) => {
       {renderElements(selfData, showSelfElements)}
 
       {/* Social Section */}
-      <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
+      <div className="flex pl-12 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
         <div className="flex items-center gap-2">
           <Image
-            src="/your-gtr/your-gtr/area-deep-dive/mental-icon.svg"
+            src={IMAGE_PATHS.MENTAL_ICON}
             width={40}
             height={40}
             alt="Mental Icon"
           />
           <Image
-            src="/your-gtr/your-gtr/area-deep-dive/social-icon.svg"
+            src={IMAGE_PATHS.SOCIAL_ICON}
             width={40}
             height={40}
             alt="Social Icon"
           />
           <span className="text-gray-700">Social</span>
         </div>
-        <div className="flex-1 flex items-center relative h-[30px] ml-4">
+        <div className="flex-1 flex items-center justify-end relative h-[30px] ml-4">
           {socialExpanded && (
-            <>
-              <div className="absolute left-0 top-0 h-[30px] w-[1000px] bg-[#B60A06] rounded-full"></div>
+            <div className="w-[1250px] bg-[#B60A06] h-[30px] rounded-full relative overflow-hidden">
               <div
-                className="absolute left-0 top-0 h-[30px] bg-[#C6B06A] rounded-l-full flex items-center transition-all duration-500 ease-in-out"
-                style={{ width: `${socialScore}%` }}
+                className="h-[30px] bg-[#C6B06A] rounded-l-full flex items-center justify-end transition-all duration-500 ease-in-out"
+                style={{ width: `${Math.max(parseFloat(socialScore), 12)}%` }}
               >
-                <span 
-                  className="text-white text-xs font-semibold pl-2" 
-                  style={{
-                    position: 'absolute',
-                    right: parseFloat(socialScore) > 3 ? '2px' : '-35px',
-                    color: '#fff'
-                  }}
-                >
+                <span className="text-white text-xs font-semibold pr-2">
                   {socialScore}%
                 </span>
               </div>
-            </>
+            </div>
           )}
         </div>
         <div className="flex pl-4">
@@ -279,42 +294,34 @@ const renderElements = (data, show) => {
       {renderElements(socialData, showSocialElements)}
 
       {/* Actions Section */}
-      <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
+      <div className="flex pl-12 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
         <div className="flex items-center gap-2">
           <Image
-            src="/your-gtr/your-gtr/area-deep-dive/sense-icon.svg"
+            src={IMAGE_PATHS.SENSE_ICON}
             width={40}
             height={40}
             alt="Sense Icon"
           />
           <Image
-            src="/your-gtr/your-gtr/area-deep-dive/actions-icon.svg"
+            src={IMAGE_PATHS.ACTIONS_ICON}
             width={40}
             height={40}
             alt="Actions Icon"
           />
           <span className="text-gray-700">Actions</span>
         </div>
-        <div className="flex-1 flex items-center relative h-[30px] ml-4">
+        <div className="flex-1 flex items-center justify-end relative h-[30px] ml-4">
           {actionsExpanded && (
-            <>
-              <div className="absolute left-0 top-0 h-[30px] w-[1000px] bg-[#B60A06] rounded-full"></div>
+            <div className="w-[1250px] bg-[#B60A06] h-[30px] rounded-full relative overflow-hidden">
               <div
-                className="absolute left-0 top-0 h-[30px] bg-[#C6B06A] rounded-l-full flex items-center transition-all duration-500 ease-in-out"
-                style={{ width: `${actionsScore}%` }}
+                className="h-[30px] bg-[#C6B06A] rounded-l-full flex items-center justify-end transition-all duration-500 ease-in-out"
+                style={{ width: `${Math.max(parseFloat(actionsScore), 12)}%` }}
               >
-                <span 
-                  className="text-white text-xs font-semibold pl-2" 
-                  style={{
-                    position: 'absolute',
-                    right: parseFloat(actionsScore) > 3 ? '2px' : '-35px',
-                    color: '#fff'
-                  }}
-                >
+                <span className="text-white text-xs font-semibold pr-2">
                   {actionsScore}%
                 </span>
               </div>
-            </>
+            </div>
           )}
         </div>
         <div className="flex pl-4">
@@ -336,36 +343,28 @@ const renderElements = (data, show) => {
       {renderElements(actionsData, showActionsElements)}
 
       {/* Obtainments Section */}
-      <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
+      <div className="flex pl-12 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
         <div className="flex items-center gap-2 pl-[39px]">
           <Image
-            src="/your-gtr/your-gtr/area-deep-dive/obtain-icon.svg"
+            src={IMAGE_PATHS.OBTAIN_ICON}
             width={40}
             height={40}
             alt="Obtain Icon"
           />
           <span className="text-gray-700">Obtainments</span>
         </div>
-        <div className="flex-1 flex items-center relative h-[30px] ml-4">
+        <div className="flex-1 flex items-center justify-end relative h-[30px] ml-4">
           {getsExpanded && (
-            <>
-              <div className="absolute left-0 top-0 h-[30px] w-[1000px] bg-[#B60A06] rounded-full"></div>
+            <div className="w-[1250px] bg-[#B60A06] h-[30px] rounded-full relative overflow-hidden">
               <div
-                className="absolute left-0 top-0 h-[30px] bg-[#C6B06A] rounded-l-full flex items-center transition-all duration-500 ease-in-out"
-                style={{ width: `${getsScore}%` }}
+                className="h-[30px] bg-[#C6B06A] rounded-l-full flex items-center justify-end transition-all duration-500 ease-in-out"
+                style={{ width: `${Math.max(parseFloat(getsScore), 12)}%` }}
               >
-                <span 
-                  className="text-white text-xs font-semibold pl-2" 
-                  style={{
-                    position: 'absolute',
-                    right: parseFloat(getsScore) > 3 ? '2px' : '-35px',
-                    color: '#fff'
-                  }}
-                >
+                <span className="text-white text-xs font-semibold pr-2">
                   {getsScore}%
                 </span>
               </div>
-            </>
+            </div>
           )}
         </div>
         <div className="flex pl-4">
@@ -387,36 +386,28 @@ const renderElements = (data, show) => {
       {renderElements(getsData, showGetsElements)}
 
       {/* Environment Section */}
-      <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
+      <div className="flex pl-12 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
         <div className="flex items-center gap-2 pl-[39px]">
           <Image
-            src="/your-gtr/your-gtr/area-deep-dive/environment-icon.svg"
+            src={IMAGE_PATHS.ENVIRONMENT_ICON}
             width={40}
             height={40}
             alt="Environment Icon"
           />
           <span className="text-gray-700">Environment</span>
         </div>
-        <div className="flex-1 flex items-center relative h-[30px] ml-4">
+        <div className="flex-1 flex items-center justify-end relative h-[30px] ml-4">
           {environmentExpanded && (
-            <>
-              <div className="absolute left-0 top-0 h-[30px] w-[1000px] bg-[#B60A06] rounded-full"></div>
+            <div className="w-[1250px] bg-[#B60A06] h-[30px] rounded-full relative overflow-hidden">
               <div
-                className="absolute left-0 top-0 h-[30px] bg-[#C6B06A] rounded-l-full flex items-center transition-all duration-500 ease-in-out"
-                style={{ width: `${environmentScore}%` }}
+                className="h-[30px] bg-[#C6B06A] rounded-l-full flex items-center justify-end transition-all duration-500 ease-in-out"
+                style={{ width: `${Math.max(parseFloat(environmentScore), 12)}%` }}
               >
-                <span 
-                  className="text-white text-xs font-semibold pl-2" 
-                  style={{
-                    position: 'absolute',
-                    right: parseFloat(environmentScore) > 3 ? '2px' : '-35px',
-                    color: '#fff'
-                  }}
-                >
+                <span className="text-white text-xs font-semibold pr-2">
                   {environmentScore}%
                 </span>
               </div>
-            </>
+            </div>
           )}
         </div>
         <div className="flex pl-4">

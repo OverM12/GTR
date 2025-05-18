@@ -7,13 +7,13 @@
 	export default function RootLayout({ children }) {
 	  const router = useRouter();
 	
-	  useEffect(() => {
-	    const accessToken = localStorage.getItem('accessToken');
+	//   useEffect(() => {
+	//     const accessToken = localStorage.getItem('accessToken');
 	
-	    if (!accessToken) {
-	      router.push('/auth/signup');
-	    }
-	  }, [router]);
+	//     if (!accessToken) {
+	//       router.push('/auth/signup');
+	//     }
+	//   }, [router]);
 	
 	  return (
 	    <html lang="en">
