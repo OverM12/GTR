@@ -12,6 +12,7 @@
     "@heroicons/react": "^2.2.0",
     "apexcharts": "^4.5.0",
     "axios": "^1.9.0",
+    "critters": "^0.0.23",
     "datatables.net-dt": "^2.3.1",
     "multer": "^1.4.5-lts.2",
     "next": "15.2.4",

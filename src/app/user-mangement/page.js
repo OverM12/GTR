@@ -8,11 +8,41 @@ function UserManagement() {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [sortField, setSortField] = useState('id');
-    const [sortOrder, setSortOrder] = useState('asc');
-    const [itemsPerPage, setItemsPerPage] = useState(10);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [searchTerm, setSearchTerm] = useState('');
+    // Initialize state from localStorage or use defaults
+    const [sortField, setSortField] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('userManagement-sortField') || 'id';
+        }
+        return 'id';
+    });
+    
+    const [sortOrder, setSortOrder] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('userManagement-sortOrder') || 'asc';
+        }
+        return 'asc';
+    });
+    
+    const [itemsPerPage, setItemsPerPage] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return parseInt(localStorage.getItem('userManagement-itemsPerPage') || '10');
+        }
+        return 10;
+    });
+    
+    const [currentPage, setCurrentPage] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return parseInt(localStorage.getItem('userManagement-currentPage') || '1');
+        }
+        return 1;
+    });
+    
+    const [searchTerm, setSearchTerm] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('userManagement-searchTerm') || '';
+        }
+        return '';
+    });
 
     useEffect(() => {
         try {
@@ -50,8 +80,20 @@ function UserManagement() {
         }
     }, [sortField, sortOrder, searchTerm]);
 
+    // Save settings to localStorage whenever they change
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('userManagement-sortField', sortField);
+            localStorage.setItem('userManagement-sortOrder', sortOrder);
+            localStorage.setItem('userManagement-itemsPerPage', itemsPerPage.toString());
+            localStorage.setItem('userManagement-currentPage', currentPage.toString());
+            localStorage.setItem('userManagement-searchTerm', searchTerm);
+        }
+    }, [sortField, sortOrder, itemsPerPage, currentPage, searchTerm]);
+
     const handleSort = (field) => {
-        setSortOrder(sortField === field && sortOrder === 'asc' ? 'desc' : 'asc');
+        const newOrder = sortField === field && sortOrder === 'asc' ? 'desc' : 'asc';
+        setSortOrder(newOrder);
         setSortField(field);
     };
 
@@ -65,7 +107,7 @@ function UserManagement() {
     return (
         <div className="w-full min-h-screen bg-gray-50 p-8">
             <div className="max-w-7xl mx-auto">
-                <div className="bg-white rounded-lg shadow-lg p-6">
+                <div>
                     <div className="flex justify-between items-center mb-6">
                         <h1 className="text-3xl font-bold text-gray-800">User Management</h1>
                         <div className="flex gap-4">

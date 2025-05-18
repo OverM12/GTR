@@ -240,7 +240,7 @@ function Menu() {
                   width={24}
                   height={24}
                   alt="Users Management"
-                  className={pathname === "/user-menagement" ? "filter invert" : ""}
+                  className={pathname === "/user-mangement" ? "filter invert" : ""}
                 />
                 Users Management
               </Link>

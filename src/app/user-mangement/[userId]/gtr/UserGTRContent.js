@@ -5,27 +5,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import userData from '../../usermangement.json';
 
-async function UserGTRPage({ params }) {
-    // Create a client component wrapper since we can't use hooks directly in an async component
-    return <UserGTRContent params={params} />;
-}
-
 // Client component to handle state and rendering
-function UserGTRContent({ params }) {
+export default function UserGTRContent({ params }) {
     const { userId } = params;
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [showDetails, setShowDetails] = useState(() => {
-        // Check if we're in the browser environment
-        if (typeof window !== 'undefined') {
-            // Get the stored value or default to false
-            const stored = localStorage.getItem(`user-${userId}-showDetails`);
-            return stored ? JSON.parse(stored) : false;
-        }
-        return false;
-    });
-    const [showSelf, setShowSelf] = useState(false);
+    const [showDetails, setShowDetails] = useState(false);
+    const [showSelf, setShowSelf] = useState(true);
     const [showSocial, setShowSocial] = useState(false);
     const [showActions, setShowActions] = useState(false);
     const [showGets, setShowGets] = useState(false);
@@ -54,10 +41,10 @@ function UserGTRContent({ params }) {
         <div className="w-full mt-6">
             <div className="flex items-center mb-2">
                 <div className="flex items-center gap-2 w-[150px]">
-                    <span className="font-semibold text-gray-800 pl-12">{title}</span>
+                    <span className="font-semibold text-gray-800">{title}</span>
                 </div>
-                <div className="flex-1 flex justify-end">
-                    <div className="w-[600px] bg-[#B60A06] h-[28px] rounded-full relative overflow-hidden">
+                <div className="flex-1">
+                    <div className="w-[500px] bg-[#B60A06] h-[28px] rounded-full relative overflow-hidden">
                         <div className="h-[28px] bg-[#C6B06A] rounded-full relative" style={{ width: `${score}%` }}>
                             <div className="absolute inset-0 flex items-center justify-end pr-2">
                                 <span className="text-white text-xs font-medium">{parseFloat(score).toFixed(1)}%</span>
@@ -81,7 +68,7 @@ function UserGTRContent({ params }) {
                 <div className="mt-3 pl-6 space-y-3">
                     {elements.map((el, idx) => (
                         <div key={idx} className="flex items-center justify-between">
-                            <span className="text-gray-700 text-xs w-[150px] pl-26 text-nowrap">{el.element}</span>
+                            <span className="text-gray-700 text-xs w-[150px] pl-18 text-nowrap">{el.element}</span>
                             <div className="w-[500px] bg-[#B60A06] h-[28px] rounded-full relative overflow-hidden">
                                 <div className="h-[28px] bg-[#C6B06A] rounded-full relative" style={{ width: `${el.score}%` }}>
                                     <div className="absolute inset-0 flex items-center justify-end pr-2">
@@ -132,14 +119,7 @@ function UserGTRContent({ params }) {
                                 <td className="p-4 border border-gray-200 flex justify-between items-center">
                                     <span>{parseFloat(user.environmentScore).toFixed(1)}%</span>
                                     <button 
-                                        onClick={() => {
-                                            const newState = !showDetails;
-                                            setShowDetails(newState);
-                                            // Save to localStorage
-                                            if (typeof window !== 'undefined') {
-                                                localStorage.setItem(`user-${userId}-showDetails`, JSON.stringify(newState));
-                                            }
-                                        }} 
+                                        onClick={() => setShowDetails(!showDetails)} 
                                         className="text-blue-600 hover:text-blue-800"
                                     >
                                         [{showDetails ? 'Hide' : 'View'}]
@@ -171,7 +151,7 @@ function UserGTRContent({ params }) {
                                     <span className="font-semibold">Total GTR Score</span>
                                     {/* <span>{parseFloat(user.gtrScore).toFixed(1)}%</span> */}
                                 </div>
-                                <div className="w-[700px] bg-[#B60A06] h-[28px] rounded-full mt-2 relative overflow-hidden">
+                                <div className="w-[500px] bg-[#B60A06] h-[28px] rounded-full mt-2 relative overflow-hidden">
                                     <div className="h-[28px] bg-[#C6B06A] rounded-full relative" style={{ width: `${user.gtrScore}%` }}>
                                         <div className="absolute inset-0 flex items-center justify-end pr-2">
                                             <span className="text-white text-xs font-medium">{parseFloat(user.gtrScore).toFixed(1)}%</span>
@@ -289,5 +269,3 @@ function UserGTRContent({ params }) {
         </div>
     );
 }
-
-export default UserGTRPage;
