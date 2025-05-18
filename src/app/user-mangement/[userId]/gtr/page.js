@@ -25,11 +25,46 @@ function UserGTRContent({ params }) {
         }
         return false;
     });
-    const [showSelf, setShowSelf] = useState(false);
-    const [showSocial, setShowSocial] = useState(false);
-    const [showActions, setShowActions] = useState(false);
-    const [showGets, setShowGets] = useState(false);
-    const [showEnvironment, setShowEnvironment] = useState(false);
+    // Initialize all toggle states from localStorage
+    const [showSelf, setShowSelf] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const stored = localStorage.getItem(`user-${userId}-showSelf`);
+            return stored ? JSON.parse(stored) : false;
+        }
+        return false;
+    });
+    
+    const [showSocial, setShowSocial] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const stored = localStorage.getItem(`user-${userId}-showSocial`);
+            return stored ? JSON.parse(stored) : false;
+        }
+        return false;
+    });
+    
+    const [showActions, setShowActions] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const stored = localStorage.getItem(`user-${userId}-showActions`);
+            return stored ? JSON.parse(stored) : false;
+        }
+        return false;
+    });
+    
+    const [showGets, setShowGets] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const stored = localStorage.getItem(`user-${userId}-showGets`);
+            return stored ? JSON.parse(stored) : false;
+        }
+        return false;
+    });
+    
+    const [showEnvironment, setShowEnvironment] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const stored = localStorage.getItem(`user-${userId}-showEnvironment`);
+            return stored ? JSON.parse(stored) : false;
+        }
+        return false;
+    });
 
     useEffect(() => {
         try {
@@ -198,7 +233,13 @@ function UserGTRContent({ params }) {
                                     { element: "Inner Peace", score: parseFloat(user.innerPeaceScore) }
                                 ]}
                                 isExpanded={showSelf}
-                                toggleExpanded={() => setShowSelf(!showSelf)}
+                                toggleExpanded={() => {
+                                    const newState = !showSelf;
+                                    setShowSelf(newState);
+                                    if (typeof window !== 'undefined') {
+                                        localStorage.setItem(`user-${userId}-showSelf`, JSON.stringify(newState));
+                                    }
+                                }}
                             />
 
                             <AreaSection
@@ -211,7 +252,13 @@ function UserGTRContent({ params }) {
                                     { element: "Communication", score: 75 }
                                 ]}
                                 isExpanded={showSocial}
-                                toggleExpanded={() => setShowSocial(!showSocial)}
+                                toggleExpanded={() => {
+                                    const newState = !showSocial;
+                                    setShowSocial(newState);
+                                    if (typeof window !== 'undefined') {
+                                        localStorage.setItem(`user-${userId}-showSocial`, JSON.stringify(newState));
+                                    }
+                                }}
                             />
 
                             <AreaSection
@@ -224,7 +271,13 @@ function UserGTRContent({ params }) {
                                     { element: "Time Management", score: 82 }
                                 ]}
                                 isExpanded={showActions}
-                                toggleExpanded={() => setShowActions(!showActions)}
+                                toggleExpanded={() => {
+                                    const newState = !showActions;
+                                    setShowActions(newState);
+                                    if (typeof window !== 'undefined') {
+                                        localStorage.setItem(`user-${userId}-showActions`, JSON.stringify(newState));
+                                    }
+                                }}
                             />
 
                             <AreaSection
@@ -236,7 +289,13 @@ function UserGTRContent({ params }) {
                                     { element: "Access to Resources", score: 72 }
                                 ]}
                                 isExpanded={showGets}
-                                toggleExpanded={() => setShowGets(!showGets)}
+                                toggleExpanded={() => {
+                                    const newState = !showGets;
+                                    setShowGets(newState);
+                                    if (typeof window !== 'undefined') {
+                                        localStorage.setItem(`user-${userId}-showGets`, JSON.stringify(newState));
+                                    }
+                                }}
                             />
 
                             <AreaSection
@@ -249,7 +308,13 @@ function UserGTRContent({ params }) {
                                     { element: "Natural Surroundings", score: 72 }
                                 ]}
                                 isExpanded={showEnvironment}
-                                toggleExpanded={() => setShowEnvironment(!showEnvironment)}
+                                toggleExpanded={() => {
+                                    const newState = !showEnvironment;
+                                    setShowEnvironment(newState);
+                                    if (typeof window !== 'undefined') {
+                                        localStorage.setItem(`user-${userId}-showEnvironment`, JSON.stringify(newState));
+                                    }
+                                }}
                             />
 
                         </div>
