@@ -72,15 +72,22 @@ export default function AreaDeepDive() {
             </div>
           </div>
           {totalExpanded && (
-            <div className="md:hidden relative h-[28px] bg-[#B60A06] rounded-full overflow-hidden">
+            <div className="md:hidden w-[1150px] h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
               <div
-                className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full flex items-center justify-end"
+                className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out"
                 style={{ width: `${totalGtr}%` }}
               >
-                <span className="absolute text-white font-medium text-sm px-2">
-                  {totalGtr}%
-                </span>
               </div>
+              <span 
+                className="text-white text-xs font-semibold absolute"
+                style={{ 
+                  left: parseFloat(totalGtr) >= 3.0 ? `calc(min(${parseFloat(totalGtr)}%, 97%) - 34px)` : '8px',
+                  top: '50%',
+                  transform: 'translateY(-50%)'
+                }}
+              >
+                {totalGtr}%
+              </span>
             </div>
           )}
         </div>
@@ -89,15 +96,22 @@ export default function AreaDeepDive() {
           <span className="text-gray-700 text-[14px] text-nowrap p-4">
             Total GTR
           </span>
-          <div className="w-full flex bg-[#B60A06] overflow-hidden rounded-full h-[28px]">
+          <div className="w-[1150px] h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
             <div
-              className="bg-[#C6B06A] rounded-l-full"
+              className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out"
               style={{ width: `${totalGtr}%` }}
             >
-              <span className="text-white font-medium text-sm pr-2 h-full items-center w-full flex justify-end">
-                {totalGtr}%
-              </span>
             </div>
+            <span 
+              className="text-white text-xs font-semibold absolute"
+              style={{ 
+                left: parseFloat(totalGtr) >= 3.0 ? `calc(min(${parseFloat(totalGtr)}%, 97%) - 34px)` : '8px',
+                top: '50%',
+                transform: 'translateY(-50%)'
+              }}
+            >
+              {totalGtr}%
+            </span>
           </div>
         </div>
         <FiveBoxDesk />

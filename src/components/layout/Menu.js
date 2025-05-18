@@ -224,9 +224,9 @@ function Menu() {
                 />
                 Development
               </Link>
-
+              {userData && userData.role === "admin" && (
               <div className="border-b border-white"></div>
-
+              )}
               {/* Only show Users Management link for admin users */}
               {userData && userData.role === "admin" && (
                 <Link

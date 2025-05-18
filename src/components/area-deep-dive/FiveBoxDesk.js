@@ -143,17 +143,22 @@ function FiveBoxDesk() {
                   <span className="text-gray-700 text-sm">{formatElementName(element.element)}</span>
                 </div>
 
-                <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden">
+                <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
                   <div
-                    className="h-[30px] bg-[#C6B06A] flex items-center transition-all duration-500 ease-in-out"
+                    className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out"
                     style={{ width: `${percent}%` }}
                   >
-                    <span
-                    className="text-white text-xs font-semibold pl-2 pr-2"
-                    >
-                      {percent}%
-                    </span>
                   </div>
+                  <span 
+                    className="text-white text-xs font-semibold absolute z-10"
+                    style={{ 
+                      left: parseFloat(percent) >= 14.0 ? `calc(min(${parseFloat(percent)}%, 90%) - 30px)` : '8px',
+                      top: '50%',
+                      transform: 'translateY(-50%)'
+                    }}
+                  >
+                    {percent}%
+                  </span>
                 </div>
                 {/* <div className="flex-1 flex items-center relative h-[30px]">
                   <div className="h-[30px] w-full bg-[#B60A06] rounded-full overflow-hidden flex"></div>
@@ -214,15 +219,22 @@ function FiveBoxDesk() {
         </div>
         <div className="flex-1 flex items-center justify-end relative h-[30px] ml-4">
           {selfExpanded && (
-            <div className="w-[1250px] bg-[#B60A06] h-[30px] rounded-full relative overflow-hidden">
+            <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
               <div
-                className="h-[30px] bg-[#C6B06A] rounded-l-full flex items-center justify-end transition-all duration-500 ease-in-out"
-                style={{ width: `${Math.max(parseFloat(selfScore), 12)}%` }}
+                className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out"
+                style={{ width: `${parseFloat(selfScore)}%` }}
               >
-                <span className="text-white text-xs font-semibold pr-2">
-                  {selfScore}%
-                </span>
               </div>
+              <span 
+                className="text-white text-xs font-semibold absolute z-10"
+                style={{ 
+                  left: parseFloat(selfScore) >= 14.0 ? `calc(min(${parseFloat(selfScore)}%, 90%) - 30px)` : '8px',
+                  top: '50%',
+                  transform: 'translateY(-50%)'
+                }}
+              >
+                {selfScore}%
+              </span>
             </div>
           )}
         </div>
@@ -263,15 +275,22 @@ function FiveBoxDesk() {
         </div>
         <div className="flex-1 flex items-center justify-end relative h-[30px] ml-4">
           {socialExpanded && (
-            <div className="w-[1250px] bg-[#B60A06] h-[30px] rounded-full relative overflow-hidden">
+            <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
               <div
-                className="h-[30px] bg-[#C6B06A] rounded-l-full flex items-center justify-end transition-all duration-500 ease-in-out"
-                style={{ width: `${Math.max(parseFloat(socialScore), 12)}%` }}
+                className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out"
+                style={{ width: `${parseFloat(socialScore)}%` }}
               >
-                <span className="text-white text-xs font-semibold pr-2">
-                  {socialScore}%
-                </span>
               </div>
+              <span 
+                className="text-white text-xs font-semibold absolute z-10"
+                style={{ 
+                  left: parseFloat(socialScore) >= 14.0 ? `calc(min(${parseFloat(socialScore)}%, 90%) - 30px)` : '8px',
+                  top: '50%',
+                  transform: 'translateY(-50%)'
+                }}
+              >
+                {socialScore}%
+              </span>
             </div>
           )}
         </div>
@@ -312,15 +331,22 @@ function FiveBoxDesk() {
         </div>
         <div className="flex-1 flex items-center justify-end relative h-[30px] ml-4">
           {actionsExpanded && (
-            <div className="w-[1250px] bg-[#B60A06] h-[30px] rounded-full relative overflow-hidden">
+            <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
               <div
-                className="h-[30px] bg-[#C6B06A] rounded-l-full flex items-center justify-end transition-all duration-500 ease-in-out"
-                style={{ width: `${Math.max(parseFloat(actionsScore), 12)}%` }}
+                className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out"
+                style={{ width: `${parseFloat(actionsScore)}%` }}
               >
-                <span className="text-white text-xs font-semibold pr-2">
-                  {actionsScore}%
-                </span>
               </div>
+              <span 
+                className="text-white text-xs font-semibold absolute z-10"
+                style={{ 
+                  left: parseFloat(actionsScore) >= 14.0 ? `calc(min(${parseFloat(actionsScore)}%, 90%) - 30px)` : '8px',
+                  top: '50%',
+                  transform: 'translateY(-50%)'
+                }}
+              >
+                {actionsScore}%
+              </span>
             </div>
           )}
         </div>
@@ -355,15 +381,22 @@ function FiveBoxDesk() {
         </div>
         <div className="flex-1 flex items-center justify-end relative h-[30px] ml-4">
           {getsExpanded && (
-            <div className="w-[1250px] bg-[#B60A06] h-[30px] rounded-full relative overflow-hidden">
+            <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
               <div
-                className="h-[30px] bg-[#C6B06A] rounded-l-full flex items-center justify-end transition-all duration-500 ease-in-out"
-                style={{ width: `${Math.max(parseFloat(getsScore), 12)}%` }}
+                className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out"
+                style={{ width: `${parseFloat(getsScore)}%` }}
               >
-                <span className="text-white text-xs font-semibold pr-2">
-                  {getsScore}%
-                </span>
               </div>
+              <span 
+                className="text-white text-xs font-semibold absolute z-10"
+                style={{ 
+                  left: parseFloat(getsScore) >= 14.0 ? `calc(min(${parseFloat(getsScore)}%, 90%) - 30px)` : '8px',
+                  top: '50%',
+                  transform: 'translateY(-50%)'
+                }}
+              >
+                {getsScore}%
+              </span>
             </div>
           )}
         </div>
@@ -398,15 +431,22 @@ function FiveBoxDesk() {
         </div>
         <div className="flex-1 flex items-center justify-end relative h-[30px] ml-4">
           {environmentExpanded && (
-            <div className="w-[1250px] bg-[#B60A06] h-[30px] rounded-full relative overflow-hidden">
+            <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
               <div
-                className="h-[30px] bg-[#C6B06A] rounded-l-full flex items-center justify-end transition-all duration-500 ease-in-out"
-                style={{ width: `${Math.max(parseFloat(environmentScore), 12)}%` }}
+                className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out"
+                style={{ width: `${parseFloat(environmentScore)}%` }}
               >
-                <span className="text-white text-xs font-semibold pr-2">
-                  {environmentScore}%
-                </span>
               </div>
+              <span 
+                className="text-white text-xs font-semibold absolute z-10"
+                style={{ 
+                  left: parseFloat(environmentScore) >= 14.0 ? `calc(min(${parseFloat(environmentScore)}%, 90%) - 30px)` : '8px',
+                  top: '50%',
+                  transform: 'translateY(-50%)'
+                }}
+              >
+                {environmentScore}%
+              </span>
             </div>
           )}
         </div>
