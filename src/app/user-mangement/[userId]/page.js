@@ -11,9 +11,17 @@ function UserGTRPage({ params }) {
 function UserGTRContent({ params }) {
     const { userId } = params;
     const [user, setUser] = useState(null);
-    const [session, setSession] = useState(null);
+    const [sessions, setSessions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    // Add state for selected session with localStorage persistence
+    const [selectedSessionIndex, setSelectedSessionIndex] = useState(() => {
+        if (typeof window !== "undefined") {
+            const stored = localStorage.getItem(`user-${userId}-selectedSessionIndex`);
+            return stored ? parseInt(JSON.parse(stored)) : 0;
+        }
+        return 0;
+    });
 
     // State management for showing/hiding sections
     const [showDetails, setShowDetails] = useState(() => {
@@ -135,34 +143,16 @@ function UserGTRContent({ params }) {
                     gender: foundUser.gender,
                     yearOfBirth: foundUser.yearOfBirth,
                     lastAssessment: latestSession?.createdAt || null,
-
-                    // GTR scores
-                    gtrScore: latestSession?.gtr ?? 0,
-                    selfScore: latestSession?.selfGtr ?? 0,
-                    socialScore: latestSession?.socialGtr ?? 0,
-                    actionsScore: latestSession?.actionsGtr ?? 0,
-                    getsScore: latestSession?.getsGtr ?? 0,
-                    environmentScore: latestSession?.environmentGtr ?? 0,
-
-                    // Self assessment scores
-                    physicalHealthScore: latestSession?.selfAssessments?.find((a) => a.element === "physical_health")?.feeling5Count ?? 0,
-                    physicalFitnessScore: 0,
-                    bodilyComfortScore: latestSession?.selfAssessments?.find((a) => a.element === "bodily_comfort")?.feeling5Count ?? 0,
-                    emotionalHealthScore: latestSession?.selfAssessments?.find((a) => a.element === "emotional_health")?.feeling5Count ?? 0,
-                    moodScore: latestSession?.selfAssessments?.find((a) => a.element === "mood")?.feeling5Count ?? 0,
-                    stressLevelScore: latestSession?.selfAssessments?.find((a) => a.element === "stress_level")?.feeling5Count ?? 0,
-                    mentalClarityScore: latestSession?.selfAssessments?.find((a) => a.element === "mental_clarity")?.feeling5Count ?? 0,
-                    selfAwarenessScore: 0,
-                    selfAcceptanceScore: latestSession?.selfAssessments?.find((a) => a.element === "self_acceptance")?.feeling5Count ?? 0,
-                    senseOfPurposeScore: latestSession?.selfAssessments?.find((a) => a.element === "sense_of_purpose")?.feeling5Count ?? 0,
-                    innerPeaceScore: latestSession?.selfAssessments?.find((a) => a.element === "inner_peace")?.feeling5Count ?? 0,
+                    countryOfOrigin: foundUser.countryOfOrigin,
+                    currentCountry: foundUser.currentCountry,
+                    currentCity: foundUser.currentCity,
                 });
 
-                setSession(latestSession || null);
+                setSessions(sessionJson.data || []);
             } catch (error) {
                 setError(error.message);
                 setUser(null);
-                setSession(null);
+                setSessions([]);
             } finally {
                 setLoading(false);
             }
@@ -176,112 +166,230 @@ function UserGTRContent({ params }) {
         return name.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
     };
 
+    const calculateAverageFeelingScore = (assessments, elementName) => {
+        if (!assessments || assessments.length === 0) return 0;
+        
+        const element = assessments.find(a => a.element === elementName);
+        if (!element) return 0;
+        
+        // Calculate average based on feeling counts
+        let total = 0;
+        let count = 0;
+        
+        for (let i = 1; i <= 7; i++) {
+            const feelingKey = `feeling${i}Count`;
+            if (element[feelingKey]) {
+                total += i * element[feelingKey];
+                count += element[feelingKey];
+            }
+        }
+        
+        if (count === 0) return 0;
+        
+        // Convert to percentage (assuming 7 is max)
+        return (total / count / 7) * 100;
+    };
+
+    const getLatestSession = () => {
+        return sessions.length > 0 ? sessions[selectedSessionIndex] : null;
+    };
+
+    const getSessionScores = (session) => {
+        if (!session) return {
+            gtr: 0,
+            selfGtr: 0,
+            socialGtr: 0,
+            actionsGtr: 0,
+            getsGtr: 0,
+            environmentGtr: 0
+        };
+
+        return {
+            gtr: session.gtr || 0,
+            selfGtr: session.selfGtr || 0,
+            socialGtr: session.socialGtr || 0,
+            actionsGtr: session.actionsGtr || 0,
+            getsGtr: session.getsGtr || 0,
+            environmentGtr: session.environmentGtr || 0
+        };
+    };
+
+    const getSelfElements = (session) => {
+        if (!session || !session.selfAssessments) return [];
+        
+        return session.selfAssessments.map(assessment => ({
+            element: assessment.element,
+            score: calculateAverageFeelingScore(session.selfAssessments, assessment.element),
+            feelings: assessment.feelings || []
+        }));
+    };
+
+    const getSocialElements = (session) => {
+        if (!session || !session.socialAssessments) return [];
+        
+        return session.socialAssessments.map(assessment => ({
+            element: assessment.element,
+            score: calculateAverageFeelingScore(session.socialAssessments, assessment.element),
+            timeSpent: assessment.timeSpent,
+            feelings: assessment.feelings || []
+        }));
+    };
+
+    const getActionsElements = (session) => {
+        if (!session || !session.actionsAssessments) return [];
+        
+        return session.actionsAssessments.map(assessment => ({
+            element: assessment.element,
+            score: calculateAverageFeelingScore(session.actionsAssessments, assessment.element),
+            timeSpent: assessment.timeSpent,
+            feelings: assessment.feelings || []
+        }));
+    };
+
+    const getGetsElements = (session) => {
+        if (!session || !session.getsAssessments) return [];
+        
+        return session.getsAssessments.map(assessment => ({
+            element: assessment.element,
+            score: calculateAverageFeelingScore(session.getsAssessments, assessment.element),
+            priority: assessment.priority,
+            elementGroup: assessment.elementGroup,
+            feelings: assessment.feelings || []
+        }));
+    };
+
+    const getEnvironmentElements = (session) => {
+        if (!session || !session.environmentAssessments) return [];
+        
+        return session.environmentAssessments.map(assessment => ({
+            element: assessment.element,
+            score: calculateAverageFeelingScore(session.environmentAssessments, assessment.element),
+            timeSpent: assessment.timeSpent,
+            feelings: assessment.feelings || []
+        }));
+    };
+
     const AreaSection = ({ title, score, elements, isExpanded, toggleExpanded }) => (
         <div className="w-full mt-6">
-            <div className="flex items-center mb-2">
-                <div className="flex items-center gap-2 w-[150px]">
-                    <span className="font-semibold text-gray-800 pl-12">{title}</span>
-                </div>
-                <div className="flex-1 flex justify-end">
-                    <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
-                        <div
-                            className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
-                            style={{ width: `${parseFloat(score).toFixed(1)}%` }}
-                        >
-                            <div className="absolute inset-0 flex items-center justify-end pr-2">
-                                <span className="text-white text-xs font-medium">{parseFloat(score).toFixed(1)}%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="ml-2">
-                    <button
-                        onClick={toggleExpanded}
-                        className="text-gray-500 hover:text-gray-700 transform transition-transform duration-300"
-                        style={{ transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)" }}
+          <div className="flex items-center mb-2">
+            <div className="flex items-center gap-2 w-[150px]">
+              <span className="font-semibold text-gray-800 pl-12">{title}</span>
+            </div>
+            <div className="flex-1 flex justify-end">
+              <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+                <div
+                  className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
+                  style={{ width: `${parseFloat(score).toFixed(1)}%` }}
+                >
+                  {parseFloat(score) >= 4.0 && (
+                    <span
+                      className="text-white text-xs font-semibold absolute"
+                      style={{
+                        right: "8px",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                      }}
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
+                      {parseFloat(score).toFixed(1)}%
+                    </span>
+                  )}
+                </div>
+                {parseFloat(score) < 4.0 && (
+                  <span
+                    className="text-white text-xs font-semibold absolute"
+                    style={{
+                      left: "8px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                    }}
+                  >
+                    {parseFloat(score).toFixed(1)}%
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="ml-2">
+              <button
+                onClick={toggleExpanded}
+                className="text-gray-500 hover:text-gray-700 transform transition-transform duration-300"
+                style={{ transform: isExpanded ? "rotate(0deg)" : "rotate(180deg)" }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="18 15 12 9 6 15"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+      
+          {/* Container for elements */}
+          <div
+            className={`ml-24 mb-4 pl-32 pr-13 border-l-2 border-gray-200 transition-all duration-300 ease-in-out ${
+              isExpanded ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0 overflow-hidden"
+            }`}
+          >
+            <div className="flex flex-col gap-2 md:gap-3 py-2">
+              {elements.map((element, idx) => {
+                const percent = parseFloat(element.score ?? 0).toFixed(1);
+                return (
+                  <div
+                    key={idx}
+                    className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-0"
+                  >
+                    <div className="flex items-center w-full md:w-[300px] md:min-w-[0px] mb-2 md:mb-0">
+                      <span className="text-gray-700 text-xs md:text-sm whitespace-nowrap">
+                        {formatElementName(element.element)}
+                      </span>
+                    </div>
+      
+                    <div className="w-full h-[24px] md:h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+                      <div
+                        className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
+                        style={{ width: `${percent}%` }}
+                      >
+                        {parseFloat(percent) >= 4.0 && (
+                          <span
+                            className="text-white text-[10px] md:text-xs font-semibold absolute"
+                            style={{
+                              right: "8px",
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                            }}
+                          >
+                            {percent}%
+                          </span>
+                        )}
+                      </div>
+                      {parseFloat(percent) < 4.0 && (
+                        <span
+                          className="text-white text-[10px] md:text-xs font-semibold absolute"
+                          style={{
+                            left: "8px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                          }}
                         >
-                            <polyline points="18 15 12 9 6 15"></polyline>
-                        </svg>
-                    </button>
-                </div>
+                          {percent}%
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-
-            {/* Container for elements */}
-            <div
-                className={`ml-24 mb-4 pl-32 pr-13 border-l-2 border-gray-200 transition-all duration-300 ease-in-out ${isExpanded ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0 overflow-hidden"
-                    }`}
-            >
-                <div className="flex flex-col gap-3 py-2">
-                    {elements.map((element, idx) => {
-                        const percent = parseFloat(element.gtr ?? element.score ?? 0).toFixed(1);
-                        return (
-                            <div key={idx} className="flex items-center">
-                                <div className="flex items-center justify-end w-[220px] min-w-[220px] pr-4">
-                                    {/* {element.isHigh && (
-                                        <span className="mr-2 text-blue-600 text-lg" title="High">
-                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#2563eb">
-                                                <circle cx="12" cy="12" r="8" />
-                                            </svg>
-                                        </span>
-                                    )}
-                                    {element.isLow && (
-                                        <span className="mr-2 text-red-600 text-lg" title="Low">
-                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#dc2626">
-                                                <circle cx="12" cy="12" r="8" />
-                                            </svg>
-                                        </span>
-                                    )} */}
-                                    <span className="text-gray-700 text-sm whitespace-nowrap">{formatElementName(element.element)}</span>
-                                </div>
-                                <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
-                                    <div
-                                        className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
-                                        style={{ width: `${percent}%` }}
-                                    >
-                                        {parseFloat(percent) >= 4.0 && (
-                                            <span
-                                                className="text-white text-xs font-semibold absolute"
-                                                style={{
-                                                    right: '8px',
-                                                    top: '50%',
-                                                    transform: 'translateY(-50%)'
-                                                }}
-                                            >
-                                                {percent}%
-                                            </span>
-                                        )}
-                                    </div>
-                                    {parseFloat(percent) < 4.0 && (
-                                        <span
-                                            className="text-white text-xs font-semibold absolute"
-                                            style={{
-                                                left: '8px',
-                                                top: '50%',
-                                                transform: 'translateY(-50%)'
-                                            }}
-                                        >
-                                            {percent}%
-                                        </span>
-                                    )}
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
+          </div>
         </div>
-    );
+      );
+      
 
     if (loading)
         return (
@@ -305,6 +413,9 @@ function UserGTRContent({ params }) {
             </div>
         );
 
+    const latestSession = getLatestSession();
+    const sessionScores = getSessionScores(latestSession);
+
     return (
         <div className="w-full min-h-screen bg-gray-50 p-6">
             <div className="max-w-7xl mx-auto">
@@ -326,34 +437,53 @@ function UserGTRContent({ params }) {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200">
-                            <tr className="hover:bg-gray-50 transition-colors">
-                                <td className="py-3 px-4">In Progress</td>
-                                <td className="py-3 px-4">{user.id}</td>
-                                <td className="py-3 px-4">{user.name}</td>
-                                <td className="py-3 px-4">{parseFloat(user.gtrScore).toFixed(1)}%</td>
-                                <td className="py-3 px-4">{parseFloat(user.selfScore).toFixed(1)}%</td>
-                                <td className="py-3 px-4">{parseFloat(user.socialScore).toFixed(1)}%</td>
-                                <td className="py-3 px-4">{parseFloat(user.actionsScore).toFixed(1)}%</td>
-                                <td className="py-3 px-4">{parseFloat(user.getsScore).toFixed(1)}%</td>
-                                <td className="py-3 px-4">{parseFloat(user.environmentScore).toFixed(1)}%</td>
-                                <td className="py-3 px-4">
-                                    <button
-                                        onClick={() => {
-                                            const newState = !showDetails;
-                                            setShowDetails(newState);
-                                            if (typeof window !== "undefined") {
-                                                localStorage.setItem(`user-${userId}-showDetails`, JSON.stringify(newState));
-                                            }
-                                        }}
-                                        className="px-4 py-2 bg-[#FF9933] text-white rounded-lg hover:bg-[#FF9955] transition-colors"
-                                    >
-                                        {showDetails ? "Hide" : "View"}
-                                    </button>
-                                </td>
-                            </tr>
+                            {sessions.map((session, index) => {
+                                const scores = getSessionScores(session);
+                                return (
+                                    <tr key={index} className="hover:bg-gray-50 transition-colors">
+                                        <td className="py-3 px-4">
+                                            {session.isCompleted ? "Complete" : "In Progress"}
+                                        </td>
+                                        <td className="py-3 px-4">{user.id}</td>
+                                        <td className="py-3 px-4">{user.name}</td>
+                                        <td className="py-3 px-4">{parseFloat(scores.gtr).toFixed(1)}%</td>
+                                        <td className="py-3 px-4">{parseFloat(scores.selfGtr).toFixed(1)}%</td>
+                                        <td className="py-3 px-4">{parseFloat(scores.socialGtr).toFixed(1)}%</td>
+                                        <td className="py-3 px-4">{parseFloat(scores.actionsGtr).toFixed(1)}%</td>
+                                        <td className="py-3 px-4">{parseFloat(scores.getsGtr).toFixed(1)}%</td>
+                                        <td className="py-3 px-4">{parseFloat(scores.environmentGtr).toFixed(1)}%</td>
+                                        <td className="py-3 px-4">
+                                            <button
+                                                onClick={() => {
+                                                    // If this is already the selected session, toggle visibility
+                                                    if (selectedSessionIndex === index && showDetails) {
+                                                        setShowDetails(false);
+                                                        if (typeof window !== "undefined") {
+                                                            localStorage.setItem(`user-${userId}-showDetails`, JSON.stringify(false));
+                                                        }
+                                                    } else {
+                                                        // Otherwise, select this session and show details
+                                                        setSelectedSessionIndex(index);
+                                                        setShowDetails(true);
+                                                        if (typeof window !== "undefined") {
+                                                            localStorage.setItem(`user-${userId}-selectedSessionIndex`, JSON.stringify(index));
+                                                            localStorage.setItem(`user-${userId}-showDetails`, JSON.stringify(true));
+                                                        }
+                                                    }
+                                                }}
+                                                className="px-4 py-2 bg-[#FF9933] text-white rounded-lg hover:bg-[#FF9955] transition-colors"
+                                            >
+                                                {showDetails && selectedSessionIndex === index ? "Hide" : "View"}
+                                            </button>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                 </div>
+
+                {/* Remove the separate assessment history section */}
 
                 {/* Main content area - only shown when View is clicked */}
                 {showDetails && (
@@ -361,7 +491,14 @@ function UserGTRContent({ params }) {
                         {/* GTR Score section - takes up 2/3 of the width */}
                         <div className="col-span-2 bg-white rounded-lg shadow p-6">
                             <div className="flex justify-between items-center mb-4">
-                                <h2 className="text-xl font-semibold">GTR Score</h2>
+                                <div className="flex items-center">
+                                    <h2 className="text-xl font-semibold">GTR Score</h2>
+                                    {selectedSessionIndex > 0 && sessions[selectedSessionIndex] && (
+                                        <span className="ml-2 text-sm text-gray-500">
+                                            (Session from {new Date(sessions[selectedSessionIndex].createdAt).toLocaleDateString()})
+                                        </span>
+                                    )}
+                                </div>
                                 <Link href="/user-mangement" className="text-[#FF9933] hover:text-blue-800 flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                                         <path
@@ -380,9 +517,9 @@ function UserGTRContent({ params }) {
                                     <span className="font-semibold">Total GTR Score</span>
                                 </div>
                                 <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
-                                    <div className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative" style={{ width: `${user.gtrScore}%` }}>
+                                    <div className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative" style={{ width: `${sessionScores.gtr}%` }}>
                                         <div className="absolute inset-0 flex items-center justify-end pr-2">
-                                        {parseFloat(user.gtrScore) >= 4.0 && (
+                                        {parseFloat(sessionScores.gtr) >= 4.0 && (
                                             <span
                                                 className="text-white text-xs font-semibold absolute"
                                                 style={{
@@ -390,7 +527,7 @@ function UserGTRContent({ params }) {
                                                     top: '50%',
                                                     transform: 'translateY(-50%)'
                                                 }}
-                                            >{parseFloat(user.gtrScore).toFixed(1)}%
+                                            >{parseFloat(sessionScores.gtr).toFixed(1)}%
                                             </span>
                                         )}
                                         </div>
@@ -401,20 +538,8 @@ function UserGTRContent({ params }) {
                             {/* Self section */}
                             <AreaSection
                                 title="Self"
-                                score={parseFloat(user.selfScore)}
-                                elements={[
-                                    { element: "Physical Health", score: parseFloat(user.physicalHealthScore) },
-                                    { element: "Physical Fitness", score: parseFloat(user.physicalFitnessScore) },
-                                    { element: "Bodily Comfort", score: parseFloat(user.bodilyComfortScore) },
-                                    { element: "Emotional Health", score: parseFloat(user.emotionalHealthScore) },
-                                    { element: "Mood", score: parseFloat(user.moodScore) },
-                                    { element: "Stress level", score: parseFloat(user.stressLevelScore) },
-                                    { element: "Mental Clarity", score: parseFloat(user.mentalClarityScore) },
-                                    { element: "Self-Awareness", score: parseFloat(user.selfAwarenessScore) },
-                                    { element: "Self-Acceptance", score: parseFloat(user.selfAcceptanceScore) },
-                                    { element: "Sense of Purpose", score: parseFloat(user.senseOfPurposeScore) },
-                                    { element: "Inner Peace", score: parseFloat(user.innerPeaceScore) },
-                                ]}
+                                score={parseFloat(sessionScores.selfGtr)}
+                                elements={getSelfElements(latestSession)}
                                 isExpanded={showSelf}
                                 toggleExpanded={() => {
                                     const newState = !showSelf;
@@ -428,14 +553,8 @@ function UserGTRContent({ params }) {
                             {/* Social section */}
                             <AreaSection
                                 title="Social"
-                                score={parseFloat(user.socialScore)}
-                                elements={[
-                                    { element: "Family Relationships", score: 75 },
-                                    { element: "Friendships", score: 80 },
-                                    { element: "Romantic Relationships", score: 70 },
-                                    { element: "Work Relationships", score: 85 },
-                                    { element: "Community Connection", score: 65 }
-                                ]}
+                                score={parseFloat(sessionScores.socialGtr)}
+                                elements={getSocialElements(latestSession)}
                                 isExpanded={showSocial}
                                 toggleExpanded={() => {
                                     const newState = !showSocial;
@@ -449,14 +568,8 @@ function UserGTRContent({ params }) {
                             {/* Actions section */}
                             <AreaSection
                                 title="Actions"
-                                score={parseFloat(user.actionsScore)}
-                                elements={[
-                                    { element: "Daily Activities", score: 82 },
-                                    { element: "Work Performance", score: 78 },
-                                    { element: "Personal Projects", score: 75 },
-                                    { element: "Learning & Growth", score: 70 },
-                                    { element: "Time Management", score: 85 }
-                                ]}
+                                score={parseFloat(sessionScores.actionsGtr)}
+                                elements={getActionsElements(latestSession)}
                                 isExpanded={showActions}
                                 toggleExpanded={() => {
                                     const newState = !showActions;
@@ -470,14 +583,8 @@ function UserGTRContent({ params }) {
                             {/* Gets section */}
                             <AreaSection
                                 title="Gets"
-                                score={parseFloat(user.getsScore)}
-                                elements={[
-                                    { element: "Basic Needs", score: 90 },
-                                    { element: "Financial Security", score: 75 },
-                                    { element: "Career Satisfaction", score: 80 },
-                                    { element: "Personal Achievement", score: 85 },
-                                    { element: "Life Balance", score: 70 }
-                                ]}
+                                score={parseFloat(sessionScores.getsGtr)}
+                                elements={getGetsElements(latestSession)}
                                 isExpanded={showGets}
                                 toggleExpanded={() => {
                                     const newState = !showGets;
@@ -491,14 +598,8 @@ function UserGTRContent({ params }) {
                             {/* Environment section */}
                             <AreaSection
                                 title="Environment"
-                                score={parseFloat(user.environmentScore)}
-                                elements={[
-                                    { element: "Living Space", score: 85 },
-                                    { element: "Work Environment", score: 75 },
-                                    { element: "Community Safety", score: 80 },
-                                    { element: "Access to Nature", score: 70 },
-                                    { element: "Environmental Quality", score: 75 }
-                                ]}
+                                score={parseFloat(sessionScores.environmentGtr)}
+                                elements={getEnvironmentElements(latestSession)}
                                 isExpanded={showEnvironment}
                                 toggleExpanded={() => {
                                     const newState = !showEnvironment;
@@ -542,6 +643,16 @@ function UserGTRContent({ params }) {
                                 <div>
                                     <label className="block text-sm font-medium text-gray-600">Year of Birth</label>
                                     <p className="mt-1 text-sm text-gray-900">{user.yearOfBirth || "Not specified"}</p>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-600">Country of Origin</label>
+                                    <p className="mt-1 text-sm text-gray-900">{user.countryOfOrigin || "Not specified"}</p>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-600">Current Location</label>
+                                    <p className="mt-1 text-sm text-gray-900">
+                                        {user.currentCity}, {user.currentCountry}
+                                    </p>
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-600">Last Assessment</label>

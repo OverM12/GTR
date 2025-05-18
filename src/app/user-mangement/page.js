@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import mockData from './usermangement.json';
 
 function UserManagement() {
     const [users, setUsers] = useState([]);
