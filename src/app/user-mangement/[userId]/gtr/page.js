@@ -33,7 +33,7 @@ function UserGTRContent({ params }) {
         }
         return false;
     });
-    
+
     const [showSocial, setShowSocial] = useState(() => {
         if (typeof window !== 'undefined') {
             const stored = localStorage.getItem(`user-${userId}-showSocial`);
@@ -41,7 +41,7 @@ function UserGTRContent({ params }) {
         }
         return false;
     });
-    
+
     const [showActions, setShowActions] = useState(() => {
         if (typeof window !== 'undefined') {
             const stored = localStorage.getItem(`user-${userId}-showActions`);
@@ -49,7 +49,7 @@ function UserGTRContent({ params }) {
         }
         return false;
     });
-    
+
     const [showGets, setShowGets] = useState(() => {
         if (typeof window !== 'undefined') {
             const stored = localStorage.getItem(`user-${userId}-showGets`);
@@ -57,7 +57,7 @@ function UserGTRContent({ params }) {
         }
         return false;
     });
-    
+
     const [showEnvironment, setShowEnvironment] = useState(() => {
         if (typeof window !== 'undefined') {
             const stored = localStorage.getItem(`user-${userId}-showEnvironment`);
@@ -85,6 +85,11 @@ function UserGTRContent({ params }) {
         }
     }, [userId]);
 
+    const formatElementName = (name) => {
+        if (!name) return '';
+        return name.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+    };
+
     const AreaSection = ({ title, score, elements, isExpanded, toggleExpanded }) => (
         <div className="w-full mt-6">
             <div className="flex items-center mb-2">
@@ -93,41 +98,89 @@ function UserGTRContent({ params }) {
                 </div>
                 <div className="flex-1 flex justify-end">
                     <div className="w-[600px] bg-[#B60A06] h-[28px] rounded-full relative overflow-hidden">
-                        <div className="h-[28px] bg-[#C6B06A] rounded-full relative" style={{ width: `${score}%` }}>
+                        <div
+                            className="h-[28px] bg-[#C6B06A] rounded-l-full relative transition-all duration-500 ease-in-out"
+                            style={{ width: `${parseFloat(score).toFixed(1)}%` }}
+                        >
                             <div className="absolute inset-0 flex items-center justify-end pr-2">
-                                <span className="text-white text-xs font-medium">{parseFloat(score).toFixed(1)}%</span>
+                                <span className="text-white text-xs font-medium">
+                                    {parseFloat(score).toFixed(1)}%
+                                </span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className="ml-2">
                     <button
-                      onClick={toggleExpanded} 
-                      className="text-gray-500 hover:text-gray-700 transform transition-transform duration-300"
-                      style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                        onClick={toggleExpanded}
+                        className="text-gray-500 hover:text-gray-700 transform transition-transform duration-300"
+                        style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="18 15 12 9 6 15"></polyline>
-                      </svg>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
                     </button>
                 </div>
             </div>
-            {isExpanded && elements.length > 0 && (
-                <div className="mt-3 pl-6 space-y-3">
-                    {elements.map((el, idx) => (
-                        <div key={idx} className="flex items-center justify-between">
-                            <span className="text-gray-700 text-xs w-[150px] pl-26 text-nowrap">{el.element}</span>
-                            <div className="w-[500px] bg-[#B60A06] h-[28px] rounded-full relative overflow-hidden">
-                                <div className="h-[28px] bg-[#C6B06A] rounded-full relative" style={{ width: `${el.score}%` }}>
-                                    <div className="absolute inset-0 flex items-center justify-end pr-2">
-                                        <span className="text-white text-xs font-medium">{parseFloat(el.score).toFixed(1)}%</span>
+
+            {/* Container for elements */}
+            <div
+                className={`ml-24 mb-4 pl-32 pr-13 border-l-2 border-gray-200 transition-all duration-300 ease-in-out ${isExpanded ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+                    }`}
+            >
+                <div className="flex flex-col gap-3 py-2">
+                    {elements.map((element, idx) => {
+                        const percent = parseFloat(element.gtr ?? element.score ?? 0).toFixed(1);
+                        return (
+                            <div key={idx} className="flex items-center">
+                                <div className="flex items-center justify-end w-[220px] min-w-[220px] pr-4">
+                                    {element.isHigh && (
+                                        <span className="mr-2 text-blue-600 text-lg" title="High">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#2563eb">
+                                                <circle cx="12" cy="12" r="8" />
+                                            </svg>
+                                        </span>
+                                    )}
+                                    {element.isLow && (
+                                        <span className="mr-2 text-red-600 text-lg" title="Low">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#dc2626">
+                                                <circle cx="12" cy="12" r="8" />
+                                            </svg>
+                                        </span>
+                                    )}
+                                    <span className="text-gray-700 text-sm whitespace-nowrap">
+                                        {formatElementName(element.element)}
+                                    </span>
+                                </div>
+                                <div className="flex-1 flex justify-end">
+                                    <div className="w-[320px] bg-[#B60A06] h-[28px] rounded-full relative overflow-hidden">
+                                        <div
+                                            className="h-[28px] bg-[#C6B06A] rounded-l-full relative transition-all duration-500 ease-in-out"
+                                            style={{ width: `${percent}%` }}
+                                        >
+                                            <div className="absolute inset-0 flex items-center justify-end pr-2">
+                                                <span className="text-white text-xs font-medium">
+                                                    {percent}%
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
-            )}
+            </div>
         </div>
     );
 
@@ -139,48 +192,63 @@ function UserGTRContent({ params }) {
         <div className="w-full min-h-screen bg-gray-50 p-6">
             <div className="max-w-7xl mx-auto">
                 {/* User table */}
-                <div className="overflow-x-auto bg-white rounded-lg shadow-lg p-6 mb-6">
-                    <table className="w-full border-collapse text-sm">
+                <div className="overflow-x-auto rounded-lg border bg-white mb-6 text-sm">
+                    <table className="min-w-full bg-white">
                         <thead>
-                            <tr className="bg-gray-50">
-                                <th className="p-4 border border-gray-200 font-medium text-left">Status</th>
-                                <th className="p-4 border border-gray-200 font-medium text-left">ID</th>
-                                <th className="p-4 border border-gray-200 font-medium text-left">Name</th>
-                                <th className="p-4 border border-gray-200 font-medium text-left">GTR</th>
-                                <th className="p-4 border border-gray-200 font-medium text-left">Self</th>
-                                <th className="p-4 border border-gray-200 font-medium text-left">Social</th>
-                                <th className="p-4 border border-gray-200 font-medium text-left">Actions</th>
-                                <th className="p-4 border border-gray-200 font-medium text-left">Gets</th>
-                                <th className="p-4 border border-gray-200 font-medium text-left">Environment</th>
+                            <tr className="bg-gray-100">
+                                <th className="py-3 px-4 text-left font-semibold text-gray-600">Status</th>
+                                <th className="py-3 px-4 text-left font-semibold text-gray-600">ID</th>
+                                <th className="py-3 px-4 text-left font-semibold text-gray-600">Name</th>
+                                <th className="py-3 px-4 text-left font-semibold text-gray-600">GTR</th>
+                                <th className="py-3 px-4 text-left font-semibold text-gray-600">Self</th>
+                                <th className="py-3 px-4 text-left font-semibold text-gray-600">Social</th>
+                                <th className="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
+                                <th className="py-3 px-4 text-left font-semibold text-gray-600">Gets</th>
+                                <th className="py-3 px-4 text-left font-semibold text-gray-600">Environment</th>
+                                <th className='py-3 px-4 text-left font-semibold text-gray-600'>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td className="p-4 border border-gray-200">{user.status === 'active' ? 'In Progress' : user.status === 'pending' ? 'Pending' : 'Complete'}</td>
-                                <td className="p-4 border border-gray-200">{user.id}</td>
-                                <td className="p-4 border border-gray-200">{user.name}</td>
-                                <td className="p-4 border border-gray-200">{parseFloat(user.gtrScore).toFixed(1)}%</td>
-                                <td className="p-4 border border-gray-200">{parseFloat(user.selfScore).toFixed(1)}%</td>
-                                <td className="p-4 border border-gray-200">{parseFloat(user.socialScore).toFixed(1)}%</td>
-                                <td className="p-4 border border-gray-200">{parseFloat(user.actionsScore).toFixed(1)}%</td>
-                                <td className="p-4 border border-gray-200">{parseFloat(user.getsScore).toFixed(1)}%</td>
-                                <td className="p-4 border border-gray-200 flex justify-between items-center">
-                                    <span>{parseFloat(user.environmentScore).toFixed(1)}%</span>
-                                    <button 
-                                        onClick={() => {
-                                            const newState = !showDetails;
-                                            setShowDetails(newState);
-                                            // Save to localStorage
-                                            if (typeof window !== 'undefined') {
-                                                localStorage.setItem(`user-${userId}-showDetails`, JSON.stringify(newState));
-                                            }
-                                        }} 
-                                        className="text-blue-600 hover:text-blue-800"
-                                    >
-                                        [{showDetails ? 'Hide' : 'View'}]
-                                    </button>
-                                </td>
-                            </tr>
+                        <tbody className="divide-y divide-gray-200">
+                            {['active', 'complete'].map((statusKey, i) => {
+                                const statusLabel = statusKey === 'active' ? 'In Progress' : 'Complete';
+                                const showRow = user.status === statusKey;
+
+                                return (
+                                    <React.Fragment key={i}>
+                                        {/* <tr className="bg-gray-50">
+                                            <td className="py-3 px-4 font-semibold text-gray-800">{statusLabel}</td>
+                                            <td colSpan={8}></td>
+                                        </tr> */}
+                                        {showRow && (
+                                            <tr className="hover:bg-gray-50 transition-colors">
+                                                <td className="py-3 px-4">{statusLabel}</td>
+                                                <td className="py-3 px-4">{user.id}</td>
+                                                <td className="py-3 px-4">{user.name}</td>
+                                                <td className="py-3 px-4">{parseFloat(user.gtrScore).toFixed(1)}%</td>
+                                                <td className="py-3 px-4">{parseFloat(user.selfScore).toFixed(1)}%</td>
+                                                <td className="py-3 px-4">{parseFloat(user.socialScore).toFixed(1)}%</td>
+                                                <td className="py-3 px-4">{parseFloat(user.actionsScore).toFixed(1)}%</td>
+                                                <td className="py-3 px-4">{parseFloat(user.getsScore).toFixed(1)}%</td>
+                                                <td className='py-3 px-4'>{parseFloat(user.environmentScore).toFixed(1)}%</td>
+                                                <td className="py-3 px-4">
+                                                    <button
+                                                        onClick={() => {
+                                                            const newState = !showDetails;
+                                                            setShowDetails(newState);
+                                                            if (typeof window !== 'undefined') {
+                                                                localStorage.setItem(`user-${userId}-showDetails`, JSON.stringify(newState));
+                                                            }
+                                                        }}
+                                                        className="px-4 py-2 bg-[#FF9933] text-white rounded-lg hover:bg-[#FF9955] transition-colors"
+                                                    >
+                                                        {showDetails ? 'Hide' : 'View'}
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </React.Fragment>
+                                );
+                            })}
                         </tbody>
                     </table>
                 </div>
@@ -199,7 +267,7 @@ function UserGTRContent({ params }) {
                                     Back to User Management
                                 </Link>
                             </div>
-                            
+
                             {/* Total GTR Score */}
                             <div className="mb-6">
                                 <div className="flex justify-between items-center">
@@ -207,7 +275,7 @@ function UserGTRContent({ params }) {
                                     {/* <span>{parseFloat(user.gtrScore).toFixed(1)}%</span> */}
                                 </div>
                                 <div className="w-[700px] bg-[#B60A06] h-[28px] rounded-full mt-2 relative overflow-hidden">
-                                    <div className="h-[28px] bg-[#C6B06A] rounded-full relative" style={{ width: `${user.gtrScore}%` }}>
+                                    <div className="h-[28px] bg-[#C6B06A] rounded-l-full relative" style={{ width: `${user.gtrScore}%` }}>
                                         <div className="absolute inset-0 flex items-center justify-end pr-2">
                                             <span className="text-white text-xs font-medium">{parseFloat(user.gtrScore).toFixed(1)}%</span>
                                         </div>
@@ -341,7 +409,7 @@ function UserGTRContent({ params }) {
                                     </div>
                                 </div>
                             </div>
-                            
+
                             {/* Last Assessment */}
                             <div className="bg-white rounded-lg shadow p-6">
                                 <h3 className="text-lg font-semibold mb-2">Last Assessment</h3>
