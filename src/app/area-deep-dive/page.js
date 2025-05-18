@@ -60,7 +60,7 @@ export default function AreaDeepDive() {
         <div className="md:hidden mb-6 mt-8">
           <div className="flex justify-between items-center mb-2">
             <span className="text-gray-700 text-[14px]">Total GTR</span>
-            <div className="flex gap-2">
+            {/* <div className="flex gap-2">
               <button className="p-1">
                 <Image
                   src="/your-gtr/your-gtr/area-deep-dive/magnify-icon.svg"
@@ -69,10 +69,10 @@ export default function AreaDeepDive() {
                   alt="GTR Magnify Icon"
                 />
               </button>
-            </div>
+            </div> */}
           </div>
           {totalExpanded && (
-            <div className="md:hidden w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+            <div className="md:hidden w-[80%] mx-auto h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
               <div
                 className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out"
                 style={{ width: `${totalGtr}%` }}
@@ -96,7 +96,7 @@ export default function AreaDeepDive() {
           <span className="text-gray-700 text-[14px] text-nowrap p-4">
             Total GTR
           </span>
-          <div className="flex-1 h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+          <div className="w-[85%] h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
             <div
               className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out"
               style={{ width: `${totalGtr}%` }}
