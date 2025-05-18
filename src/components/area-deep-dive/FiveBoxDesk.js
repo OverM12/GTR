@@ -120,52 +120,29 @@ function FiveBoxDesk() {
       .join(" ");
   };
 
-  const renderElements = (data, show) => {
-    if (!show || !data?.elements) return null;
-    return (
-      <div className="ml-24 mb-4 pl-32 pr-13 border-l-2 border-gray-200 ease-in-out">
-        <div className="flex flex-col gap-3">
-          {data.elements.map((element, index) => {
-            const percent = parseFloat(element.gtr).toFixed(1);
-            return (
-              <div key={index} className="flex items-center">
-                <div className="flex items-center w-[220px] min-w-[220px] pr-4">
-                  {/* {element.isHigh && (
-                    <span className="mr-2 text-blue-600 text-lg" title="High">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="#2563eb"><circle cx="12" cy="12" r="8" /></svg>
-                    </span>
-                  )}
-                  {element.isLow && (
-                    <span className="mr-2 text-red-600 text-lg" title="Low">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="#dc2626"><circle cx="12" cy="12" r="8" /></svg>
-                    </span>
-                  )} */}
-                  <span className="text-gray-700 text-sm">{formatElementName(element.element)}</span>
-                </div>
+const renderElements = (data, show) => {
+  if (!show || !data?.elements) return null;
+  return (
+    <div className="ml-4 md:ml-24 mb-4 pl-4 md:pl-63 pr-2 md:pr-13 border-l-2 border-gray-200 ease-in-out">
+      <div className="flex flex-col gap-2 md:gap-3">
+        {data.elements.map((element, index) => {
+          const percent = parseFloat(element.gtr).toFixed(1);
+          return (
+            <div key={index} className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-0">
+              <div className="flex items-center w-full md:w-[300px] md:min-w-[300px] mb-2 md:mb-0">
+                <span className="text-gray-700 text-xs md:text-sm">{formatElementName(element.element)}</span>
+              </div>
 
-                <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
-                  <div
-                    className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
-                    style={{ width: `${percent}%` }}
-                  >
-                    {parseFloat(percent) >= 4.0 && (
-                      <span 
-                        className="text-white text-xs font-semibold absolute"
-                        style={{ 
-                          right: '8px',
-                          top: '50%',
-                          transform: 'translateY(-50%)'
-                        }}
-                      >
-                        {percent}%
-                      </span>
-                    )}
-                  </div>
-                  {parseFloat(percent) < 4.0 && (
+              <div className="w-full h-[24px] md:h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+                <div
+                  className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
+                  style={{ width: `${percent}%` }}
+                >
+                  {parseFloat(percent) >= 4.0 && (
                     <span 
-                      className="text-white text-xs font-semibold absolute"
+                      className="text-white text-[10px] md:text-xs font-semibold absolute"
                       style={{ 
-                        left: '8px',
+                        right: '8px',
                         top: '50%',
                         transform: 'translateY(-50%)'
                       }}
@@ -174,31 +151,26 @@ function FiveBoxDesk() {
                     </span>
                   )}
                 </div>
-                {/* <div className="flex-1 flex items-center relative h-[30px]">
-                  <div className="h-[30px] w-full bg-[#B60A06] rounded-full overflow-hidden flex"></div>
-                  <div
-                    className="h-[30px] bg-[#C6B06A] rounded-full flex items-center transition-all duration-500 ease-in-out"
-                    style={{ width: `${percent}%` }}
+                {parseFloat(percent) < 4.0 && (
+                  <span 
+                    className="text-white text-[10px] md:text-xs font-semibold absolute"
+                    style={{ 
+                      left: '8px',
+                      top: '50%',
+                      transform: 'translateY(-50%)'
+                    }}
                   >
-                    <span
-                      className="text-white text-xs font-semibold pl-2"
-                      style={{
-                        position: 'absolute',
-                        right: percent > 3. ? '2px' : '-35px',
-                        color: '#fff'
-                      }}
-                    >
-                      {percent}%
-                    </span>
-                  </div>
-                </div> */}
+                    {percent}%
+                  </span>
+                )}
               </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
       </div>
-    );
-  };
+    </div>
+  );
+};
 
 
 
@@ -222,7 +194,7 @@ function FiveBoxDesk() {
     <div className="hidden md:flex md:flex-col gap-1">
       {/* Self Section */}
       <div className="flex pl-12 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
-        <div className="flex items-center gap-2 pl-[39px]">
+        <div className="flex items-center gap-2 pl-[39px] min-w-[200px]">
           <Image
             src={IMAGE_PATHS.SELF_ICON}
             width={40}
@@ -231,9 +203,9 @@ function FiveBoxDesk() {
           />
           <span className="text-gray-700">Self</span>
         </div>
-        <div className="flex-1 flex items-center justify-end relative h-[30px] ml-4">
+        <div className="flex-1 flex items-center justify-end relative h-[30px] ml-12">
           {selfExpanded && (
-            <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+            <div className="w-full max-w-[1250px] h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
               <div
                 className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
                 style={{ width: `${parseFloat(selfScore)}%` }}
@@ -286,7 +258,7 @@ function FiveBoxDesk() {
 
       {/* Social Section */}
       <div className="flex pl-12 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 pl-[39px] min-w-[200px]">
           <Image
             src={IMAGE_PATHS.MENTAL_ICON}
             width={40}
@@ -301,9 +273,9 @@ function FiveBoxDesk() {
           />
           <span className="text-gray-700">Social</span>
         </div>
-        <div className="flex-1 flex items-center justify-end relative h-[30px] ml-4">
+        <div className="flex-1 flex items-center justify-end relative h-[30px] ml-12">
           {socialExpanded && (
-            <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+            <div className="w-full max-w-[1250px] h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
               <div
                 className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
                 style={{ width: `${parseFloat(socialScore)}%` }}
@@ -356,7 +328,7 @@ function FiveBoxDesk() {
 
       {/* Actions Section */}
       <div className="flex pl-12 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 pl-[39px] min-w-[200px]">
           <Image
             src={IMAGE_PATHS.SENSE_ICON}
             width={40}
@@ -371,9 +343,9 @@ function FiveBoxDesk() {
           />
           <span className="text-gray-700">Actions</span>
         </div>
-        <div className="flex-1 flex items-center justify-end relative h-[30px] ml-4">
+        <div className="flex-1 flex items-center justify-end relative h-[30px] ml-12">
           {actionsExpanded && (
-            <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+            <div className="w-full max-w-[1250px] h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
               <div
                 className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
                 style={{ width: `${parseFloat(actionsScore)}%` }}
@@ -426,7 +398,7 @@ function FiveBoxDesk() {
 
       {/* Obtainments Section */}
       <div className="flex pl-12 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
-        <div className="flex items-center gap-2 pl-[39px]">
+        <div className="flex items-center gap-2 pl-[39px] min-w-[200px]">
           <Image
             src={IMAGE_PATHS.OBTAIN_ICON}
             width={40}
@@ -435,9 +407,9 @@ function FiveBoxDesk() {
           />
           <span className="text-gray-700">Obtainments</span>
         </div>
-        <div className="flex-1 flex items-center justify-end relative h-[30px] ml-4">
+        <div className="flex-1 flex items-center justify-end relative h-[30px] ml-12">
           {getsExpanded && (
-            <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+            <div className="w-full max-w-[1250px] h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
               <div
                 className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
                 style={{ width: `${parseFloat(getsScore)}%` }}
@@ -490,7 +462,7 @@ function FiveBoxDesk() {
 
       {/* Environment Section */}
       <div className="flex pl-12 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
-        <div className="flex items-center gap-2 pl-[39px]">
+        <div className="flex items-center gap-2 pl-[39px] min-w-[200px]">
           <Image
             src={IMAGE_PATHS.ENVIRONMENT_ICON}
             width={40}
@@ -499,9 +471,9 @@ function FiveBoxDesk() {
           />
           <span className="text-gray-700">Environment</span>
         </div>
-        <div className="flex-1 flex items-center justify-end relative h-[30px] ml-4">
+        <div className="flex-1 flex items-center justify-end relative h-[30px] ml-12">
           {environmentExpanded && (
-            <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+            <div className="w-full max-w-[1250px] h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
               <div
                 className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
                 style={{ width: `${parseFloat(environmentScore)}%` }}

@@ -69,7 +69,7 @@ export default function Gets() {
   return (
     <div className="w-full flex flex-col bg-[#F0F2F5] py-[32px] px-[16px] gap-[16px]">
       <h1 className="text-[#737985] text-[24px]">
-        Insights / <strong className="text-black">Gets</strong>
+        Insights / <strong className="text-black">Place</strong>
       </h1>
 
       <div className="w-full flex flex-col bg-white p-2 rounded-4xl py-6 px-6">
@@ -205,7 +205,7 @@ export default function Gets() {
 
       <div className="w-full flex flex-col bg-white p-6 rounded-4xl">
         <div className="mb-6">
-          <h2 className="font-semibold text-lg">Your personal Self Actions notes</h2>
+          <h2 className="font-semibold text-lg">Your personal Place reflection notes</h2>
           <p className="text-sm text-gray-500">These are the notes you made during the assessment. Now that you&apos;ve seen the bigger picture, would you like to add anything?</p>
         </div>
         

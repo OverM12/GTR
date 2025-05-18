@@ -119,9 +119,9 @@ function TabNavigation() {
       case "Actions":
         return <Action reportData={reportData?.actions} />; // แก้ชื่อจาก action -> actions
       case "Place":
-        return <Environment reportData={reportData?.environment} />;
-      case "Obtainment":
         return <Gets reportData={reportData?.gets} />;
+      case "Obtainment":
+        return <Environment reportData={reportData?.environment} />;
       default:
         return <div></div>;
     }
