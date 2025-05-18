@@ -72,15 +72,15 @@ export default function Environment() {
         Insights / <strong className="text-black">Obtainment</strong>
       </h1>
 
-      <div className="w-full flex flex-col bg-white p-2 rounded-4xl py-6 pr-16">
+      <div className="w-full flex flex-col bg-white p-2 rounded-4xl py-6 px-6">
         <h1 className="m-2 font-bold">GTR</h1>
         {loading ? (
           <div className="flex justify-center items-center h-10">
             <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-[#C6B06A]"></div>
           </div>
         ) : (
-          <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
-            <div className="flex items-center gap-2 pl-[39px]">
+          <div className="flex w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
+            <div className="flex items-center gap-2 pl-2">
               {/* <Image
                 src="/your-gtr/your-gtr/dashboard/environment-icon.png"
                 width={40}
@@ -89,22 +89,37 @@ export default function Environment() {
               />
               <span className="text-gray-700">Environment</span> */}
             </div>
-            <div className="flex-1 flex items-center relative h-[30px] ml-4">
-              <div className="absolute left-0 top-0 h-[30px] w-full bg-[#B60A06] rounded-full"></div>
-              <div
-                className="absolute left-0 top-0 h-[30px] bg-[#C6B06A] rounded-l-full flex items-center transition-all duration-1000 ease-in-out"
-                style={{ width: `${formattedScore}%` }}
-              >
-                <span 
-                  className="text-white text-xs font-semibold pl-2" 
-                  style={{
-                    position: 'absolute',
-                    right: parseFloat(formattedScore) > 3 ? '2px' : '-35px',
-                    color: '#fff'
-                  }}
+            <div className="flex-1 flex items-center relative h-[30px] mx-2">
+              <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+                <div
+                  className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
+                  style={{ width: `${formattedScore}%` }}
                 >
-                  {formattedScore}%
-                </span>
+                  {parseFloat(formattedScore) >= 3.0 && (
+                    <span 
+                      className="text-white text-xs font-semibold absolute"
+                      style={{ 
+                        right: '8px',
+                        top: '50%',
+                        transform: 'translateY(-50%)'
+                      }}
+                    >
+                      {formattedScore}%
+                    </span>
+                  )}
+                </div>
+                {parseFloat(formattedScore) < 3.0 && (
+                  <span 
+                    className="text-white text-xs font-semibold absolute"
+                    style={{ 
+                      left: '8px',
+                      top: '50%',
+                      transform: 'translateY(-50%)'
+                    }}
+                  >
+                    {formattedScore}%
+                  </span>
+                )}
               </div>
             </div>
             <div className="flex pl-4">

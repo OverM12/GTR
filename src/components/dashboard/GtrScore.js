@@ -106,13 +106,22 @@ function GtrScore() {
     <div className="z-0 flex flex-col gap-[8px] p-[16px] pb-[44px] pt-[30px] w-full rounded-[40px] bg-white">
       <h1 className="text-[18px] font-bold">GTR</h1>
       <div className="flex w-full items-center justify-between">
-        <div className="relative w-full h-[28px] bg-[#B60A06] rounded-full overflow-hidden">
+        <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
           <div
-            className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full border-r-2 border-white flex items-center justify-end pr-1 text-white text-[20px] font-medium"
+            className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out"
             style={{ width: `${mainGtrScore}%` }}
           >
-            {mainGtrScore}%
           </div>
+          <span 
+            className="text-white text-xs font-semibold absolute"
+            style={{ 
+              right: '8px',
+              top: '50%',
+              transform: 'translateY(-50%)'
+            }}
+          >
+            {mainGtrScore}%
+          </span>
         </div>
       </div>
       <div className="flex flex-col md:flex md:flex-row w-full bg-white px-2 gap-[8px] py-[16px]">
@@ -137,9 +146,9 @@ function GtrScore() {
             /> */}
           </div>
           <div className="flex w-full items-center justify-between">
-            <div className="relative w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden">
+            <div className="w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden relative">
               <div
-                className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full border-r-2 border-white"
+                className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out"
                 style={{ width: `${selfScore}%` }}
               >
               </div>
@@ -167,9 +176,9 @@ function GtrScore() {
             /> */}
           </div>
           <div className="flex w-full items-center justify-between">
-            <div className="relative w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden">
+            <div className="w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden relative">
               <div
-                className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full border-r-2 border-white"
+                className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out"
                 style={{ width: `${socialScore}%` }}
               >
               </div>
@@ -197,9 +206,9 @@ function GtrScore() {
             /> */}
           </div>
           <div className="flex w-full items-center justify-between">
-            <div className="relative w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden">
+            <div className="w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden relative">
               <div
-                className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full border-r-2 border-white"
+                className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out"
                 style={{ width: `${actionsScore}%` }}
               >
               </div>
@@ -227,9 +236,9 @@ function GtrScore() {
             /> */}
           </div>
           <div className="flex w-full items-center justify-between">
-            <div className="relative w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden">
+            <div className="w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden relative">
               <div
-                className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full border-r-2 border-white"
+                className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out"
                 style={{ width: `${getsScore}%` }}
               >
               </div>
@@ -257,9 +266,9 @@ function GtrScore() {
             /> */}
           </div>
           <div className="flex w-full items-center justify-between">
-            <div className="relative w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden">
+            <div className="w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden relative">
               <div
-                className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full border-r-2 border-white"
+                className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out"
                 style={{ width: `${environmentScore}%` }}
               >
               </div>

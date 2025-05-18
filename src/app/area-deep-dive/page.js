@@ -72,7 +72,7 @@ export default function AreaDeepDive() {
             </div>
           </div>
           {totalExpanded && (
-            <div className="md:hidden w-[1150px] h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+            <div className="md:hidden w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
               <div
                 className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out"
                 style={{ width: `${totalGtr}%` }}
@@ -81,7 +81,7 @@ export default function AreaDeepDive() {
               <span 
                 className="text-white text-xs font-semibold absolute"
                 style={{ 
-                  left: parseFloat(totalGtr) >= 3.0 ? `calc(min(${parseFloat(totalGtr)}%, 97%) - 34px)` : '8px',
+                  right: '8px',
                   top: '50%',
                   transform: 'translateY(-50%)'
                 }}
@@ -92,11 +92,11 @@ export default function AreaDeepDive() {
           )}
         </div>
 
-        <div className="hidden md:flex items-center pr-32">
+        <div className="hidden md:flex items-center w-full">
           <span className="text-gray-700 text-[14px] text-nowrap p-4">
             Total GTR
           </span>
-          <div className="w-[1150px] h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+          <div className="flex-1 h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
             <div
               className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out"
               style={{ width: `${totalGtr}%` }}
@@ -105,7 +105,7 @@ export default function AreaDeepDive() {
             <span 
               className="text-white text-xs font-semibold absolute"
               style={{ 
-                left: parseFloat(totalGtr) >= 3.0 ? `calc(min(${parseFloat(totalGtr)}%, 97%) - 34px)` : '8px',
+                right: '8px',
                 top: '50%',
                 transform: 'translateY(-50%)'
               }}
