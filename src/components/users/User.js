@@ -37,7 +37,7 @@ function User() {
     if (!path) return null;
     return path.startsWith("http")
       ? path
-      : `https://api-test.goodtime.app/${path}`;
+      : `${process.env.NEXT_PUBLIC_BASE_URL}/${path}`;
   };
   
 
@@ -59,7 +59,7 @@ function User() {
   )
 
   const EditProfileButton = () => (
-    <Link href="/edit" className="flex items-center gap-2 border rounded-full px-4 py-2 text-sm hover:bg-gray-50">
+    <Link href="/edit" className="flex items-center gap-2 border rounded-full px-4 py-2 text-[14px] hover:bg-gray-50">
       <EditProfileIcon />
       Edit Profile
     </Link>
@@ -93,7 +93,7 @@ function User() {
     return (
       <div>
         <div className="hidden sm:flex flex-col sm:flex-row justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">User Profile</h2>
+          <h2 className="text-[24px] font-bold">User Profile</h2>
           <EditProfileButton />
         </div>
 
@@ -103,8 +103,8 @@ function User() {
               <Image
                 src={getProfileImageUrl(userProfile.profilePicturePath)}
                 alt="Profile"
-                width={128}
-                height={128}
+                width={120}
+                height={120}
                 className="w-full h-full object-cover"
               />
             ) : (
@@ -119,24 +119,24 @@ function User() {
             </div>
           </div>
           <div className="flex-1">
-            <h3 className="text-lg sm:text-xl font-bold">{userProfile.name}</h3>
-            <p className="text-base text-gray-600">{userProfile.email}</p>
+            <h3 className="text-[18px] sm:text-xl font-bold">{userProfile.name}</h3>
+            <p className="text-[16px] text-gray-600">{userProfile.email}</p>
           </div>
         </div>
 
         <div className="p-4 mb-4 mt-4 border-b border-[#9CA0B0]">
-          <h3 className="font-bold mb-4">Personal Information</h3>
+          <h3 className="font-bold text-[24px] mb-4">Personal Information</h3>
           <div className='flex gap-4'>
             <div className='space-y-4'>
               {['Date of birth', 'Gender', 'Nationality', 'Living'].map((label) => (
-                <p key={label} className='text-sm'>{label}</p>
+                <p key={label} className='text-[14px]'>{label}</p>
               ))}
             </div>
             <div className='flex flex-col space-y-4'>
-              <p className='font-bold text-sm'>{userProfile.yearOfBirth}</p>
-              <p className='font-bold text-sm'>{userProfile.gender ? userProfile.gender.charAt(0).toUpperCase() + userProfile.gender.slice(1) : 'Not specified'}</p>
-              <p className='font-bold text-sm'>{userProfile.countryOfOrigin || 'Not specified'}</p>
-              <p className='font-bold text-sm'>
+              <p className='font-bold text-[14px]'>{userProfile.yearOfBirth}</p>
+              <p className='font-bold text-[14px]'>{userProfile.gender ? userProfile.gender.charAt(0).toUpperCase() + userProfile.gender.slice(1) : 'Not specified'}</p>
+              <p className='font-bold text-[14px]'>{userProfile.countryOfOrigin || 'Not specified'}</p>
+              <p className='font-bold text-[14px]'>
                 {userProfile.currentCity && userProfile.currentCountry
                   ? `${userProfile.currentCity}, ${userProfile.currentCountry}`
                   : userProfile.currentCountry || userProfile.currentCity || 'Not specified'}
@@ -146,19 +146,19 @@ function User() {
         </div>
 
         <div className="p-4 mb-4">
-          <h3 className="font-bold mb-4">Consent</h3>
+          <h3 className="font-bold text-[24px] mb-4">Consent</h3>
           <div className='flex gap-4'>
             <div className='space-y-4'>
               {['Time and condition', 'Data privacy', 'Privacy policy'].map((label) => (
-                <p key={label} className='text-sm'>{label}</p>
+                <p key={label} className='text-[14px]'>{label}</p>
               ))}
             </div>
             <div className='flex flex-col space-y-4'>
               {userProfile.termsConsent !== undefined && userProfile.dataPrivacyConsent !== undefined && userProfile.privacyPolicyConsent !== undefined ? (
                 <>
-                  <p className='font-bold text-sm'>{userProfile.termsConsent ? 'Accepted' : 'Not accepted'}</p>
-                  <p className='font-bold text-sm'>{userProfile.dataPrivacyConsent ? 'Accepted' : 'Not accepted'}</p>
-                  <p className='font-bold text-sm'>{userProfile.privacyPolicyConsent ? 'Accepted' : 'Not accepted'}</p>
+                  <p className='font-bold text-[14px]'>{userProfile.termsConsent ? 'Accepted' : 'Not accepted'}</p>
+                  <p className='font-bold text-[14px]'>{userProfile.dataPrivacyConsent ? 'Accepted' : 'Not accepted'}</p>
+                  <p className='font-bold text-[14px]'>{userProfile.privacyPolicyConsent ? 'Accepted' : 'Not accepted'}</p>
                 </>
               ) : (
                 [...Array(3)].map((_, index) => (

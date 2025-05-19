@@ -13,7 +13,7 @@ export default function Page() {
     const handleLogin = async () => {
         try {
             setLoading(true);
-            const response = await fetch("https://api-test.goodtime.app/users/login/request-otp", {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/login/request-otp`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

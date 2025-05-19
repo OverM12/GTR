@@ -54,7 +54,7 @@ function UserManagement() {
                 }
     
                 const response = await fetch(
-                    `https://api-test.goodtime.app/users?page=${currentPage}&pageSize=${itemsPerPage}`,
+                    `${process.env.NEXT_PUBLIC_BASE_URL}/users?page=${currentPage}&pageSize=${itemsPerPage}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -135,7 +135,7 @@ function UserManagement() {
                 }
     
                 const response = await fetch(
-                    `https://api-test.goodtime.app/users?page=${currentPage}&pageSize=${itemsPerPage}`,
+                    `${process.env.NEXT_PUBLIC_BASE_URL}/users?page=${currentPage}&pageSize=${itemsPerPage}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,

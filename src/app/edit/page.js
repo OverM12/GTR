@@ -51,7 +51,7 @@ export default function EditProfilePage() {
 
                 if (userData.profilePicturePath) {
                     // ใช้ profilePicturePath จาก API response
-                    const fullImageUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/${userData.profilePicturePath}`;
+                    const fullImageUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${userData.profilePicturePath}`;
                     setProfilePictureUrl(fullImageUrl);
                 }
             } catch (err) {
@@ -97,7 +97,7 @@ export default function EditProfilePage() {
 
             // อัปเดต URL รูปภาพด้วย path จากเซิร์ฟเวอร์
             const newProfilePicturePath = response.data.profilePicturePath;
-            const fullImageUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/${newProfilePicturePath}`;
+            const fullImageUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${newProfilePicturePath}`;
             setProfilePictureUrl(fullImageUrl);
 
             return response.data;

@@ -516,7 +516,7 @@ function Navbar() {
                 />
               </div>
             </div>
-            <button className="flex self-end items-center p-4 rounded-[22px] bg-[#FF9933] text-[12px] font-medium px-5">
+            <button className="flex self-end items-center p-4 rounded-[22px] bg-[#FF9933] text-[14px] font-medium px-5">
               New Log
             </button>
           </>
@@ -666,7 +666,7 @@ function Navbar() {
         <div className="w-full flex justify-end">
           <a 
             href="https://app-test.goodtime.app/"
-            className="flex self-end items-center p-4 rounded-[22px] bg-[#FF9933] text-[12px] font-medium px-5"
+            className="flex self-end items-center p-4 rounded-[22px] bg-[#FF9933] text-[14px] font-medium px-5"
           >
             Start New Assessment
           </a>

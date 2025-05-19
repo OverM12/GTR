@@ -42,7 +42,7 @@ function UserGTRContent({ params }) {
         }
 
         // 1. ดึงข้อมูล user จาก /users
-        const userUrl = new URL("https://api-test.goodtime.app/users");
+        const userUrl = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}`);
         userUrl.searchParams.append("page", "1");
         userUrl.searchParams.append("pageSize", "50");
         userUrl.searchParams.append("filter[role]", "participant");
@@ -79,7 +79,7 @@ function UserGTRContent({ params }) {
         });
 
         // 2. ดึงข้อมูล session assessment จาก /assessments/sessions
-        const sessionUrl = new URL("https://api-test.goodtime.app/assessments/sessions");
+        const sessionUrl = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/assessments/sessions`);
         sessionUrl.searchParams.append("page", "1");
         sessionUrl.searchParams.append("pageSize", "10");
         sessionUrl.searchParams.append("sort", "-createdAt");

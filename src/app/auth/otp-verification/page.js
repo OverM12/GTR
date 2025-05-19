@@ -26,7 +26,7 @@ export default function Page() {
         if (!email || !otp) return setError("Email or OTP missing");
     
         try {
-            const response = await fetch("https://api-test.goodtime.app/users/login/verify-otp", {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/login/verify-otp`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, otp })
