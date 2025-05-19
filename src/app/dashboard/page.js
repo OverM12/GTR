@@ -12,16 +12,20 @@ export default function Dashboard() {
   const cookies = useCookies();
 
   useEffect(() => {
-    // ดึงค่า cookie ชื่อ access_token (เปลี่ยนเป็นชื่อ cookie จริงของคุณ)
-    const accessToken = cookies["accessToken"] || "";
-
+    const accessToken = cookies["accessToken"];
+  
     if (accessToken) {
-      localStorage.setItem("accessToken", accessToken);
+      // ถ้า accessToken เป็น object ให้แปลงเป็น string ก่อนเก็บ
+      if (typeof accessToken === "object") {
+        localStorage.setItem("accessToken", JSON.stringify(accessToken));
+      } else {
+        localStorage.setItem("accessToken", accessToken);
+      }
     }
-
-    // Scroll to top when component mounts
+  
     window.scrollTo(0, 0);
   }, [cookies]);
+  
 
   return (
     <div className="flex flex-col h-lvh overflow-auto bg-[#F0F2F5]">
