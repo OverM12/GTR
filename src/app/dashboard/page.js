@@ -13,27 +13,33 @@ export default function Dashboard() {
   const cookies = useCookies();
 
   useEffect(() => {
-    const accessToken = cookies['accessToken'];  // ดึงจาก cookie object
-
+    console.log("document.cookie:", document.cookie);
+  
+    // วิธีอ่าน cookie แบบ manual จาก document.cookie
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+      return null;
+    }
+  
+    const accessToken = getCookie("accessToken");
+    console.log("accessToken from document.cookie:", accessToken);
+  
     if (accessToken) {
-      // เก็บลง localStorage เป็น string (ถ้าเป็น object แปลง JSON.stringify)
-      if (typeof accessToken === "object") {
-        localStorage.setItem('accessToken', JSON.stringify(accessToken));
-      } else {
-        localStorage.setItem('accessToken', accessToken);
-      }
+      localStorage.setItem("accessToken", accessToken);
       setHasToken(true);
     } else {
-      const tokenFromLocal = localStorage.getItem('accessToken');
+      const tokenFromLocal = localStorage.getItem("accessToken");
       if (tokenFromLocal) {
         setHasToken(true);
       } else {
         setHasToken(false);
       }
     }
-
+  
     window.scrollTo(0, 0);
-  }, [cookies]);
+  }, []);  
 
   if (!hasToken) {
     return (
