@@ -113,7 +113,7 @@ export default function Page() {
                     </button>
 
                     <div className="pt-6 text-sm text-center">
-                        Don't received code?{" "}
+                        Don&apos;t received code?
                         {countdown > 0 ? (
                             <span>Resend OTP password in {countdown}s</span>
                         ) : (
