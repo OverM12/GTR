@@ -9,6 +9,7 @@ import { useCookies } from 'next-client-cookies';
 
 export default function Dashboard() {
   const [selectingField, setSelectingField] = useState("fromDate");
+  const [hasToken, setHasToken] = useState(false);
   const cookies = useCookies();
 
   useEffect(() => {
@@ -16,10 +17,23 @@ export default function Dashboard() {
     const accessToken = cookies.get('accessToken');
     if (accessToken) {
       localStorage.setItem("accessToken", accessToken);
+      setHasToken(true);
+    } else {
+      setHasToken(false);
     }
     // Scroll to top when component mounts
     window.scrollTo(0, 0);
   }, [cookies]);
+
+  if (!hasToken) {
+    return (
+      <div className="flex flex-col h-lvh items-center justify-center bg-[#F0F2F5]">
+        <div className="p-6 bg-white rounded-lg shadow-md text-center">
+          <h2 className="text-xl font-bold text-red-600 mb-2">Unable to display information</h2>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col h-lvh overflow-auto bg-[#F0F2F5]">
