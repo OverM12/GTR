@@ -6,6 +6,7 @@ import Link from 'next/link';
 function UserManagement() {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [totalUsers, setTotalUsers] = useState(0);
     const [error, setError] = useState(null);
     // Initialize state from localStorage or use defaults
     const [sortField, setSortField] = useState(() => {
@@ -47,56 +48,59 @@ function UserManagement() {
         const fetchUsers = async () => {
             try {
                 setLoading(true);
-                const token = localStorage.getItem("accessToken"); // ใช้ key ที่คุณเก็บ token ไว้
+                const token = localStorage.getItem("accessToken");
                 if (!token) {
                     throw new Error("Token not found in localStorage.");
                 }
-
-                const response = await fetch(`https://api-test.goodtime.app/users?page=${currentPage}&pageSize=${itemsPerPage}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
+    
+                const response = await fetch(
+                    `https://api-test.goodtime.app/users?page=${currentPage}&pageSize=${itemsPerPage}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
                     }
-                });
-
+                );
+    
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-
+    
                 const json = await response.json();
-
-                let sortedData = json.data;
-
-                // Apply search filter
+    
+                let fetchedUsers = json.data;
+                const total = json.meta?.totalRecords || fetchedUsers.length;
+    
+                // Search filter
                 if (searchTerm) {
-                    sortedData = sortedData.filter(user =>
+                    fetchedUsers = fetchedUsers.filter((user) =>
                         user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                         user.email?.toLowerCase().includes(searchTerm.toLowerCase())
                     );
                 }
-
-                // Sort data
-                sortedData.sort((a, b) => {
-                    const valueA = a[sortField] === undefined || a[sortField] === null ? '' : a[sortField];
-                    const valueB = b[sortField] === undefined || b[sortField] === null ? '' : b[sortField];
-
+    
+                // Sort
+                fetchedUsers.sort((a, b) => {
+                    const valueA = a[sortField] ?? '';
+                    const valueB = b[sortField] ?? '';
+    
                     if (sortField === 'yearOfBirth') {
-                        const yearA = parseInt(valueA) || 0;
-                        const yearB = parseInt(valueB) || 0;
-                        return sortOrder === 'asc' ? yearA - yearB : yearB - yearA;
+                        return sortOrder === 'asc'
+                            ? (valueA || 0) - (valueB || 0)
+                            : (valueB || 0) - (valueA || 0);
                     } else if (sortField === 'createdAt' || sortField === 'lastAssessment') {
                         const dateA = valueA ? new Date(valueA).getTime() : 0;
                         const dateB = valueB ? new Date(valueB).getTime() : 0;
                         return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
                     } else {
-                        const strA = String(valueA).toLowerCase();
-                        const strB = String(valueB).toLowerCase();
                         return sortOrder === 'asc'
-                            ? strA.localeCompare(strB, 'th')
-                            : strB.localeCompare(strA, 'th');
+                            ? String(valueA).localeCompare(String(valueB), 'th')
+                            : String(valueB).localeCompare(String(valueA), 'th');
                     }
                 });
-
-                setUsers(sortedData);
+    
+                setUsers(fetchedUsers);        // ตั้งค่าข้อมูลผู้ใช้
+                setTotalUsers(total);          // ตั้งค่าจำนวนทั้งหมด
                 setError(null);
             } catch (err) {
                 console.error("Error fetching user data:", err);
@@ -105,9 +109,90 @@ function UserManagement() {
                 setLoading(false);
             }
         };
-
+    
         fetchUsers();
     }, [sortField, sortOrder, searchTerm, currentPage, itemsPerPage]);
+    
+
+    // Ensure itemsPerPage is a valid number when loaded from localStorage
+    useEffect(() => {
+        const validPageSize = Math.min(Math.max(1, Number(itemsPerPage)), 100);
+        if (validPageSize !== itemsPerPage) {
+            setItemsPerPage(validPageSize);
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('userManagement-itemsPerPage', validPageSize);
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                setLoading(true);
+                const token = localStorage.getItem("accessToken");
+                if (!token) {
+                    throw new Error("Token not found in localStorage.");
+                }
+    
+                const response = await fetch(
+                    `https://api-test.goodtime.app/users?page=${currentPage}&pageSize=${itemsPerPage}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+    
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+    
+                const json = await response.json();
+    
+                let fetchedUsers = json.data;
+                const total = json.meta?.totalRecords || fetchedUsers.length;
+    
+                // Search filter
+                if (searchTerm) {
+                    fetchedUsers = fetchedUsers.filter((user) =>
+                        user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        user.email?.toLowerCase().includes(searchTerm.toLowerCase())
+                    );
+                }
+    
+                // Sort
+                fetchedUsers.sort((a, b) => {
+                    const valueA = a[sortField] ?? '';
+                    const valueB = b[sortField] ?? '';
+    
+                    if (sortField === 'yearOfBirth') {
+                        return sortOrder === 'asc'
+                            ? (valueA || 0) - (valueB || 0)
+                            : (valueB || 0) - (valueA || 0);
+                    } else if (sortField === 'createdAt' || sortField === 'lastAssessment') {
+                        const dateA = valueA ? new Date(valueA).getTime() : 0;
+                        const dateB = valueB ? new Date(valueB).getTime() : 0;
+                        return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+                    } else {
+                        return sortOrder === 'asc'
+                            ? String(valueA).localeCompare(String(valueB), 'th')
+                            : String(valueB).localeCompare(String(valueA), 'th');
+                    }
+                });
+    
+                setUsers(fetchedUsers);        // ตั้งค่าข้อมูลผู้ใช้
+                setTotalUsers(total);          // ตั้งค่าจำนวนทั้งหมด
+                setError(null);
+            } catch (err) {
+                console.error("Error fetching user data:", err);
+                setError("Failed to load user data. Please try again later.");
+            } finally {
+                setLoading(false);
+            }
+        };
+    
+        fetchUsers();
+    }, [itemsPerPage]);
 
     // Save settings to localStorage whenever they change
     useEffect(() => {
@@ -199,12 +284,18 @@ function UserManagement() {
         console.log(`Sorting by ${normalizedField} in ${newOrder} order`);
     };
 
+    const handleItemsPerPageChange = (e) => {
+        const value = Math.min(Math.max(1, parseInt(e.target.value) || 10), 100);
+        setItemsPerPage(value);
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('userManagement-itemsPerPage', value);
+        }
+        setCurrentPage(1);  // Reset to first page when changing page size
+    };
+
     // Pagination logic
-    const totalPages = Math.ceil(users.length / itemsPerPage);
-    const paginatedUsers = users.slice(
-        (currentPage - 1) * itemsPerPage,
-        currentPage * itemsPerPage
-    );
+    const totalPages = Math.ceil(totalUsers / itemsPerPage);
+    const paginatedUsers = users;
 
     return (
         <div className="w-full min-h-screen bg-gray-50 p-4 sm:p-6 md:p-8">
@@ -223,7 +314,7 @@ function UserManagement() {
                             <select
                                 className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-100 appearance-none w-full sm:w-auto"
                                 value={itemsPerPage}
-                                onChange={(e) => setItemsPerPage(Number(e.target.value))}
+                                onChange={handleItemsPerPageChange}
                             >
                                 <option value={5}>5 per page</option>
                                 <option value={10}>10 per page</option>
@@ -324,7 +415,7 @@ function UserManagement() {
                             {/* Pagination */}
                             <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-4">
                                 <div className="text-xs sm:text-sm text-gray-600">
-                                    Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, users.length)} of {users.length} entries
+                                    Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, totalUsers)} of {totalUsers} entries
                                 </div>
                                 <div className="flex flex-wrap gap-1 sm:gap-2 justify-center">
                                     <button
@@ -334,51 +425,17 @@ function UserManagement() {
                                     >
                                         Previous
                                     </button>
-                                    {[...Array(Math.min(5, totalPages))].map((_, i) => {
-                                        // Show first page, last page, and pages around current page
-                                        let pageNum;
-                                        if (totalPages <= 5) {
-                                            pageNum = i + 1;
-                                        } else if (currentPage <= 3) {
-                                            pageNum = i + 1;
-                                        } else if (currentPage >= totalPages - 2) {
-                                            pageNum = totalPages - 4 + i;
-                                        } else {
-                                            pageNum = currentPage - 2 + i;
-                                        }
-
-                                        if (i === 3 && currentPage < totalPages - 3) {
-                                            return <span key="ellipsis" className="px-2 py-1">...</span>;
-                                        }
-                                        if (i === 4 && currentPage < totalPages - 2) {
-                                            return (
-                                                <button
-                                                    key={totalPages}
-                                                    onClick={() => setCurrentPage(totalPages)}
-                                                    className={`px-3 py-1 sm:px-4 sm:py-2 border rounded-lg text-xs sm:text-sm ${currentPage === totalPages
-                                                        ? 'bg-[#FF9933] text-white'
-                                                        : 'hover:bg-gray-100'}`}
-                                                >
-                                                    {totalPages}
-                                                </button>
-                                            );
-                                        }
-                                        if (i > 3 && currentPage < totalPages - 2) {
-                                            return null;
-                                        }
-
-                                        return (
-                                            <button
-                                                key={pageNum}
-                                                onClick={() => setCurrentPage(pageNum)}
-                                                className={`px-3 py-1 sm:px-4 sm:py-2 border rounded-lg text-xs sm:text-sm ${currentPage === pageNum
-                                                    ? 'bg-[#FF9933] text-white'
-                                                    : 'hover:bg-gray-100'}`}
-                                            >
-                                                {pageNum}
-                                            </button>
-                                        );
-                                    })}
+                                    {Array.from({ length: totalPages }, (_, i) => (
+                                        <button
+                                            key={i + 1}
+                                            onClick={() => setCurrentPage(i + 1)}
+                                            className={`px-3 py-1 sm:px-4 sm:py-2 border rounded-lg text-xs sm:text-sm ${currentPage === i + 1
+                                                ? 'bg-[#FF9933] text-white'
+                                                : 'hover:bg-gray-100'}`}
+                                        >
+                                            {i + 1}
+                                        </button>
+                                    ))}
                                     <button
                                         onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                                         disabled={currentPage === totalPages}
