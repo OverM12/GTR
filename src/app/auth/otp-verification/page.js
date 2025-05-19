@@ -4,11 +4,14 @@ import Haderbar from "@/components/layout/Haderbar"
 import Link from "next/link"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation";
+import { cookies } from 'next/headers'
 
 // Change the component name from 'page' to 'Page'
 export default function Page() {
     const router = useRouter();
     const [otp, setOtp] = useState(""), [countdown, setCountdown] = useState(60), [isResending, setIsResending] = useState(false), [error, setError] = useState(null);
+    const cookieStore = cookies()
+    const accessToken = cookieStore.get('accessToken')
 
     useEffect(() => {
         if (countdown > 0) {
