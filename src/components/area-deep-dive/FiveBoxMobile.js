@@ -137,9 +137,9 @@ function FiveBoxMobile() {
   // Show loading spinner while data is being fetched
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[300px]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-[#C6B06A]"></div>
-      </div>
+      <div className="flex justify-center items-center h-[300px]">
+              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+            </div>
     );
   }
 

@@ -41,10 +41,8 @@ export default function AreaDeepDive() {
 
   if (loading) {
     return (
-      <div className="flex h-dvh py-[32px] px-[16px] flex-col bg-[#F0F2F5] overflow-y-auto">
-        <div className="flex justify-center items-center h-[50vh]">
-          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
-        </div>
+      <div className="flex justify-center items-center h-[300px]">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
       </div>
     );
   }
@@ -78,9 +76,9 @@ export default function AreaDeepDive() {
                 style={{ width: `${totalGtr}%` }}
               >
               </div>
-              <span 
+              <span
                 className="text-white text-xs font-semibold absolute"
-                style={{ 
+                style={{
                   right: '8px',
                   top: '50%',
                   transform: 'translateY(-50%)'
@@ -102,9 +100,9 @@ export default function AreaDeepDive() {
               style={{ width: `${totalGtr}%` }}
             >
             </div>
-            <span 
+            <span
               className="text-white text-xs font-semibold absolute"
-              style={{ 
+              style={{
                 right: '8px',
                 top: '50%',
                 transform: 'translateY(-50%)'
@@ -116,7 +114,7 @@ export default function AreaDeepDive() {
         </div>
         <FiveBoxDesk />
         <FiveBoxMobile />
-        
+
       </div>
       <div>
         <KeyInfluencers />

@@ -91,9 +91,9 @@ export default function FourBoxMobile() {
   // Show loading state
   if (loading) {
     return (
-      <div className="md:hidden mt-8 flex justify-center items-center p-8 h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#C6B06A]"></div>
-      </div>
+      <div className="flex justify-center items-center h-[300px]">
+              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+            </div>
     );
   }
 

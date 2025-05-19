@@ -325,9 +325,9 @@ function UserManagement() {
                     </div>
 
                     {loading ? (
-                        <div className="flex justify-center items-center h-64">
-                            <div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-blue-500"></div>
-                        </div>
+                        <div className="flex justify-center items-center h-[300px]">
+                        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+                      </div>
                     ) : error ? (
                         <div className="p-4 text-red-500 text-center">{error}</div>
                     ) : (

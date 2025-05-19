@@ -155,7 +155,7 @@ const ApexLineChart = () => {
         <div className="w-full p-[8px]">
           <h1 className="font-bold text-[18px]">Place Time Journey</h1>
           {loading ? (
-            <div className="flex justify-center items-center h-[350px]">
+            <div className="flex justify-center items-center h-[300px]">
               <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
             </div>
           ) : (

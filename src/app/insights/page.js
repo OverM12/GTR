@@ -84,7 +84,7 @@ function TabNavigation() {
     };
 
     fetchReportData();
-  }, [dateRange, setDateRange, /* updateDateRangeForViewMode, viewMode */]); 
+  }, [dateRange, setDateRange, /* updateDateRangeForViewMode, viewMode */]);
   // ถ้าคุณใช้ updateDateRangeForViewMode หรือ viewMode จริงๆ ก็เพิ่มใน dependencies ด้วยนะครับ
 
   const tabs = [
@@ -99,8 +99,8 @@ function TabNavigation() {
   const renderTabContent = () => {
     if (loading) {
       return (
-        <div className="flex justify-center items-center h-screen bg-[#F3F4F6]">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#C6B06A]"></div>
+        <div className="flex justify-center items-center h-[300px]">
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
         </div>
       );
     }

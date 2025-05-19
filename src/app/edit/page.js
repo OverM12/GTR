@@ -142,11 +142,8 @@ export default function EditProfilePage() {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center min-h-screen bg-gray-50">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500 mx-auto"></div>
-                    <p className="mt-4 text-gray-600">Loading profile...</p>
-                </div>
+            <div className="flex justify-center items-center h-[300px]">
+                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
             </div>
         );
     }
@@ -189,17 +186,17 @@ export default function EditProfilePage() {
                                                 className="w-full h-full"
                                             />
                                         ) : ( */}
-                                            <>
-                                                <svg
-                                                    className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                >
-                                                    <path d="M11 11V5H13V11H19V13H13V19H11V13H5V11H11Z" fill="black" />
-                                                </svg>
-                                                <span className="text-[8px] md:text-[10px] lg:text-xs text-center text-[#2B2E38]">Upload profile pic</span>
-                                            </>
+                                        <>
+                                            <svg
+                                                className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                            >
+                                                <path d="M11 11V5H13V11H19V13H13V19H11V13H5V11H11Z" fill="black" />
+                                            </svg>
+                                            <span className="text-[8px] md:text-[10px] lg:text-xs text-center text-[#2B2E38]">Upload profile pic</span>
+                                        </>
                                         {/* )} */}
                                         <input
                                             type="file"

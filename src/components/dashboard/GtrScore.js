@@ -44,12 +44,9 @@ function GtrScore() {
   // Display loading state
   if (loading) {
     return (
-      <div className="flex flex-col gap-[8px] p-[16px] pb-[44px] pt-[30px] w-full rounded-[40px] bg-white">
-        <h1 className="text-[18px] font-bold">GTR</h1>
-        <div className="flex justify-center items-center py-8">
-          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
-        </div>
-      </div>
+      <div className="flex justify-center items-center h-[300px]">
+              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+            </div>
     );
   }
 

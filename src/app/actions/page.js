@@ -28,7 +28,7 @@ export default function Actions() {
       try {
         setLoading(true);
         const data = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
-        
+
         // Update actionsData state
         const actionsDataResponse = data.data.data.areas.actions;
         setActionsData(actionsDataResponse);
@@ -75,8 +75,8 @@ export default function Actions() {
       <div className="w-full flex flex-col bg-white p-2 rounded-4xl py-6 px-6">
         <h1 className="m-2 font-bold">GTR</h1>
         {loading ? (
-          <div className="flex justify-center items-center h-10">
-            <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-[#C6B06A]"></div>
+          <div className="flex justify-center items-center h-[300px]">
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
           </div>
         ) : (
           <div className="flex w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
@@ -96,9 +96,9 @@ export default function Actions() {
                   style={{ width: `${formattedScore}%` }}
                 >
                   {parseFloat(formattedScore) >= 3.0 && (
-                    <span 
+                    <span
                       className="text-white text-xs font-semibold absolute"
-                      style={{ 
+                      style={{
                         right: '8px',
                         top: '50%',
                         transform: 'translateY(-50%)'
@@ -109,9 +109,9 @@ export default function Actions() {
                   )}
                 </div>
                 {parseFloat(formattedScore) < 3.0 && (
-                  <span 
+                  <span
                     className="text-white text-xs font-semibold absolute"
-                    style={{ 
+                    style={{
                       left: '8px',
                       top: '50%',
                       transform: 'translateY(-50%)'
@@ -208,10 +208,10 @@ export default function Actions() {
           <h2 className="font-semibold text-lg">Your personal Action reflection notes</h2>
           <p className="text-sm text-gray-500">These are the notes you made during the assessment. Now that you&apos;ve seen the bigger picture, would you like to add anything?</p>
         </div>
-        
+
         {loading ? (
-          <div className="flex justify-center items-center h-10">
-            <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-[#C6B06A]"></div>
+          <div className="flex justify-center items-center h-[300px]">
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
           </div>
         ) : (
           <div className="w-full bg-[#F0F2F5] rounded-[24px] p-[32px]">
@@ -226,10 +226,10 @@ export default function Actions() {
             )}
           </div>
         )}
-        
+
         <button
           className="border rounded-full flex items-center mt-4 px-4 py-2 gap-2 self-start"
-          onClick={() => {/* Add edit functionality here */}}
+          onClick={() => {/* Add edit functionality here */ }}
         >
           <Image
             alt="Edit Icon"

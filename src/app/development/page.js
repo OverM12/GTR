@@ -58,7 +58,9 @@ export default function DevelopmentPage() {
         <h1 className="text-2xl font-bold mb-4">Development</h1>
 
         {loading ? (
-          <p className="text-gray-600">Loading development data...</p>
+          <div className="flex justify-center items-center h-[300px]">
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+          </div>
         ) : !dateRange.fromDate || !dateRange.toDate ? (
           <p className="text-gray-600">Please select a date range to view data.</p>
         ) : (
