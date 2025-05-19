@@ -13,7 +13,7 @@ export default function Dashboard() {
   const cookies = useCookies();
 
   useEffect(() => {
-    console.log("document.cookie:", document.cookie);
+    // console.log("document.cookie:", document.cookie);
   
     // วิธีอ่าน cookie แบบ manual จาก document.cookie
     function getCookie(name) {
@@ -24,7 +24,7 @@ export default function Dashboard() {
     }
   
     const accessToken = getCookie("accessToken");
-    console.log("accessToken from document.cookie:", accessToken);
+    // console.log("accessToken from document.cookie:", accessToken);
   
     if (accessToken) {
       localStorage.setItem("accessToken", accessToken);
