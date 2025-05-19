@@ -1,18 +1,19 @@
 "use client"
+
 import Menu from "@/components/layout/Menu";
 import Navbar from "@/components/layout/Navbar";
 import { useEffect } from "react";
 import { useRouter } from 'next/navigation';
-import { cookies } from 'next/headers'
+import { useCookies } from 'next-client-cookies';
 
 export default function RootLayout({ children }) {
 	const router = useRouter();
-	const cookieStore = cookies()
-	const accessToken = cookieStore.get('accessToken')
+	const cookies = useCookies();
+	const accessToken = cookies.get("accessToken")
 
 	useEffect(() => {
 		// const accessToken = cookies.getItem('accessToken');
-
+console.log("Dashboard Cookie:", cookies.get("accessToken"))
 		if (!accessToken) {
 			router.push('/auth/signup');
 		}
