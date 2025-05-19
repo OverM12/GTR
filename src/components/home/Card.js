@@ -17,7 +17,7 @@ function Card() {
           >
             Insights
             <Image
-              src="/your-gtr/your-gtr/home/i-icon.png"
+              src="/your-gtr/home/i-icon.png"
               width={28}
               height={28}
               alt="Icon GTR"
@@ -30,7 +30,7 @@ function Card() {
           >
             Reflection
             <Image
-              src="/your-gtr/your-gtr/home/i-icon.png"
+              src="/your-gtr/home/i-icon.png"
               width={28}
               height={28}
               alt="Icon GTR"
@@ -43,7 +43,7 @@ function Card() {
           >
             Evolution
             <Image
-              src="/your-gtr/your-gtr/home/i-icon.png"
+              src="/your-gtr/home/i-icon.png"
               width={28}
               height={28}
               alt="Icon GTR"

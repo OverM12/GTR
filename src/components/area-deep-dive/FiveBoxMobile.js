@@ -6,17 +6,17 @@ import { useDateRange } from "@/context/DateRangeContext";
 // Image path constants
 const IMAGE_PATHS = {
   // Area icons
-  SELF_ICON: "/your-gtr/your-gtr/dashboard/self-icon.png",
-  SOCIAL_ICON: "/your-gtr/your-gtr/area-deep-dive/social-icon.svg",
-  MENTAL_ICON: "/your-gtr/your-gtr/area-deep-dive/mental-icon.svg",
-  ACTIONS_ICON: "/your-gtr/your-gtr/area-deep-dive/actions-icon.svg",
-  SENSE_ICON: "/your-gtr/your-gtr/area-deep-dive/sense-icon.svg",
-  OBTAIN_ICON: "/your-gtr/your-gtr/area-deep-dive/obtain-icon.svg",
-  ENVIRONMENT_ICON: "/your-gtr/your-gtr/area-deep-dive/environment-icon.svg",
+  SELF_ICON: "/your-gtr/dashboard/self-icon.png",
+  SOCIAL_ICON: "/your-gtr/area-deep-dive/social-icon.svg",
+  MENTAL_ICON: "/your-gtr/area-deep-dive/mental-icon.svg",
+  ACTIONS_ICON: "/your-gtr/area-deep-dive/actions-icon.svg",
+  SENSE_ICON: "/your-gtr/area-deep-dive/sense-icon.svg",
+  OBTAIN_ICON: "/your-gtr/area-deep-dive/obtain-icon.svg",
+  ENVIRONMENT_ICON: "/your-gtr/area-deep-dive/environment-icon.svg",
   
   // UI elements
-  ARROW_UP_ICON: "/your-gtr/your-gtr/area-deep-dive/arrow-up-icon.svg",
-  NO_DATA_ICON: "/your-gtr/your-gtr/area-deep-dive/no-data-icon.svg"
+  ARROW_UP_ICON: "/your-gtr/area-deep-dive/arrow-up-icon.svg",
+  NO_DATA_ICON: "/your-gtr/area-deep-dive/no-data-icon.svg"
 };
 
 function FiveBoxMobile() {

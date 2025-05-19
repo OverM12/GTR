@@ -23,7 +23,7 @@ function SelfCard() {
           onClick={() => setIsActive(1)}
         >
           Insights
-          <Image src="/your-gtr/your-gtr/home/i-icon.png" width={28} height={28} alt="Icon GTR" />
+          <Image src="/your-gtr/home/i-icon.png" width={28} height={28} alt="Icon GTR" />
         </div>
         <div
           className={`flex cursor-default gap-2 px-4 flex-none h-[48px] items-center justify-center 
@@ -31,7 +31,7 @@ function SelfCard() {
           onClick={() => setIsActive(2)}
         >
           Reflection
-          <Image src="/your-gtr/your-gtr/home/i-icon.png" width={28} height={28} alt="Icon GTR" />
+          <Image src="/your-gtr/home/i-icon.png" width={28} height={28} alt="Icon GTR" />
         </div>
         <div
           className={`flex cursor-default gap-2 px-4 flex-none h-[48px] items-center justify-center 
@@ -39,7 +39,7 @@ function SelfCard() {
           onClick={() => setIsActive(3)}
         >
           Evolution
-          <Image src="/your-gtr/your-gtr/home/i-icon.png" width={28} height={28} alt="Icon GTR" />
+          <Image src="/your-gtr/home/i-icon.png" width={28} height={28} alt="Icon GTR" />
         </div>
       </div>
 
@@ -57,7 +57,7 @@ function SelfCard() {
                 <div className="flex justify-center p-4 bg-[#F0F2F5] rounded-[24px]">
                   <div className="p-2 flex items-center justify-center">
                     <Image
-                      src="/your-gtr/your-gtr/self-insights/mental-icon.svg"
+                      src="/your-gtr/self-insights/mental-icon.svg"
                       width={50}
                       height={50}
                       alt="Energy icon"
@@ -77,7 +77,7 @@ function SelfCard() {
                 <div className="flex justify-center p-4 bg-[#F0F2F5] rounded-[24px]">
                   <div className="p-2 flex items-center justify-center">
                     <Image
-                      src="/your-gtr/your-gtr/self-insights/big-energy-icon.svg"
+                      src="/your-gtr/self-insights/big-energy-icon.svg"
                       width={45}
                       height={45}
                       alt="Energy icon"
@@ -97,7 +97,7 @@ function SelfCard() {
                 <div className="flex justify-center p-4 bg-[#F0F2F5] rounded-[24px]">
                   <div className="p-2 flex items-center justify-center">
                     <Image
-                      src="/your-gtr/your-gtr/self-insights/energy-tension-icon.png"
+                      src="/your-gtr/self-insights/energy-tension-icon.png"
                       width={45}
                       height={45}
                       alt="Sense icon"
@@ -125,7 +125,7 @@ function SelfCard() {
                   Know what to look out for to guide your daily life.
                   <Image
                     alt="Icon GTR"
-                    src="/your-gtr/your-gtr/self-insights/i-icon.svg"
+                    src="/your-gtr/self-insights/i-icon.svg"
                     width={20}
                     height={20}
                   />
@@ -203,7 +203,7 @@ function SelfCard() {
                 <div className="flex justify-center p-4 px-10 bg-[#F0F2F5] rounded-[24px] w-[160px] h-[100px]">
                   <div className="p-2 flex items-center justify-center">
                     <Image
-                      src="/your-gtr/your-gtr/self-insights/mental-icon.svg"
+                      src="/your-gtr/self-insights/mental-icon.svg"
                       width={50}
                       height={50}
                       alt="Energy icon"
@@ -227,7 +227,7 @@ function SelfCard() {
                 <div className="flex justify-center p-4 px-10 bg-[#F0F2F5] rounded-[24px] w-[160px] h-[100px]">
                   <div className="p-2 flex items-center justify-center">
                     <Image
-                      src="/your-gtr/your-gtr/self-insights/big-energy-icon.svg"
+                      src="/your-gtr/self-insights/big-energy-icon.svg"
                       width={50}
                       height={50}
                       alt="Energy icon"
@@ -249,7 +249,7 @@ function SelfCard() {
                 <div className="flex justify-center p-4 px-10 bg-[#F0F2F5] rounded-[24px] w-[160px] h-[100px]">
                   <div className="p-2 flex items-center justify-center">
                     <Image
-                      src="/your-gtr/your-gtr/area-deep-dive/sense-icon.svg"
+                      src="/your-gtr/area-deep-dive/sense-icon.svg"
                       width={50}
                       height={50}
                       alt="Energy icon"
@@ -277,7 +277,7 @@ function SelfCard() {
                   Know what to look out for to guide your daily life.
                   <Image
                     alt="Icon GTR"
-                    src="/your-gtr/your-gtr/self-insights/i-icon.svg"
+                    src="/your-gtr/self-insights/i-icon.svg"
                     width={20}
                     height={20}
                   />
@@ -372,7 +372,7 @@ function SelfCard() {
                       alt="GTR Icon"
                       width={20}
                       height={20}
-                      src="/your-gtr/your-gtr/self-insights/edit-icon.svg"
+                      src="/your-gtr/self-insights/edit-icon.svg"
                     />
                     Edit reflection
                   </button>
@@ -437,7 +437,7 @@ function SelfCard() {
                       alt="GTR Icon"
                       width={20}
                       height={20}
-                      src="/your-gtr/your-gtr/self-insights/edit-icon.svg"
+                      src="/your-gtr/self-insights/edit-icon.svg"
                     />
                     Edit reflection
                   </button>

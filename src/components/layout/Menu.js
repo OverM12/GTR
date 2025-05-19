@@ -145,7 +145,7 @@ function Menu() {
                 </Link>
                 <Link href="/edit">
                   <Image
-                    src="/your-gtr/your-gtr/navbar-icons/edit-icon.png"
+                    src="/your-gtr/navbar-icons/edit-icon.png"
                     width={16}
                     height={16}
                     className="rounded-full"
@@ -182,7 +182,7 @@ function Menu() {
                 }`}
               >
                 <Image
-                  src="/your-gtr/your-gtr/navbar-icons/function-line.png"
+                  src="/your-gtr/navbar-icons/function-line.png"
                   width={24}
                   height={24}
                   alt="Dashboard"
@@ -199,7 +199,7 @@ function Menu() {
                 }`}
               >
                 <Image
-                  src="/your-gtr/your-gtr/dashboard/insights.svg"
+                  src="/your-gtr/dashboard/insights.svg"
                   width={24}
                   height={24}
                   alt="Insights"
@@ -216,7 +216,7 @@ function Menu() {
                 }`}
               >
                 <Image
-                  src="/your-gtr/your-gtr/dashboard/devp1.png"
+                  src="/your-gtr/dashboard/devp1.png"
                   width={24}
                   height={24}
                   alt="Development"
@@ -238,7 +238,7 @@ function Menu() {
                   }`}
                 >
                   <Image
-                    src="/your-gtr/your-gtr/users_img/usermangement.svg"
+                    src="/your-gtr/users_img/usermangement.svg"
                     width={24}
                     height={24}
                     alt="Users Management"

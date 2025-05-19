@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	basePath: '/your-gtr',
+	basePath: '',
 	reactStrictMode: true,
 	poweredByHeader: false, // Remove X-Powered-By header
 
