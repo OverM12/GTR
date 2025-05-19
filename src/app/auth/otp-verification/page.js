@@ -4,12 +4,13 @@ import Haderbar from "@/components/layout/Haderbar"
 import Link from "next/link"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation";
+import { useCookies } from 'next-client-cookies';
 
 // Change the component name from 'page' to 'Page'
 export default function Page() {
     const router = useRouter();
     const [otp, setOtp] = useState(""), [countdown, setCountdown] = useState(60), [isResending, setIsResending] = useState(false), [error, setError] = useState(null);
-
+    const cookies = useCookies();
 
     useEffect(() => {
         if (countdown > 0) {
@@ -34,7 +35,7 @@ export default function Page() {
             if (!response.ok) throw new Error("OTP verification failed");
     
             const data = await response.json();
-            localStorage.setItem("accessToken", data.data.accessToken);
+            localStorage.setItem("accessToken",cookies);
             router.push("/dashboard");
         } catch (err) {
             setError(err.message);
