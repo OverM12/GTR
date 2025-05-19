@@ -75,7 +75,7 @@ function Navbar() {
   // Fetch data based on current date range
   const fetchDataForDateRange = async (fromDate, toDate) => {
     if (!fromDate || !toDate) {
-      console.log("Date range not complete, skipping fetch");
+      // console.log("Date range not complete, skipping fetch");
       return;
     }
 
@@ -91,9 +91,9 @@ function Navbar() {
         return;
       }
 
-      console.log("Navbar: Fetching data for date range:", { fromDate, toDate });
+      // console.log("Navbar: Fetching data for date range:", { fromDate, toDate });
       const data = await reportService.getGtrReport(fromDate, toDate, accessToken);
-      console.log("Navbar: Data fetched successfully:", data);
+      // console.log("Navbar: Data fetched successfully:", data);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -139,7 +139,7 @@ function Navbar() {
 
     setDateRange(newDateRange);
     fetchDataForDateRange(fromDateStr, toDateStr);
-    console.log("Date range updated:", newDateRange);
+    // console.log("Date range updated:", newDateRange);
   };
 
   // Initialize with default view mode
@@ -167,7 +167,7 @@ function Navbar() {
     if (selectingField === "fromDate") {
       const newDateRange = { ...dateRange, fromDate: date };
       setDateRange(newDateRange);
-      console.log("From date updated:", newDateRange);
+      // console.log("From date updated:", newDateRange);
       setSelectingField("toDate");
     } else {
       let newDateRange;
@@ -178,7 +178,7 @@ function Navbar() {
         newDateRange = { ...dateRange, toDate: date };
       }
       setDateRange(newDateRange);
-      console.log("To date updated:", newDateRange);
+      // console.log("To date updated:", newDateRange);
       setShowDatePicker(false);
 
       // Fetch data immediately after both dates are selected

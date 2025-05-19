@@ -60,7 +60,7 @@ const ApexLineChart = () => {
         );
 
         const historyData = response?.data?.data?.areas?.self?.gtrHistory || [];
-        console.log("historyData", historyData);
+        // console.log("historyData", historyData);
 
         if (historyData.length > 0) {
           const formattedDates = historyData.map((item, index) => {

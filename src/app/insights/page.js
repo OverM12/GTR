@@ -32,7 +32,7 @@ function TabNavigation() {
   useEffect(() => {
     const fetchReportData = async () => {
       if (!dateRange.fromDate || !dateRange.toDate) {
-        console.log("Insights page: Date range not complete, using default values");
+        // console.log("Insights page: Date range not complete, using default values");
         setReportData({
           gtr: 0,
           self: { gtr: 0 },
@@ -106,7 +106,7 @@ function TabNavigation() {
     }
 
     if (error) {
-      console.log("Rendering error state, but still showing content with zeros");
+      // console.log("Rendering error state, but still showing content with zeros");
     }
 
     switch (activeTab) {

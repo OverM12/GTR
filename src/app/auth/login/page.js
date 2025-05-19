@@ -24,7 +24,7 @@ export default function Page() {
             if (!response.ok) throw new Error("Failed to request OTP");
     
             const json = await response.json();
-            console.log("Received OTP:", json.data.otp);
+            // console.log("Received OTP:", json.data.otp);
     
             localStorage.setItem("email", email); // save email to use in otp-verification
             localStorage.setItem("otp", json.data.otp); // save otp เพื่อเอาไปใช้ต่อ

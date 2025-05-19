@@ -20,7 +20,7 @@ function User() {
         setLoading(true);
         const response = await userService.getProfile();
         setUserProfile(response.data.data);
-        // //console.log("User profile fetched:", response.data);
+        //console.log("User profile fetched:", response.data);
       } catch (err) {
         console.error("Error fetching user profile:", err);
         setError("Failed to load user profile");
