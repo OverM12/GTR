@@ -459,15 +459,15 @@ function UserGTRContent({ params }) {
                                                     if (selectedSessionIndex === index && showDetails) {
                                                         setShowDetails(false);
                                                         if (typeof window !== "undefined") {
-                                                            localStorage.setItem(`user-${userId}-showDetails`, JSON.stringify(false));
+                                                            // localStorage.setItem(`user-${userId}-showDetails`, JSON.stringify(false));
                                                         }
                                                     } else {
                                                         // Otherwise, select this session and show details
                                                         setSelectedSessionIndex(index);
                                                         setShowDetails(true);
                                                         if (typeof window !== "undefined") {
-                                                            localStorage.setItem(`user-${userId}-selectedSessionIndex`, JSON.stringify(index));
-                                                            localStorage.setItem(`user-${userId}-showDetails`, JSON.stringify(true));
+                                                            // localStorage.setItem(`user-${userId}-selectedSessionIndex`, JSON.stringify(index));
+                                                            // localStorage.setItem(`user-${userId}-showDetails`, JSON.stringify(true));
                                                         }
                                                     }
                                                 }}
