@@ -27,9 +27,9 @@ export default function Dashboard() {
 
   if (!hasToken) {
     return (
-      <div className="flex flex-col h-lvh items-center justify-center bg-[#F0F2F5]">
-        <div className="p-6 bg-white rounded-lg shadow-md text-center">
-          <h2 className="text-xl font-bold text-red-600 mb-2">Unable to display information</h2>
+      <div className="flex flex-col h-lvh items-center justify-center">
+        <div className="p-6 shadow-md text-center">
+          <h2 className="text-xl text-red-600 mb-2">Unable to display information</h2>
         </div>
       </div>
     );
