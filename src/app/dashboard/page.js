@@ -16,12 +16,17 @@ export default function Dashboard() {
     const accessToken = cookies['accessToken'];  // ดึงจาก cookie object
 
     if (accessToken) {
-      localStorage.setItem('accessToken', accessToken);
-      setHasToken(true);  // ตั้งให้แสดงข้อมูล
+      // เก็บลง localStorage เป็น string (ถ้าเป็น object แปลง JSON.stringify)
+      if (typeof accessToken === "object") {
+        localStorage.setItem('accessToken', JSON.stringify(accessToken));
+      } else {
+        localStorage.setItem('accessToken', accessToken);
+      }
+      setHasToken(true);
     } else {
       const tokenFromLocal = localStorage.getItem('accessToken');
       if (tokenFromLocal) {
-        setHasToken(true);  // ถ้ามี token ใน localStorage ก็แสดงข้อมูล
+        setHasToken(true);
       } else {
         setHasToken(false);
       }

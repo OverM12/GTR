@@ -133,7 +133,7 @@ function FiveBoxDesk() {
                   <span className="text-gray-700 text-xs md:text-sm">{formatElementName(element.element)}</span>
                 </div>
 
-                <div className="w-full h-[24px] md:h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+                <div className="w-full h-[30px] md:h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
                   <div
                     className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
                     style={{ width: `${percent}%` }}
