@@ -52,7 +52,7 @@ function UserManagement() {
                 if (!token) {
                     throw new Error("Token not found in localStorage.");
                 }
-    
+
                 const response = await fetch(
                     `${process.env.NEXT_PUBLIC_BASE_URL}/users?page=${currentPage}&pageSize=${itemsPerPage}`,
                     {
@@ -61,16 +61,16 @@ function UserManagement() {
                         },
                     }
                 );
-    
+
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-    
+
                 const json = await response.json();
-    
+                console.log("response userM",json);
                 let fetchedUsers = json.data;
                 const total = json.meta?.totalRecords || fetchedUsers.length;
-    
+
                 // Search filter
                 if (searchTerm) {
                     fetchedUsers = fetchedUsers.filter((user) =>
@@ -78,12 +78,12 @@ function UserManagement() {
                         user.email?.toLowerCase().includes(searchTerm.toLowerCase())
                     );
                 }
-    
+
                 // Sort
                 fetchedUsers.sort((a, b) => {
                     const valueA = a[sortField] ?? '';
                     const valueB = b[sortField] ?? '';
-    
+
                     if (sortField === 'yearOfBirth') {
                         return sortOrder === 'asc'
                             ? (valueA || 0) - (valueB || 0)
@@ -98,7 +98,7 @@ function UserManagement() {
                             : String(valueB).localeCompare(String(valueA), 'th');
                     }
                 });
-    
+
                 setUsers(fetchedUsers);        // ตั้งค่าข้อมูลผู้ใช้
                 setTotalUsers(total);          // ตั้งค่าจำนวนทั้งหมด
                 setError(null);
@@ -109,10 +109,10 @@ function UserManagement() {
                 setLoading(false);
             }
         };
-    
+
         fetchUsers();
     }, [sortField, sortOrder, searchTerm, currentPage, itemsPerPage]);
-    
+
 
     // Ensure itemsPerPage is a valid number when loaded from localStorage
     useEffect(() => {
@@ -133,7 +133,7 @@ function UserManagement() {
                 if (!token) {
                     throw new Error("Token not found in localStorage.");
                 }
-    
+
                 const response = await fetch(
                     `${process.env.NEXT_PUBLIC_BASE_URL}/users?page=${currentPage}&pageSize=${itemsPerPage}`,
                     {
@@ -142,16 +142,16 @@ function UserManagement() {
                         },
                     }
                 );
-    
+
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-    
+
                 const json = await response.json();
-    
+
                 let fetchedUsers = json.data;
                 const total = json.meta?.totalRecords || fetchedUsers.length;
-    
+
                 // Search filter
                 if (searchTerm) {
                     fetchedUsers = fetchedUsers.filter((user) =>
@@ -159,12 +159,12 @@ function UserManagement() {
                         user.email?.toLowerCase().includes(searchTerm.toLowerCase())
                     );
                 }
-    
+
                 // Sort
                 fetchedUsers.sort((a, b) => {
                     const valueA = a[sortField] ?? '';
                     const valueB = b[sortField] ?? '';
-    
+
                     if (sortField === 'yearOfBirth') {
                         return sortOrder === 'asc'
                             ? (valueA || 0) - (valueB || 0)
@@ -179,7 +179,7 @@ function UserManagement() {
                             : String(valueB).localeCompare(String(valueA), 'th');
                     }
                 });
-    
+
                 setUsers(fetchedUsers);        // ตั้งค่าข้อมูลผู้ใช้
                 setTotalUsers(total);          // ตั้งค่าจำนวนทั้งหมด
                 setError(null);
@@ -190,7 +190,7 @@ function UserManagement() {
                 setLoading(false);
             }
         };
-    
+
         fetchUsers();
     }, [itemsPerPage]);
 
@@ -296,6 +296,7 @@ function UserManagement() {
     // Pagination logic
     const totalPages = Math.ceil(totalUsers / itemsPerPage);
     const paginatedUsers = users;
+    console.log("UserM",users);
 
     return (
         <div className="w-full min-h-screen bg-gray-50 p-4 sm:p-6 md:p-8">
@@ -304,13 +305,13 @@ function UserManagement() {
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
                         <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">User Management</h1>
                         <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-                            <input
+                            {/* <input
                                 type="text"
                                 placeholder="Search users..."
                                 className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-100 w-full"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                            />
+                            /> */}
                             <select
                                 className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-100 appearance-none w-full sm:w-auto"
                                 value={itemsPerPage}
@@ -326,8 +327,8 @@ function UserManagement() {
 
                     {loading ? (
                         <div className="flex justify-center items-center h-[300px]">
-                        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
-                      </div>
+                            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+                        </div>
                     ) : error ? (
                         <div className="p-4 text-red-500 text-center">{error}</div>
                     ) : (
