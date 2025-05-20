@@ -152,7 +152,7 @@ export default function EditProfilePage() {
         <>
             <div className="flex">
                 <div className="bg-gray-50 w-full min-h-screen">
-                    <div className="max-w-full h-lvh overflow-auto mx-auto w-full px-4 sm:px-6 lg:px-8 mt-4 pb-8">
+                    <div className="max-w-2xl h-lvh overflow-auto mx-auto w-full px-4 sm:px-6 lg:px-8 mt-4 pb-8">
                         <h1 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold mb-4">Edit Profile</h1>
 
                         {error && (
@@ -239,7 +239,7 @@ export default function EditProfilePage() {
                                 </div>
                             </div>
 
-                            <div className="border-t pt-4 md:pt-6 mb-6 p-3 md:p-4 lg:p-[16px] border-gray-400">
+                            <div className="border-t pt-4 md:pt-6 mb-6 p-3 md:p-4 lg:p-[16px]">
                                 <h2 className="text-base md:text-lg lg:text-xl font-bold mb-4 md:mb-6">Personal Information</h2>
 
                                 <div className="space-y-3 md:space-y-4">
@@ -287,56 +287,16 @@ export default function EditProfilePage() {
                                                 value={formData.countryOfOrigin}
                                                 onChange={handleChange}
                                             >
-                                                <option value="" placeholder="Select country" disabled>Select country</option>
-                                                <option value="Afghanistan">Afghanistan</option>
-                                                <option value="Albania">Albania</option>
-                                                <option value="Algeria">Algeria</option>
-                                                <option value="Argentina">Argentina</option>
-                                                <option value="Australia">Australia</option>
-                                                <option value="Austria">Austria</option>
-                                                <option value="Bangladesh">Bangladesh</option>
-                                                <option value="Belgium">Belgium</option>
-                                                <option value="Brazil">Brazil</option>
-                                                <option value="Canada">Canada</option>
-                                                <option value="China">China</option>
-                                                <option value="Denmark">Denmark</option>
-                                                <option value="Egypt">Egypt</option>
-                                                <option value="Finland">Finland</option>
-                                                <option value="France">France</option>
-                                                <option value="Germany">Germany</option>
-                                                <option value="Greece">Greece</option>
-                                                <option value="India">India</option>
-                                                <option value="Indonesia">Indonesia</option>
-                                                <option value="Iran">Iran</option>
-                                                <option value="Iraq">Iraq</option>
-                                                <option value="Ireland">Ireland</option>
-                                                <option value="Israel">Israel</option>
-                                                <option value="Italy">Italy</option>
-                                                <option value="Japan">Japan</option>
-                                                <option value="Malaysia">Malaysia</option>
-                                                <option value="Mexico">Mexico</option>
-                                                <option value="Netherlands">Netherlands</option>
-                                                <option value="New Zealand">New Zealand</option>
-                                                <option value="Norway">Norway</option>
-                                                <option value="Pakistan">Pakistan</option>
-                                                <option value="Philippines">Philippines</option>
-                                                <option value="Poland">Poland</option>
-                                                <option value="Portugal">Portugal</option>
-                                                <option value="Russia">Russia</option>
-                                                <option value="Saudi Arabia">Saudi Arabia</option>
-                                                <option value="Singapore">Singapore</option>
-                                                <option value="South Africa">South Africa</option>
-                                                <option value="South Korea">South Korea</option>
-                                                <option value="Spain">Spain</option>
-                                                <option value="Sweden">Sweden</option>
-                                                <option value="Switzerland">Switzerland</option>
+                                                <option value="" disabled>Select country</option>
                                                 <option value="Thailand">Thailand</option>
-                                                <option value="Turkey">Turkey</option>
-                                                <option value="Ukraine">Ukraine</option>
-                                                <option value="United Arab Emirates">United Arab Emirates</option>
                                                 <option value="United Kingdom">United Kingdom</option>
                                                 <option value="United States">United States</option>
                                             </select>
+                                            <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                                <svg className="w-3 h-3 md:w-4 md:h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                                                </svg>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -353,39 +313,8 @@ export default function EditProfilePage() {
                                                 >
                                                     <option value="" disabled>Select country</option>
                                                     <option value="Thailand">Thailand</option>
-                                                    <option value="Afghanistan">Afghanistan</option>
-                                                    <option value="Albania">Albania</option>
-                                                    <option value="Algeria">Algeria</option>
-                                                    <option value="Argentina">Argentina</option>
-                                                    <option value="Australia">Australia</option>
-                                                    <option value="Austria">Austria</option>
-                                                    <option value="Bangladesh">Bangladesh</option>
-                                                    <option value="Belgium">Belgium</option>
-                                                    <option value="Brazil">Brazil</option>
-                                                    <option value="Canada">Canada</option>
-                                                    <option value="China">China</option>
-                                                    <option value="Denmark">Denmark</option>
-                                                    <option value="Egypt">Egypt</option>
-                                                    <option value="Finland">Finland</option>
-                                                    <option value="France">France</option>
-                                                    <option value="Germany">Germany</option>
-                                                    <option value="Greece">Greece</option>
-                                                    <option value="India">India</option>
-                                                    <option value="Indonesia">Indonesia</option>
-                                                    <option value="Italy">Italy</option>
-                                                    <option value="Japan">Japan</option>
-                                                    <option value="Malaysia">Malaysia</option>
-                                                    <option value="Netherlands">Netherlands</option>
-                                                    <option value="New Zealand">New Zealand</option>
-                                                    <option value="Norway">Norway</option>
-                                                    <option value="Singapore">Singapore</option>
-                                                    <option value="South Korea">South Korea</option>
-                                                    <option value="Spain">Spain</option>
-                                                    <option value="Sweden">Sweden</option>
-                                                    <option value="Switzerland">Switzerland</option>
                                                     <option value="United Kingdom">United Kingdom</option>
                                                     <option value="United States">United States</option>
-                                                    <option value="Vietnam">Vietnam</option>
                                                 </select>
                                                 <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                                                     <svg className="w-3 h-3 md:w-4 md:h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -394,78 +323,28 @@ export default function EditProfilePage() {
                                                 </div>
                                             </div>
                                             <div className="relative">
-                                                <select
-                                                    id="currentRegions"
-                                                    name="currentRegions"
-                                                    className="w-full p-2 md:p-2.5 lg:p-3 text-xs md:text-sm border border-gray-300 rounded-lg appearance-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                                    value={formData.currentRegions}
-                                                    onChange={handleChange}
-                                                >
-                                                    <option value="" disabled>Select Region</option>
-                                                    <option value="North">Northern Region</option>
-                                                    <option value="Northeast">Northeastern Region</option>
-                                                    <option value="Central">Central Region</option>
-                                                    <option value="East">Eastern Region</option>
-                                                    <option value="South">Southern Region</option>
-                                                    <option value="West">Western Region</option>
-                                                    <option value="Bangkok Metropolitan">Bangkok Metropolitan Region</option>
-                                                    <option value="North America">North America</option>
-                                                    <option value="South America">South America</option>
-                                                    <option value="Europe">Europe</option>
-                                                    <option value="Asia">Asia</option>
-                                                    <option value="Africa">Africa</option>
-                                                    <option value="Oceania">Oceania</option>
-                                                    <option value="Middle East">Middle East</option>
-                                                </select>
-                                                <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                                                    <svg className="w-3 h-3 md:w-4 md:h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                            <div className="relative">
-                                                <select
+                                                <input
+                                                    type="text"
                                                     id="currentCity"
                                                     name="currentCity"
-                                                    className="w-full p-2 md:p-2.5 lg:p-3 text-xs md:text-sm border border-gray-300 rounded-lg appearance-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    placeholder="Enter your city"
+                                                    className="w-full p-2 md:p-2.5 lg:p-3 text-xs md:text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                     value={formData.currentCity}
                                                     onChange={handleChange}
-                                                >
-                                                    <option value="" disabled>Select City</option>
-                                                    <option value="Bangkok">Bangkok</option>
-                                                    <option value="Nonthaburi">Nonthaburi</option>
-                                                    <option value="Pathum Thani">Pathum Thani</option>
-                                                    <option value="Samut Prakan">Samut Prakan</option>
-                                                    <option value="Chiang Mai">Chiang Mai</option>
-                                                    <option value="Phuket">Phuket</option>
-                                                    <option value="Pattaya">Pattaya</option>
-                                                    <option value="London">London</option>
-                                                    <option value="New York">New York</option>
-                                                    <option value="Tokyo">Tokyo</option>
-                                                    <option value="Paris">Paris</option>
-                                                    <option value="Singapore">Singapore</option>
-                                                    <option value="Dubai">Dubai</option>
-                                                    <option value="Hong Kong">Hong Kong</option>
-                                                    <option value="Sydney">Sydney</option>
-                                                </select>
-                                                <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                                                    <svg className="w-3 h-3 md:w-4 md:h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-                                                    </svg>
-                                                </div>
+                                                />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="border-t pt-4 md:pt-6 mb-6 p-3 md:p-4 lg:p-[16px] border-gray-400">
+                            <div className="border-t pt-4 md:pt-6 mb-6 p-3 md:p-4 lg:p-[16px]">
                                 <h2 className="text-base md:text-lg lg:text-xl font-bold mb-4 md:mb-6">Consent</h2>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
                                     {[
                                         { name: 'termsConsent', label: 'Terms and condition' },
-                                        // { name: 'dataPrivacyConsent', label: 'Data privacy' },
+                                        { name: 'dataPrivacyConsent', label: 'Data privacy' },
                                         { name: 'privacyPolicyConsent', label: 'Privacy policy' }
                                     ].map((consent) => (
                                         <div key={consent.name} className="bg-gray-100 p-2 md:p-2.5 lg:p-3 rounded-lg flex justify-between items-center">
@@ -488,7 +367,13 @@ export default function EditProfilePage() {
                                 </div>
                             </div>
 
-                            <div className="flex border-t xs:flex-row gap-2 md:gap-3 p-3 md:p-4 lg:p-[16px] border-gray-400">
+                            <div className="flex flex-col xs:flex-row gap-2 md:gap-3 justify-end p-3 md:p-4 lg:p-[16px]">
+                                <Link
+                                    href="/your-gtr"
+                                    className="py-1 md:py-1.5 lg:py-2 px-2 md:px-3 lg:px-4 text-xs md:text-sm border border-gray-300 rounded-full text-center hover:bg-gray-50 transition-colors"
+                                >
+                                    Cancel
+                                </Link>
                                 <button
                                     type="submit"
                                     disabled={saving}
@@ -496,12 +381,6 @@ export default function EditProfilePage() {
                                 >
                                     {saving ? 'Saving...' : 'Save Edit'}
                                 </button>
-                                <Link
-                                    href="/your-gtr"
-                                    className="py-1 md:py-1.5 lg:py-2 px-2 md:px-3 lg:px-4 text-xs md:text-sm border border-gray-300 rounded-full text-center hover:bg-gray-50 transition-colors"
-                                >
-                                    Cancel
-                                </Link>
                             </div>
                         </form>
 
