@@ -8,41 +8,16 @@ function UserManagement() {
     const [loading, setLoading] = useState(true);
     const [totalUsers, setTotalUsers] = useState(0);
     const [error, setError] = useState(null);
-    // Initialize state from localStorage or use defaults
-    const [sortField, setSortField] = useState(() => {
-        if (typeof window !== 'undefined') {
-            return localStorage.getItem('userManagement-sortField') || 'id';
-        }
-        return 'id';
-    });
+    const [sortField, setSortField] = useState("id");
 
-    const [sortOrder, setSortOrder] = useState(() => {
-        if (typeof window !== 'undefined') {
-            return localStorage.getItem('userManagement-sortOrder') || 'asc';
-        }
-        return 'asc';
-    });
+    const [sortOrder, setSortOrder] = useState('asc');
 
-    const [itemsPerPage, setItemsPerPage] = useState(() => {
-        if (typeof window !== 'undefined') {
-            return parseInt(localStorage.getItem('userManagement-itemsPerPage') || '10');
-        }
-        return 10;
-    });
+    const [itemsPerPage, setItemsPerPage] = useState(10);
 
-    const [currentPage, setCurrentPage] = useState(() => {
-        if (typeof window !== 'undefined') {
-            return parseInt(localStorage.getItem('userManagement-currentPage') || '1');
-        }
-        return 1;
-    });
+    const [currentPage, setCurrentPage] = useState(1);
+    console.log("currentPage",currentPage);
 
-    const [searchTerm, setSearchTerm] = useState(() => {
-        if (typeof window !== 'undefined') {
-            return localStorage.getItem('userManagement-searchTerm') || '';
-        }
-        return '';
-    });
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -50,17 +25,19 @@ function UserManagement() {
                 setLoading(true);
                 const token = localStorage.getItem("accessToken");
                 if (!token) {
-                    throw new Error("Token not found in localStorage.");
+                    throw new Error("Token not found in localStorage."); //Should be redirect to login page
                 }
 
                 const response = await fetch(
                     `${process.env.NEXT_PUBLIC_BASE_URL}/users?page=${currentPage}&pageSize=${itemsPerPage}`,
+                    
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
                     }
                 );
+                 console.log("Payload",`${process.env.NEXT_PUBLIC_BASE_URL}/users?page=${currentPage}&pageSize=${itemsPerPage}`)
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -114,99 +91,7 @@ function UserManagement() {
     }, [sortField, sortOrder, searchTerm, currentPage, itemsPerPage]);
 
 
-    // Ensure itemsPerPage is a valid number when loaded from localStorage
-    useEffect(() => {
-        const validPageSize = Math.min(Math.max(1, Number(itemsPerPage)), 100);
-        if (validPageSize !== itemsPerPage) {
-            setItemsPerPage(validPageSize);
-            if (typeof window !== 'undefined') {
-                localStorage.setItem('userManagement-itemsPerPage', validPageSize);
-            }
-        }
-    }, []);
-
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                setLoading(true);
-                const token = localStorage.getItem("accessToken");
-                if (!token) {
-                    throw new Error("Token not found in localStorage.");
-                }
-
-                const response = await fetch(
-                    `${process.env.NEXT_PUBLIC_BASE_URL}/users?page=${currentPage}&pageSize=${itemsPerPage}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                );
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const json = await response.json();
-
-                let fetchedUsers = json.data;
-                const total = json.meta?.totalRecords || fetchedUsers.length;
-
-                // Search filter
-                if (searchTerm) {
-                    fetchedUsers = fetchedUsers.filter((user) =>
-                        user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                        user.email?.toLowerCase().includes(searchTerm.toLowerCase())
-                    );
-                }
-
-                // Sort
-                fetchedUsers.sort((a, b) => {
-                    const valueA = a[sortField] ?? '';
-                    const valueB = b[sortField] ?? '';
-
-                    if (sortField === 'yearOfBirth') {
-                        return sortOrder === 'asc'
-                            ? (valueA || 0) - (valueB || 0)
-                            : (valueB || 0) - (valueA || 0);
-                    } else if (sortField === 'createdAt' || sortField === 'lastAssessment') {
-                        const dateA = valueA ? new Date(valueA).getTime() : 0;
-                        const dateB = valueB ? new Date(valueB).getTime() : 0;
-                        return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
-                    } else {
-                        return sortOrder === 'asc'
-                            ? String(valueA).localeCompare(String(valueB), 'th')
-                            : String(valueB).localeCompare(String(valueA), 'th');
-                    }
-                });
-
-                setUsers(fetchedUsers);        // ตั้งค่าข้อมูลผู้ใช้
-                setTotalUsers(total);          // ตั้งค่าจำนวนทั้งหมด
-                setError(null);
-            } catch (err) {
-                console.error("Error fetching user data:", err);
-                setError("Failed to load user data. Please try again later.");
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchUsers();
-    }, [itemsPerPage]);
-
-    // Save settings to localStorage whenever they change
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            localStorage.setItem('userManagement-sortField', sortField);
-            localStorage.setItem('userManagement-sortOrder', sortOrder);
-            localStorage.setItem('userManagement-itemsPerPage', itemsPerPage.toString());
-            localStorage.setItem('userManagement-currentPage', currentPage.toString());
-            localStorage.setItem('userManagement-searchTerm', searchTerm);
-        }
-    }, [sortField, sortOrder, itemsPerPage, currentPage, searchTerm]);
-
     const handleSort = (field) => {
-        // console.log('Clicked on field:', field);
 
         // Special case for Year of Birth
         if (field.toLowerCase() === 'yearofbirth' || field.toLowerCase().includes('year')) {
@@ -296,7 +181,6 @@ function UserManagement() {
     // Pagination logic
     const totalPages = Math.ceil(totalUsers / itemsPerPage);
     const paginatedUsers = users;
-    console.log("UserM",users);
 
     return (
         <div className="w-full min-h-screen bg-gray-50 p-4 sm:p-6 md:p-8">
