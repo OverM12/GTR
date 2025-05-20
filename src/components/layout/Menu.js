@@ -273,15 +273,21 @@ function Menu() {
             <div className="mt-auto mb-4 w-full">
               <button
                 onClick={() => {
-                  // Clear all cookies
-                  document.cookie.split(";").forEach((cookie) => {
-                    document.cookie = cookie
-                      .replace(/^ +/, "")
-                      .replace(/=.*/, `=;expires=${new Date(0).toUTCString()};path=/`);
-                  });
+                  // Clear all cookies with all possible paths and domains
+                  const cookies = document.cookie.split(';');
+                  for (let cookie of cookies) {
+                    const eqPos = cookie.indexOf('=');
+                    const name = eqPos > -1 ? cookie.substr(0, eqPos).trim() : cookie.trim();
+                    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+                    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=${window.location.hostname}`;
+                    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=.${window.location.hostname}`;
+                  }
                   
-                  // Clear all localStorage items
+                  // Clear localStorage
                   localStorage.clear();
+                  
+                  // Clear sessionStorage
+                  sessionStorage.clear();
                   
                   // Redirect to login page
                   window.location.href = 'https://app-test.goodtime.app/login';
