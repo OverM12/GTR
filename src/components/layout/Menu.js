@@ -7,6 +7,7 @@ import { NavbarContext } from "@/context/NavbarProvider";
 import { userService } from "@/services/userService";
 import reportService from "@/services/reportService";
 import { useDateRange } from "@/context/DateRangeContext";
+
 function Menu() {
   const pathname = usePathname();
   const { dateRange } = useDateRange();
@@ -17,6 +18,24 @@ function Menu() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [gtrScore, setGtrScore] = useState(0);
+  const [isMobile, setIsMobile] = useState(true);
+
+  // Add window resize listener to handle responsive behavior
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    
+    // Set initial value
+    handleResize();
+    
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+    
+    // Clean up
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // Cache user data fetch results
   const fetchUserData = useMemo(() => async () => {
     try {
@@ -116,17 +135,19 @@ function Menu() {
       )}
 
       <div
-        className={`fixed z-100 min-h-screen text-nowrap top-0 left-0 sm:static transition-all duration-300 flex flex-col bg-[#0C2955] overflow-hidden ${isOpen ? "w-[240px] p-4 sm:p-4" : "w-0 sm:w-[240px]"
-          }`}
+        className={`fixed z-100 min-h-screen top-0 left-0 sm:static transition-all duration-300 flex flex-col bg-[#0C2955] ${
+          isOpen ? "w-[240px] p-4" : "w-0 sm:w-[240px] sm:p-4"
+        }`}
       >
-        {isOpen && (
+        {/* Show content if sidebar is open OR we're on desktop */}
+        {(isOpen || !isMobile) && (
           <>
             {/* Profile */}
             <div className="flex items-center flex-col justify-between px-[16px]">
               <div className="flex w-full items-center justify-between">
                 <Link href="/users">
                   <div className="flex items-center gap-[8px] py-[16px]">
-                    <p className="text-sm font-semibold text-white">
+                    <p className="text-sm font-semibold text-white whitespace-nowrap overflow-hidden text-ellipsis max-w-[160px]">
                       {loading ? "Loading..." : getDisplayName}
                     </p>
                   </div>
@@ -160,102 +181,118 @@ function Menu() {
             </div>
 
             {/* Menu Items */}
-            <div className="pt-[32px] flex flex-col">
+            <div className="pt-[32px] flex flex-col w-full">
               <Link
                 href="/dashboard"
-                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 ${pathname === "/dashboard"
-                  ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
-                  : "text-[#C1C6DA]"
-                  }`}
+                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 w-full ${
+                  pathname === "/dashboard"
+                    ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
+                    : "text-[#C1C6DA]"
+                }`}
               >
-                <Image
-                  src="/your-gtr/navbar-icons/function-line.png"
-                  width={24}
-                  height={24}
-                  alt="Dashboard"
-                  className={pathname === "/dashboard" ? "filter invert" : ""}
-                />
-                Dashboard
+                <div className="min-w-[24px] flex justify-center">
+                  <Image
+                    src="/your-gtr/navbar-icons/function-line.png"
+                    width={24}
+                    height={24}
+                    alt="Dashboard"
+                    className={pathname === "/dashboard" ? "filter invert" : ""}
+                  />
+                </div>
+                <span className="whitespace-nowrap">Dashboard</span>
               </Link>
+              
               <Link
                 href="/insights"
-                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 ${pathname === "/insights"
-                  ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
-                  : "text-[#C1C6DA]"
-                  }`}
+                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 w-full ${
+                  pathname === "/insights"
+                    ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
+                    : "text-[#C1C6DA]"
+                }`}
               >
-                <Image
-                  src="/your-gtr/dashboard/insights.svg"
-                  width={24}
-                  height={24}
-                  alt="Insights"
-                  className={pathname === "/insights" ? "filter invert" : ""}
-                />
-                Insights
+                <div className="min-w-[24px] flex justify-center">
+                  <Image
+                    src="/your-gtr/dashboard/insights.svg"
+                    width={24}
+                    height={24}
+                    alt="Insights"
+                    className={pathname === "/insights" ? "filter invert" : ""}
+                  />
+                </div>
+                <span className="whitespace-nowrap">Insights</span>
               </Link>
+              
               <Link
                 href="/development"
-                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 ${pathname === "/development"
-                  ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
-                  : "text-[#C1C6DA]"
-                  }`}
+                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 w-full ${
+                  pathname === "/development"
+                    ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
+                    : "text-[#C1C6DA]"
+                }`}
               >
-                <Image
-                  src="/your-gtr/dashboard/devp1.png"
-                  width={24}
-                  height={24}
-                  alt="Development"
-                  className={pathname === "/development" ? "filter invert" : ""}
-                />
-                Development
+                <div className="min-w-[24px] flex justify-center">
+                  <Image
+                    src="/your-gtr/dashboard/devp1.png"
+                    width={24}
+                    height={24}
+                    alt="Development"
+                    className={pathname === "/development" ? "filter invert" : ""}
+                  />
+                </div>
+                <span className="whitespace-nowrap">Development</span>
               </Link>
+              
               {userData && userData.role === "admin" && (
-                <div className="border-b border-white"></div>
+                <div className="border-b border-white w-full my-2"></div>
               )}
+              
               {/* Only show Users Management link for admin users */}
               {userData && userData.role === "admin" && (
                 <Link
                   href="/user-mangement"
-                  className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 ${pathname === "/user-mangement"
-                    ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
-                    : "text-[#C1C6DA]"
-                    }`}
+                  className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 w-full ${
+                    pathname === "/user-mangement"
+                      ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
+                      : "text-[#C1C6DA]"
+                  }`}
                 >
-                  <Image
-                    src="/your-gtr/users_img/usermangement.svg"
-                    width={24}
-                    height={24}
-                    alt="Users Management"
-                    className={pathname === "/user-mangement" ? "filter invert" : ""}
-                  />
-                  Users Management
+                  <div className="min-w-[24px] flex justify-center">
+                    <Image
+                      src="/your-gtr/users_img/usermangement.svg"
+                      width={24}
+                      height={24}
+                      alt="Users Management"
+                      className={pathname === "/user-mangement" ? "filter invert" : ""}
+                    />
+                  </div>
+                  <span className="whitespace-nowrap">Users Management</span>
                 </Link>
               )}
             </div>
-            <div className="mt-auto mb-4">
+            
+            <div className="mt-auto mb-4 w-full">
               <button
                 onClick={() => {
                   // Handle logout logic here
                   localStorage.removeItem('accessToken');
-
                   window.location.href = 'https://app-test.goodtime.app/login';
                 }}
-                className="flex w-full py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] text-white rounded-[24px] transition-all duration-200"
+                className="flex w-full py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] text-white rounded-[24px] transition-all duration-200 hover:bg-[#1A3966]"
               >
-                <Image
-                  src="/your-gtr/navbar-icons/log-out (1).svg"
-                  width={24}
-                  height={24}
-                  alt="Logout"
-                  className="hover:filter"
-                />
-                Logout
+                <div className="min-w-[24px] flex justify-center">
+                  <Image
+                    src="/your-gtr/navbar-icons/log-out (1).svg"
+                    width={24}
+                    height={24}
+                    alt="Logout"
+                  />
+                </div>
+                <span className="whitespace-nowrap">Logout</span>
               </button>
             </div>
           </>
         )}
       </div>
-
     </>
   );
 }
