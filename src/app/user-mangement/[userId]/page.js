@@ -471,7 +471,11 @@ function UserGTRContent({ params }) {
                                                         }
                                                     }
                                                 }}
-                                                className="px-4 py-2 bg-[#FF9933] text-white rounded-lg hover:bg-[#FF9955] transition-colors"
+                                                className={`px-4 py-2 text-white rounded-lg transition-colors ${
+                                                    showDetails && selectedSessionIndex === index 
+                                                    ? "bg-[#B60A06] hover:bg-[#960805]" 
+                                                    : "bg-[#FF9933] hover:bg-[#FF9955]"
+                                                }`}
                                             >
                                                 {showDetails && selectedSessionIndex === index ? "Hide" : "View"}
                                             </button>
