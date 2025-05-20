@@ -149,7 +149,7 @@ function User() {
           <h3 className="font-bold text-[24px] mb-4">Consent</h3>
           <div className='flex gap-4'>
             <div className='space-y-4'>
-              {['Time and condition', 'Data privacy', 'Privacy policy'].map((label) => (
+              {['Terms and condition', 'Privacy policy'].map((label) => (
                 <p key={label} className='text-[14px]'>{label}</p>
               ))}
             </div>
@@ -157,11 +157,11 @@ function User() {
               {userProfile.termsConsent !== undefined && userProfile.dataPrivacyConsent !== undefined && userProfile.privacyPolicyConsent !== undefined ? (
                 <>
                   <p className='font-bold text-[14px]'>{userProfile.termsConsent ? 'Accepted' : 'Not accepted'}</p>
-                  <p className='font-bold text-[14px]'>{userProfile.dataPrivacyConsent ? 'Accepted' : 'Not accepted'}</p>
+                  {/* <p className='font-bold text-[14px]'>{userProfile.dataPrivacyConsent ? 'Accepted' : 'Not accepted'}</p> */}
                   <p className='font-bold text-[14px]'>{userProfile.privacyPolicyConsent ? 'Accepted' : 'Not accepted'}</p>
                 </>
               ) : (
-                [...Array(3)].map((_, index) => (
+                [...Array(2)].map((_, index) => (
                   <Link key={index} href="#" className='underline font-bold text-sm'>Read</Link>
                 ))
               )}

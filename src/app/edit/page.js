@@ -344,7 +344,7 @@ export default function EditProfilePage() {
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
                                     {[
                                         { name: 'termsConsent', label: 'Terms and condition' },
-                                        { name: 'dataPrivacyConsent', label: 'Data privacy' },
+                                        // { name: 'dataPrivacyConsent', label: 'Data privacy' },
                                         { name: 'privacyPolicyConsent', label: 'Privacy policy' }
                                     ].map((consent) => (
                                         <div key={consent.name} className="bg-gray-100 p-2 md:p-2.5 lg:p-3 rounded-lg flex justify-between items-center">

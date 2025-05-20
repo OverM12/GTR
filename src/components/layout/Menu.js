@@ -113,23 +113,22 @@ function Menu() {
     return `${process.env.NEXT_PUBLIC_BASE_URL}/${userData.profilePicturePath}`;
   }, [userData]);
 
-  const mainGtrScore = useMemo(() => 
+  const mainGtrScore = useMemo(() =>
     data?.gtr ? parseFloat(data.gtr).toFixed(1) : "0.0"
-  , [data]);
+    , [data]);
 
   return (
     <>
       {isOpen && (
         <div
-          className="md:hidden fixed inset-0 bg-opacity-30 z-40"
+          className="sm:hidden fixed inset-0 bg-opacity-30 z-100"
           onClick={() => setIsOpen(false)}
         />
       )}
 
       <div
-        className={`fixed z-100 min-h-screen text-nowrap top-0 left-0 md:static transition-all duration-300 flex flex-col bg-[#0C2955] overflow-hidden ${
-          isOpen ? "w-[240px] p-4 md:p-4" : "w-0 md:w-[240px]"
-        }`}
+        className={`fixed z-100 min-h-screen text-nowrap top-0 left-0 sm:static transition-all duration-300 flex flex-col bg-[#0C2955] overflow-hidden ${isOpen ? "w-[240px] p-4 sm:p-4" : "w-0 sm:w-[240px]"
+          }`}
       >
         {isOpen && (
           <>
@@ -159,7 +158,7 @@ function Menu() {
                 <div className="relative w-full h-[18px] bg-[#B60A06] rounded-full overflow-hidden">
                   <div
                     className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full border-r-2 border-[#0C2955] flex items-center"
-                    style={{ 
+                    style={{
                       width: `${Math.min(parseFloat(mainGtrScore), 100)}%`
                     }}
                   >
@@ -175,11 +174,10 @@ function Menu() {
             <div className="pt-[32px] flex flex-col">
               <Link
                 href="/dashboard"
-                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 ${
-                  pathname === "/dashboard"
+                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 ${pathname === "/dashboard"
                     ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
                     : "text-[#C1C6DA]"
-                }`}
+                  }`}
               >
                 <Image
                   src="/your-gtr/navbar-icons/function-line.png"
@@ -192,11 +190,10 @@ function Menu() {
               </Link>
               <Link
                 href="/insights"
-                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 ${
-                  pathname === "/insights"
+                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 ${pathname === "/insights"
                     ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
                     : "text-[#C1C6DA]"
-                }`}
+                  }`}
               >
                 <Image
                   src="/your-gtr/dashboard/insights.svg"
@@ -209,11 +206,10 @@ function Menu() {
               </Link>
               <Link
                 href="/development"
-                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 ${
-                  pathname === "/development"
+                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 ${pathname === "/development"
                     ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
                     : "text-[#C1C6DA]"
-                }`}
+                  }`}
               >
                 <Image
                   src="/your-gtr/dashboard/devp1.png"
@@ -225,17 +221,16 @@ function Menu() {
                 Development
               </Link>
               {userData && userData.role === "admin" && (
-              <div className="border-b border-white"></div>
+                <div className="border-b border-white"></div>
               )}
               {/* Only show Users Management link for admin users */}
               {userData && userData.role === "admin" && (
                 <Link
                   href="/user-mangement"
-                  className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 ${
-                    pathname === "/user-mangement"
+                  className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 ${pathname === "/user-mangement"
                       ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
                       : "text-[#C1C6DA]"
-                  }`}
+                    }`}
                 >
                   <Image
                     src="/your-gtr/users_img/usermangement.svg"
@@ -250,7 +245,27 @@ function Menu() {
             </div>
           </>
         )}
+        <div className="mt-auto mb-4">
+          <button
+            onClick={() => {
+              // Handle logout logic here
+              localStorage.removeItem('token');
+              window.location.href = 'https://app-test.goodtime.app/login';
+            }}
+            className="flex w-full py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] text-white hover:text-black hover:bg-[#D6E4FF] rounded-[24px] transition-all duration-200"
+          >
+            <Image
+              src="/your-gtr/navbar-icons/log-out (1).svg"
+              width={24}
+              height={24}
+              alt="Logout"
+              className="hover:filter hover:invert"
+            />
+            Logout
+          </button>
+        </div>
       </div>
+
     </>
   );
 }

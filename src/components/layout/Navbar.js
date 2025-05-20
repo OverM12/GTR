@@ -671,6 +671,14 @@ function Navbar() {
             Start New Assessment
           </a>
         </div>
+        {/* <div className="w-full flex justify-end">
+          <a 
+            href="https://app-test.goodtime.app/"
+            className="flex self-end items-center p-4 rounded-[22px] bg-[#FF9933] text-[14px] font-medium px-5"
+          >
+            Log Out
+          </a>
+        </div> */}
       </div>
     </div>
   );
