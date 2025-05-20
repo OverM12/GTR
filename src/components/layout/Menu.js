@@ -18,23 +18,19 @@ function Menu() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [gtrScore, setGtrScore] = useState(0);
-  const [isMobile, setIsMobile] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Add window resize listener to handle responsive behavior
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 640);
+      setIsMobile(window.innerWidth <= 1180);  // ถ้า width น้อยกว่าหรือเท่ากับ 1024 ถือว่าเป็น Mobile หรือ Tablet
     };
-    
-    // Set initial value
-    handleResize();
-    
-    // Add event listener
-    window.addEventListener('resize', handleResize);
-    
-    // Clean up
-    return () => window.removeEventListener('resize', handleResize);
+    if (typeof window !== "undefined") {
+      handleResize();
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }
   }, []);
+  
 
   // Cache user data fetch results
   const fetchUserData = useMemo(() => async () => {
@@ -127,19 +123,24 @@ function Menu() {
 
   return (
     <>
-      {isOpen && (
+      {/* Overlay for mobile/tablet */}
+      {isOpen && isMobile && (
         <div
-          className="sm:hidden fixed inset-0 bg-opacity-30 z-100"
+          className="fixed inset-0 bg-opacity-30 z-100"
           onClick={() => setIsOpen(false)}
         />
       )}
 
       <div
-        className={`fixed z-100 min-h-screen top-0 left-0 sm:static transition-all duration-300 flex flex-col bg-[#0C2955] ${
-          isOpen ? "w-[240px] p-4" : "w-0 sm:w-[240px] sm:p-4"
+        className={`fixed z-100 min-h-screen top-0 left-0 transition-all duration-300 flex flex-col bg-[#0C2955] ${
+          isMobile
+            ? isOpen
+              ? "w-[240px] p-4"
+              : "w-0 p-0"
+            : "w-[240px] p-4 static"
         }`}
       >
-        {/* Show content if sidebar is open OR we're on desktop */}
+        {/* Show content if sidebar is open (mobile/tablet) OR always on desktop */}
         {(isOpen || !isMobile) && (
           <>
             {/* Profile */}
