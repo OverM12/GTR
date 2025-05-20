@@ -273,8 +273,17 @@ function Menu() {
             <div className="mt-auto mb-4 w-full">
               <button
                 onClick={() => {
-                  // Handle logout logic here
-                  localStorage.removeItem('accessToken');
+                  // Clear all cookies
+                  document.cookie.split(";").forEach((cookie) => {
+                    document.cookie = cookie
+                      .replace(/^ +/, "")
+                      .replace(/=.*/, `=;expires=${new Date(0).toUTCString()};path=/`);
+                  });
+                  
+                  // Clear all localStorage items
+                  localStorage.clear();
+                  
+                  // Redirect to login page
                   window.location.href = 'https://app-test.goodtime.app/login';
                 }}
                 className="flex w-full py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] text-white rounded-[24px] transition-all duration-200 hover:bg-[#1A3966]"
