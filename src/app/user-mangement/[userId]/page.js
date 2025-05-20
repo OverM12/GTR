@@ -471,10 +471,10 @@ function UserGTRContent({ params }) {
                                                         }
                                                     }
                                                 }}
-                                                className={`px-4 py-2 text-white rounded-lg transition-colors ${
+                                                className={`px-4 py-2 rounded-lg transition-colors ${
                                                     showDetails && selectedSessionIndex === index 
-                                                    ? "bg-[#B60A06] hover:bg-[#960805]" 
-                                                    : "bg-[#FF9933] hover:bg-[#FF9955]"
+                                                    ? "bg-white hover:bg-[#f8ece2] text-[#FF9933] border border-[#FF9933]" 
+                                                    : "bg-[#FF9955] hover:bg-[#f0ba85] text-white hover:"
                                                 }`}
                                             >
                                                 {showDetails && selectedSessionIndex === index ? "Hide" : "View"}

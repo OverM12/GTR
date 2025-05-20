@@ -175,8 +175,8 @@ function Menu() {
               <Link
                 href="/dashboard"
                 className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 ${pathname === "/dashboard"
-                    ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
-                    : "text-[#C1C6DA]"
+                  ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
+                  : "text-[#C1C6DA]"
                   }`}
               >
                 <Image
@@ -191,8 +191,8 @@ function Menu() {
               <Link
                 href="/insights"
                 className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 ${pathname === "/insights"
-                    ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
-                    : "text-[#C1C6DA]"
+                  ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
+                  : "text-[#C1C6DA]"
                   }`}
               >
                 <Image
@@ -207,8 +207,8 @@ function Menu() {
               <Link
                 href="/development"
                 className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 ${pathname === "/development"
-                    ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
-                    : "text-[#C1C6DA]"
+                  ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
+                  : "text-[#C1C6DA]"
                   }`}
               >
                 <Image
@@ -228,8 +228,8 @@ function Menu() {
                 <Link
                   href="/user-mangement"
                   className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 ${pathname === "/user-mangement"
-                      ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
-                      : "text-[#C1C6DA]"
+                    ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
+                    : "text-[#C1C6DA]"
                     }`}
                 >
                   <Image
@@ -243,27 +243,28 @@ function Menu() {
                 </Link>
               )}
             </div>
+            <div className="mt-auto mb-4">
+              <button
+                onClick={() => {
+                  // Handle logout logic here
+                  localStorage.removeItem('accessToken');
+
+                  window.location.href = 'https://app-test.goodtime.app/login';
+                }}
+                className="flex w-full py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] text-white hover:text-black hover:bg-[#D6E4FF] rounded-[24px] transition-all duration-200"
+              >
+                <Image
+                  src="/your-gtr/navbar-icons/log-out (1).svg"
+                  width={24}
+                  height={24}
+                  alt="Logout"
+                  className="hover:filter hover:invert"
+                />
+                Logout
+              </button>
+            </div>
           </>
         )}
-        <div className="mt-auto mb-4">
-          <button
-            onClick={() => {
-              // Handle logout logic here
-              localStorage.removeItem('token');
-              window.location.href = 'https://app-test.goodtime.app/login';
-            }}
-            className="flex w-full py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] text-white hover:text-black hover:bg-[#D6E4FF] rounded-[24px] transition-all duration-200"
-          >
-            <Image
-              src="/your-gtr/navbar-icons/log-out (1).svg"
-              width={24}
-              height={24}
-              alt="Logout"
-              className="hover:filter hover:invert"
-            />
-            Logout
-          </button>
-        </div>
       </div>
 
     </>
