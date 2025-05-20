@@ -30,7 +30,7 @@ function Menu() {
       return () => window.removeEventListener('resize', handleResize);
     }
   }, []);
-  
+
 
   // Cache user data fetch results
   const fetchUserData = useMemo(() => async () => {
@@ -132,13 +132,12 @@ function Menu() {
       )}
 
       <div
-        className={`fixed z-100 min-h-screen top-0 left-0 transition-all duration-300 flex flex-col bg-[#0C2955] ${
-          isMobile
+        className={`fixed z-100 min-h-screen top-0 left-0 transition-all duration-300 flex flex-col bg-[#0C2955] ${isMobile
             ? isOpen
               ? "w-[240px] p-4"
               : "w-0 p-0"
             : "w-[240px] p-4 static"
-        }`}
+          }`}
       >
         {/* Show content if sidebar is open (mobile/tablet) OR always on desktop */}
         {(isOpen || !isMobile) && (
@@ -185,11 +184,10 @@ function Menu() {
             <div className="pt-[32px] flex flex-col w-full">
               <Link
                 href="/dashboard"
-                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 w-full ${
-                  pathname === "/dashboard"
+                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 w-full ${pathname === "/dashboard"
                     ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
                     : "text-[#C1C6DA]"
-                }`}
+                  }`}
               >
                 <div className="min-w-[24px] flex justify-center">
                   <Image
@@ -202,14 +200,13 @@ function Menu() {
                 </div>
                 <span className="whitespace-nowrap">Dashboard</span>
               </Link>
-              
+
               <Link
                 href="/insights"
-                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 w-full ${
-                  pathname === "/insights"
+                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 w-full ${pathname === "/insights"
                     ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
                     : "text-[#C1C6DA]"
-                }`}
+                  }`}
               >
                 <div className="min-w-[24px] flex justify-center">
                   <Image
@@ -222,14 +219,13 @@ function Menu() {
                 </div>
                 <span className="whitespace-nowrap">Insights</span>
               </Link>
-              
+
               <Link
                 href="/development"
-                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 w-full ${
-                  pathname === "/development"
+                className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 w-full ${pathname === "/development"
                     ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
                     : "text-[#C1C6DA]"
-                }`}
+                  }`}
               >
                 <div className="min-w-[24px] flex justify-center">
                   <Image
@@ -242,20 +238,19 @@ function Menu() {
                 </div>
                 <span className="whitespace-nowrap">Development</span>
               </Link>
-              
+
               {userData && userData.role === "admin" && (
                 <div className="border-b border-white w-full my-2"></div>
               )}
-              
+
               {/* Only show Users Management link for admin users */}
               {userData && userData.role === "admin" && (
                 <Link
                   href="/user-mangement"
-                  className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 w-full ${
-                    pathname === "/user-mangement"
+                  className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 w-full ${pathname === "/user-mangement"
                       ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
                       : "text-[#C1C6DA]"
-                  }`}
+                    }`}
                 >
                   <div className="min-w-[24px] flex justify-center">
                     <Image
@@ -270,7 +265,7 @@ function Menu() {
                 </Link>
               )}
             </div>
-            
+
             <div className="mt-auto mb-4 w-full">
               <button
                 onClick={() => {
@@ -283,11 +278,11 @@ function Menu() {
                     document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=${window.location.hostname}`;
                     document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=.${window.location.hostname}`;
                   }
-                  
+
                   // Explicitly clear specific cookies seen in the browser
                   const specificCookies = ['_ga', '_ga_HYE91H9521', 'accessToken', 'user'];
                   const domain = '.goodtime.app';
-                  
+
                   specificCookies.forEach(cookieName => {
                     // Clear with root path and specific domain
                     document.cookie = `${cookieName}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=${domain}`;
@@ -298,13 +293,13 @@ function Menu() {
                     // Try without domain specification
                     document.cookie = `${cookieName}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
                   });
-                  
+
                   // Clear localStorage
                   localStorage.clear();
-                  
+
                   // Clear sessionStorage
                   sessionStorage.clear();
-                  
+
                   // Redirect to login page
                   window.location.href = 'https://app-test.goodtime.app/login';
                 }}
