@@ -1,5 +1,4 @@
 "use client";
-
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -8,7 +7,6 @@ import { NavbarContext } from "@/context/NavbarProvider";
 import { userService } from "@/services/userService";
 import reportService from "@/services/reportService";
 import { useDateRange } from "@/context/DateRangeContext";
-
 function Menu() {
   const pathname = usePathname();
   const { dateRange } = useDateRange();
@@ -19,17 +17,14 @@ function Menu() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [gtrScore, setGtrScore] = useState(0);
-
   // Cache user data fetch results
   const fetchUserData = useMemo(() => async () => {
     try {
       setLoading(true);
       const response = await userService.getProfile();
-
       if (response && response.data) {
         setUserData(response.data.data);
       }
-
       if (dateRange.fromDate && dateRange.toDate) {
         try {
           const gtrData = await reportService.getGtrReport(
@@ -52,21 +47,18 @@ function Menu() {
       setLoading(false);
     }
   }, [dateRange]);
-
   // Cache GTR data fetch results
   const fetchGtrData = useMemo(() => async () => {
     if (!dateRange.fromDate || !dateRange.toDate) {
       setLoading(false);
       return;
     }
-
     try {
       setLoading(true);
       const response = await reportService.getGtrReport(
         dateRange.fromDate,
         dateRange.toDate
       );
-
       if (response) {
         setData(response.data.data);
         setError(null);
@@ -80,15 +72,12 @@ function Menu() {
       setLoading(false);
     }
   }, [dateRange]);
-
   useEffect(() => {
     fetchUserData();
   }, [fetchUserData]);
-
   useEffect(() => {
     fetchGtrData();
   }, [fetchGtrData]);
-
   // Memoize helper functions to prevent unnecessary recalculations
   const getUserInitials = useMemo(() => {
     if (!userData || !userData.name) return "U";
@@ -251,14 +240,14 @@ function Menu() {
 
                   window.location.href = 'https://app-test.goodtime.app/login';
                 }}
-                className="flex w-full py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] text-white hover:text-black hover:bg-[#D6E4FF] rounded-[24px] transition-all duration-200"
+                className="flex w-full py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] text-white rounded-[24px] transition-all duration-200"
               >
                 <Image
                   src="/your-gtr/navbar-icons/log-out (1).svg"
                   width={24}
                   height={24}
                   alt="Logout"
-                  className="hover:filter hover:invert"
+                  className="hover:filter"
                 />
                 Logout
               </button>

@@ -7,12 +7,16 @@ import MenuUser from '../layout/MenuUser'
 import { useContext } from 'react'
 import { NavbarContext } from '@/context/NavbarProvider'
 import { userService } from '@/services/userService'
+import TermsOfUseModal from './Terms';
+import PrivacyPolicyModal from './Privacy';
 
 function User() {
   const { activeTab, setActiveTab } = useContext(NavbarContext);
   const [userProfile, setUserProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [termsModalOpen, setTermsModalOpen] = useState(false);
+  const [privacyModalOpen, setPrivacyModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -156,14 +160,44 @@ function User() {
             <div className='flex flex-col space-y-4'>
               {userProfile.termsConsent !== undefined && userProfile.dataPrivacyConsent !== undefined && userProfile.privacyPolicyConsent !== undefined ? (
                 <>
-                  <p className='font-bold text-[14px]'>{userProfile.termsConsent ? 'Accepted' : 'Not accepted'}</p>
-                  {/* <p className='font-bold text-[14px]'>{userProfile.dataPrivacyConsent ? 'Accepted' : 'Not accepted'}</p> */}
-                  <p className='font-bold text-[14px]'>{userProfile.privacyPolicyConsent ? 'Accepted' : 'Not accepted'}</p>
+                  <div className='flex items-center gap-2'>
+                    <p className='font-bold text-[14px]'>{userProfile.termsConsent ? 'Accepted' : 'Not accepted'}</p>
+                    <button
+                      className='underline font-bold text-sm'
+                      onClick={() => setTermsModalOpen(true)}
+                      type="button"
+                    >
+                      Read
+                    </button>
+                  </div>
+                  <div className='flex items-center gap-2'>
+                    <p className='font-bold text-[14px]'>{userProfile.privacyPolicyConsent ? 'Accepted' : 'Not accepted'}</p>
+                    <button
+                      className='underline font-bold text-sm'
+                      onClick={() => setPrivacyModalOpen(true)}
+                      type="button"
+                    >
+                      Read
+                    </button>
+                  </div>
                 </>
               ) : (
-                [...Array(2)].map((_, index) => (
-                  <Link key={index} href="#" className='underline font-bold text-sm'>Read</Link>
-                ))
+                <>
+                  <button
+                    className='underline font-bold text-sm'
+                    onClick={() => setTermsModalOpen(true)}
+                    type="button"
+                  >
+                    Read
+                  </button>
+                  <button
+                    className='underline font-bold text-sm'
+                    onClick={() => setPrivacyModalOpen(true)}
+                    type="button"
+                  >
+                    Read
+                  </button>
+                </>
               )}
             </div>
           </div>
@@ -195,6 +229,8 @@ function User() {
           </div>
         </div>
       </div>
+      <TermsOfUseModal isOpen={termsModalOpen} onClose={() => setTermsModalOpen(false)} />
+      <PrivacyPolicyModal isOpen={privacyModalOpen} onClose={() => setPrivacyModalOpen(false)} />
     </div>
   )
 }

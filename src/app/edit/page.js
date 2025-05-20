@@ -4,6 +4,9 @@ import { userService } from "@/services/userService";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import TermsOfUseModal from '@/components/users/Terms';
+import PrivacyPolicyModal from '@/components/users/Privacy';
+
 
 export default function EditProfilePage() {
     const router = useRouter();
@@ -13,6 +16,9 @@ export default function EditProfilePage() {
     const [profilePicture, setProfilePicture] = useState(null);
     const [profilePictureUrl, setProfilePictureUrl] = useState("");
     const fileInputRef = useRef(null);
+    const [termsModalOpen, setTermsModalOpen] = useState(false);
+    const [privacyModalOpen, setPrivacyModalOpen] = useState(false);
+
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -344,13 +350,23 @@ export default function EditProfilePage() {
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
                                     {[
                                         { name: 'termsConsent', label: 'Terms and condition' },
-                                        // { name: 'dataPrivacyConsent', label: 'Data privacy' },
                                         { name: 'privacyPolicyConsent', label: 'Privacy policy' }
                                     ].map((consent) => (
                                         <div key={consent.name} className="bg-gray-100 p-2 md:p-2.5 lg:p-3 rounded-lg flex justify-between items-center">
                                             <div>
                                                 <p className="text-[10px] md:text-xs lg:text-sm">{consent.label}</p>
-                                                <p className="text-[8px] md:text-[10px] lg:text-xs text-black underline cursor-pointer">Read</p>
+                                                <p
+                                                    className="text-[8px] md:text-[10px] lg:text-xs text-black underline cursor-pointer"
+                                                    onClick={() => {
+                                                        if (consent.name === 'termsConsent') {
+                                                            setTermsModalOpen(true);
+                                                        } else if (consent.name === 'privacyPolicyConsent') {
+                                                            setPrivacyModalOpen(true);
+                                                        }
+                                                    }}
+                                                >
+                                                    Read
+                                                </p>
                                             </div>
                                             <label className="relative inline-flex items-center cursor-pointer">
                                                 <input
@@ -466,6 +482,8 @@ export default function EditProfilePage() {
                         </div>
                     </div>
                 )}
+                <TermsOfUseModal isOpen={termsModalOpen} onClose={() => setTermsModalOpen(false)} />
+                <PrivacyPolicyModal isOpen={privacyModalOpen} onClose={() => setPrivacyModalOpen(false)} />
             </div>
         </>
     );
