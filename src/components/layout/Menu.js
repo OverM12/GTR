@@ -283,6 +283,21 @@ function Menu() {
                     document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=.${window.location.hostname}`;
                   }
                   
+                  // Explicitly clear specific cookies seen in the browser
+                  const specificCookies = ['_ga', '_ga_HYE91H9521', 'accessToken', 'user'];
+                  const domain = '.goodtime.app';
+                  
+                  specificCookies.forEach(cookieName => {
+                    // Clear with root path and specific domain
+                    document.cookie = `${cookieName}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=${domain}`;
+                    // Also try with www subdomain
+                    document.cookie = `${cookieName}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=www.${domain}`;
+                    // Also try with app-test subdomain
+                    document.cookie = `${cookieName}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=app-test.${domain}`;
+                    // Try without domain specification
+                    document.cookie = `${cookieName}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+                  });
+                  
                   // Clear localStorage
                   localStorage.clear();
                   
