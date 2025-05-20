@@ -136,7 +136,7 @@ const ApexLineChart = () => {
             width="100%"
           />
         </div>
-        <div className="p-[8px]">
+        {/* <div className="p-[8px]">
           <h1 className="font-bold text-[18px] mb-[8px]">
             You&apos;re currently on an upswing!
           </h1>
@@ -162,7 +162,7 @@ const ApexLineChart = () => {
             alt="GTR Dashboard pattern-detection-icon"
           />
           Show pattern detection
-        </button>
+        </button> */}
       </div>
 
       <div className="hidden md:flex bg-white rounded-[40px] p-[16px] gap-[16px]">
