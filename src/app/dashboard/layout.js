@@ -5,7 +5,7 @@
 	import { useRouter } from 'next/navigation';
 	
 	export default function RootLayout({ children }) {
-	  const router = useRouter();
+	//   const router = useRouter();
 	
 	//   useEffect(() => {
 	//     const accessToken = localStorage.getItem('accessToken');

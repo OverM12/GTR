@@ -52,6 +52,14 @@ export default function DevelopmentPage() {
     fetchReportData();
   }, [dateRange.fromDate, dateRange.toDate]);
 
+  if (!developmentData) {
+    return (
+      <div className="flex justify-center items-center h-[300px]">
+        <p className="text-red-800">No development data available.</p>
+      </div>
+    );
+  }
+  
   return (
     <div className="bg-gray-100 min-h-screen">
       <div className="container mx-auto p-4">

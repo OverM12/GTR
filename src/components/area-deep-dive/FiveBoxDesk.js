@@ -85,8 +85,8 @@ function FiveBoxDesk() {
   // Show loading spinner while data is being fetched
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-[300px]">
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+      <div className="flex justify-center items-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-[#C6B06A]"></div>
       </div>
     );
   }
@@ -120,42 +120,29 @@ function FiveBoxDesk() {
       .join(" ");
   };
 
-  const renderElements = (data, show) => {
-    if (!show || !data?.elements) return null;
-    return (
-      <div className="ml-4 md:ml-24 mb-4 pl-4 md:pl-63 pr-2 md:pr-13 border-l-2 border-gray-200 ease-in-out">
-        <div className="flex flex-col gap-2 md:gap-3">
-          {data.elements.map((element, index) => {
-            const percent = parseFloat(element.gtr).toFixed(1);
-            return (
-              <div key={index} className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-0">
-                <div className="flex items-center w-full md:w-[300px] md:min-w-[300px] mb-2 md:mb-0">
-                  <span className="text-gray-700 text-xs md:text-sm">{formatElementName(element.element)}</span>
-                </div>
+const renderElements = (data, show) => {
+  if (!show || !data?.elements) return null;
+  return (
+    <div className="ml-4 md:ml-24 mb-4 pl-4 md:pl-63 pr-2 md:pr-13 border-l-2 border-gray-200 ease-in-out">
+      <div className="flex flex-col gap-2 md:gap-3">
+        {data.elements.map((element, index) => {
+          const percent = parseFloat(element.gtr).toFixed(1);
+          return (
+            <div key={index} className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-0">
+              <div className="flex items-center w-full md:w-[300px] md:min-w-[300px] mb-2 md:mb-0">
+                <span className="text-gray-700 text-xs md:text-sm">{formatElementName(element.element)}</span>
+              </div>
 
-                <div className="w-full h-[30px] md:h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
-                  <div
-                    className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
-                    style={{ width: `${percent}%` }}
-                  >
-                    {parseFloat(percent) >= 4.0 && (
-                      <span
-                        className="text-white text-[10px] md:text-xs font-semibold absolute"
-                        style={{
-                          right: '8px',
-                          top: '50%',
-                          transform: 'translateY(-50%)'
-                        }}
-                      >
-                        {percent}%
-                      </span>
-                    )}
-                  </div>
-                  {parseFloat(percent) < 4.0 && (
-                    <span
+              <div className="w-full h-[24px] md:h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+                <div
+                  className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
+                  style={{ width: `${percent}%` }}
+                >
+                  {parseFloat(percent) >= 4.0 && (
+                    <span 
                       className="text-white text-[10px] md:text-xs font-semibold absolute"
-                      style={{
-                        left: '8px',
+                      style={{ 
+                        right: '8px',
                         top: '50%',
                         transform: 'translateY(-50%)'
                       }}
@@ -164,20 +151,31 @@ function FiveBoxDesk() {
                     </span>
                   )}
                 </div>
+                {parseFloat(percent) < 4.0 && (
+                  <span 
+                    className="text-white text-[10px] md:text-xs font-semibold absolute"
+                    style={{ 
+                      left: '8px',
+                      top: '50%',
+                      transform: 'translateY(-50%)'
+                    }}
+                  >
+                    {percent}%
+                  </span>
+                )}
               </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
       </div>
-    );
-  };
-
-
+    </div>
+  );
+};
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-[300px]">
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+      <div className="flex justify-center items-center p-8 h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#C6B06A]"></div>
       </div>
     );
   }
@@ -211,9 +209,9 @@ function FiveBoxDesk() {
                 style={{ width: `${parseFloat(selfScore)}%` }}
               >
                 {parseFloat(selfScore) >= 4.0 && (
-                  <span
+                  <span 
                     className="text-white text-xs font-semibold absolute"
-                    style={{
+                    style={{ 
                       right: '8px',
                       top: '50%',
                       transform: 'translateY(-50%)'
@@ -224,9 +222,9 @@ function FiveBoxDesk() {
                 )}
               </div>
               {parseFloat(selfScore) < 4.0 && (
-                <span
+                <span 
                   className="text-white text-xs font-semibold absolute"
-                  style={{
+                  style={{ 
                     left: '8px',
                     top: '50%',
                     transform: 'translateY(-50%)'
@@ -281,9 +279,9 @@ function FiveBoxDesk() {
                 style={{ width: `${parseFloat(socialScore)}%` }}
               >
                 {parseFloat(socialScore) >= 4.0 && (
-                  <span
+                  <span 
                     className="text-white text-xs font-semibold absolute"
-                    style={{
+                    style={{ 
                       right: '8px',
                       top: '50%',
                       transform: 'translateY(-50%)'
@@ -294,9 +292,9 @@ function FiveBoxDesk() {
                 )}
               </div>
               {parseFloat(socialScore) < 4.0 && (
-                <span
+                <span 
                   className="text-white text-xs font-semibold absolute"
-                  style={{
+                  style={{ 
                     left: '8px',
                     top: '50%',
                     transform: 'translateY(-50%)'
@@ -351,9 +349,9 @@ function FiveBoxDesk() {
                 style={{ width: `${parseFloat(actionsScore)}%` }}
               >
                 {parseFloat(actionsScore) >= 4.0 && (
-                  <span
+                  <span 
                     className="text-white text-xs font-semibold absolute"
-                    style={{
+                    style={{ 
                       right: '8px',
                       top: '50%',
                       transform: 'translateY(-50%)'
@@ -364,9 +362,9 @@ function FiveBoxDesk() {
                 )}
               </div>
               {parseFloat(actionsScore) < 4.0 && (
-                <span
+                <span 
                   className="text-white text-xs font-semibold absolute"
-                  style={{
+                  style={{ 
                     left: '8px',
                     top: '50%',
                     transform: 'translateY(-50%)'
@@ -415,9 +413,9 @@ function FiveBoxDesk() {
                 style={{ width: `${parseFloat(getsScore)}%` }}
               >
                 {parseFloat(getsScore) >= 4.0 && (
-                  <span
+                  <span 
                     className="text-white text-xs font-semibold absolute"
-                    style={{
+                    style={{ 
                       right: '8px',
                       top: '50%',
                       transform: 'translateY(-50%)'
@@ -428,9 +426,9 @@ function FiveBoxDesk() {
                 )}
               </div>
               {parseFloat(getsScore) < 4.0 && (
-                <span
+                <span 
                   className="text-white text-xs font-semibold absolute"
-                  style={{
+                  style={{ 
                     left: '8px',
                     top: '50%',
                     transform: 'translateY(-50%)'
@@ -479,9 +477,9 @@ function FiveBoxDesk() {
                 style={{ width: `${parseFloat(environmentScore)}%` }}
               >
                 {parseFloat(environmentScore) >= 4.0 && (
-                  <span
+                  <span 
                     className="text-white text-xs font-semibold absolute"
-                    style={{
+                    style={{ 
                       right: '8px',
                       top: '50%',
                       transform: 'translateY(-50%)'
@@ -492,9 +490,9 @@ function FiveBoxDesk() {
                 )}
               </div>
               {parseFloat(environmentScore) < 4.0 && (
-                <span
+                <span 
                   className="text-white text-xs font-semibold absolute"
-                  style={{
+                  style={{ 
                     left: '8px',
                     top: '50%',
                     transform: 'translateY(-50%)'

@@ -11,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "GTR Score",
+  title: "GTR Dashboard",
   description: "",
 };
 

@@ -102,24 +102,39 @@ const ApexLineChart = () => {
     fetchChartData();
   }, [dateRange]);
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-[300px]">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+      </div>
+    );
+  }
+
+  if (!chartData) {
+    return (
+      <div className=" bg-white rounded-[40px] p-[16px] flex flex-col gap-[16px]">
+        <div>
+          <h1 className="font-bold text-[18px]">Good Time Journey</h1>
+          <div className="flex justify-center items-center h-[300px]">
+            <p className="text-gray-500">No journey data available</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="md:hidden bg-white rounded-[40px] p-[16px] flex flex-col gap-[16px]">
         <div className="p-[8px]">
           <h1 className="font-bold text-[18px]">Good Time Journey</h1>
-          {loading ? (
-            <div className="flex justify-center items-center h-[300px]">
-            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
-          </div>
-          ) : (
-            <ReactApexChart
-              options={chartData.options}
-              series={chartData.series}
-              type="area"
-              height={300}
-              width="100%"
-            />
-          )}
+          <ReactApexChart
+            options={chartData.options}
+            series={chartData.series}
+            type="area"
+            height={300}
+            width="100%"
+          />
         </div>
         <div className="p-[8px]">
           <h1 className="font-bold text-[18px] mb-[8px]">
@@ -153,19 +168,13 @@ const ApexLineChart = () => {
       <div className="hidden md:flex bg-white rounded-[40px] p-[16px] gap-[16px]">
         <div className="w-full p-[8px]">
           <h1 className="font-bold text-[18px]">Good Time Journey</h1>
-          {loading ? (
-            <div className="flex justify-center items-center h-[300px]">
-            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
-          </div>
-          ) : (
-            <ReactApexChart
-              options={chartData.options}
-              series={chartData.series}
-              type="area"
-              height={350}
-              width="100%"
-            />
-          )}
+          <ReactApexChart
+            options={chartData.options}
+            series={chartData.series}
+            type="area"
+            height={350}
+            width="100%"
+          />
         </div>
       </div>
     </>

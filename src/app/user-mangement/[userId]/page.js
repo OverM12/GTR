@@ -114,7 +114,7 @@ function UserGTRContent({ params }) {
                 }
 
                 // 2. Fetch assessment session data from /assessments/sessions
-                const sessionUrl = new URL("https://api-test.goodtime.app/assessments/sessions");
+                const sessionUrl = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/assessments/sessions`);
                 sessionUrl.searchParams.append("page", "1");
                 sessionUrl.searchParams.append("pageSize", "10");
                 sessionUrl.searchParams.append("sort", "-createdAt");
@@ -425,7 +425,7 @@ function UserGTRContent({ params }) {
                         <thead>
                             <tr className="bg-gray-100">
                                 <th className="py-3 px-4 text-left font-semibold text-gray-600">Status</th>
-                                <th className="py-3 px-4 text-left font-semibold text-gray-600">ID</th>
+                                {/* <th className="py-3 px-4 text-left font-semibold text-gray-600">ID</th> */}
                                 <th className="py-3 px-4 text-left font-semibold text-gray-600">Name</th>
                                 <th className="py-3 px-4 text-left font-semibold text-gray-600">GTR</th>
                                 <th className="py-3 px-4 text-left font-semibold text-gray-600">Self</th>
@@ -444,7 +444,7 @@ function UserGTRContent({ params }) {
                                         <td className="py-3 px-4">
                                             {session.isCompleted ? "Complete" : "In Progress"}
                                         </td>
-                                        <td className="py-3 px-4">{user.id}</td>
+                                        {/* <td className="py-3 px-4">{user.id}</td> */}
                                         <td className="py-3 px-4">{user.name}</td>
                                         <td className="py-3 px-4">{parseFloat(scores.gtr).toFixed(1)}%</td>
                                         <td className="py-3 px-4">{parseFloat(scores.selfGtr).toFixed(1)}%</td>

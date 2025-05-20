@@ -28,6 +28,7 @@ export default function AreaDeepDive() {
           dateRange.fromDate,
           dateRange.toDate
         );
+
         setData(response?.data || null);
       } catch (error) {
         console.error("Failed to fetch GTR data:", error);
@@ -55,63 +56,67 @@ export default function AreaDeepDive() {
       <div className="mt-6 bg-white md:rounded-[40px] rounded-[40px] p-8 shadow-sm">
         <h2 className="text-xl font-bold mb-4">GTR</h2>
 
-        <div className="md:hidden mb-6 mt-8">
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-gray-700 text-[14px]">Total GTR</span>
-            {/* <div className="flex gap-2">
-              <button className="p-1">
-                <Image
-                  src="/your-gtr/area-deep-dive/magnify-icon.svg"
-                  width={40}
-                  height={40}
-                  alt="GTR Magnify Icon"
-                />
-              </button>
-            </div> */}
-          </div>
-          {totalExpanded && (
-            <div className="md:hidden w-[80%] mx-auto h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
-              <div
-                className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out"
-                style={{ width: `${totalGtr}%` }}
-              >
+        {data?.data && (
+          <>
+            <div className="md:hidden mb-6 mt-8">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-gray-700 text-[14px]">Total GTR</span>
+                {/* <div className="flex gap-2">
+                  <button className="p-1">
+                    <Image
+                      src="/your-gtr/area-deep-dive/magnify-icon.svg"
+                      width={40}
+                      height={40}
+                      alt="GTR Magnify Icon"
+                    />
+                  </button>
+                </div> */}
               </div>
-              <span
-                className="text-white text-xs font-semibold absolute"
-                style={{
-                  right: '8px',
-                  top: '50%',
-                  transform: 'translateY(-50%)'
-                }}
-              >
-                {totalGtr}%
-              </span>
+              {totalExpanded && (
+                <div className="md:hidden w-[80%] mx-auto h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+                  <div
+                    className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out"
+                    style={{ width: `${totalGtr}%` }}
+                  >
+                  </div>
+                  <span
+                    className="text-white text-xs font-semibold absolute"
+                    style={{
+                      right: '8px',
+                      top: '50%',
+                      transform: 'translateY(-50%)'
+                    }}
+                  >
+                    {totalGtr}%
+                  </span>
+                </div>
+              )}
             </div>
-          )}
-        </div>
 
-        <div className="hidden md:flex items-center w-full">
-          <span className="text-gray-700 text-[14px] text-nowrap p-4">
-            Total GTR
-          </span>
-          <div className="w-[85%] h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
-            <div
-              className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out"
-              style={{ width: `${totalGtr}%` }}
-            >
+            <div className="hidden md:flex items-center w-full">
+              <span className="text-gray-700 text-[14px] text-nowrap p-4">
+                Total GTR
+              </span>
+              <div className="w-[85%] h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+                <div
+                  className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out"
+                  style={{ width: `${totalGtr}%` }}
+                >
+                </div>
+                <span
+                  className="text-white text-xs font-semibold absolute"
+                  style={{
+                    right: '8px',
+                    top: '50%',
+                    transform: 'translateY(-50%)'
+                  }}
+                >
+                  {totalGtr}%
+                </span>
+              </div>
             </div>
-            <span
-              className="text-white text-xs font-semibold absolute"
-              style={{
-                right: '8px',
-                top: '50%',
-                transform: 'translateY(-50%)'
-              }}
-            >
-              {totalGtr}%
-            </span>
-          </div>
-        </div>
+          </>
+        )}
         <FiveBoxDesk />
         <FiveBoxMobile />
 

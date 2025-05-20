@@ -45,7 +45,7 @@ export default function Dashboard() {
     return (
       <div className="flex flex-col h-lvh items-center justify-center">
         <div className="p-6 text-center">
-          <h2 className="text-xl text-red-600 mb-2">Unable to display information</h2>
+          <h2 className="text-xl text-red-600 mb-2">Your information not found</h2>
         </div>
       </div>
     );

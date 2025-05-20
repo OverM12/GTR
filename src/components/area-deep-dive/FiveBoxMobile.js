@@ -63,10 +63,10 @@ function FiveBoxMobile() {
           dateRange.toDate
         );
 
-        if (!response.data || !response.data.data || !response.data.data.areas) {
-          setError("No data available for the selected date range");
-          return;
-        }
+        // if (!response.data || !response.data.data || !response.data.data.areas) {
+        //   setError("No data available for the selected date range");
+        //   return;
+        // }
 
         const data = response.data.data;
 
@@ -77,8 +77,8 @@ function FiveBoxMobile() {
         setEnvironmentData(data.areas.environment);
 
       } catch (error) {
-        console.error("Error fetching GTR data:", error);
-        setError("Failed to load data. Please try again later.");
+        // console.error("Error fetching GTR data:", error);
+        // setError("Failed to load data. Please try again later.");
       } finally {
         setLoading(false);
       }
