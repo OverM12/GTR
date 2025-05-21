@@ -318,6 +318,9 @@ function Menu() {
             </div>
           </>
         )}
+        <div>
+          <p className="text-white text-xs">v.1.0.0</p>
+        </div>
       </div>
     </>
   );
