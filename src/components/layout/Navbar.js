@@ -13,7 +13,7 @@ function Navbar() {
   const [viewMode, setViewMode] = useState("M"); // Default to "M"
   const fromDateRef = useRef(null);
   const toDateRef = useRef(null);
-  
+  const datePickerRef = useRef(null);
   // Add these missing state variables
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectingField, setSelectingField] = useState(null);
