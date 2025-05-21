@@ -107,7 +107,7 @@ function Navbar() {
   const updateDateRangeForViewMode = (mode) => {
     const today = new Date();
     let fromDate = new Date(today);
-  
+
     switch (mode) {
       case "D":
         // Just today
@@ -128,21 +128,21 @@ function Navbar() {
         // Default to last 30 days
         fromDate.setDate(today.getDate() - 30);
     }
-  
+
     const toDate = new Date(today);
     toDate.setDate(today.getDate() + 1); // ตั้ง toDate เป็น 1 วันข้างหน้า
-  
+
     const fromDateStr = fromDate.toISOString().split("T")[0];
     const toDateStr = toDate.toISOString().split("T")[0];
-  
+
     const newDateRange = {
       fromDate: fromDateStr,
       toDate: toDateStr,
     };
-  
+
     setDateRange(newDateRange);
     fetchDataForDateRange(fromDateStr, toDateStr);
-  };  
+  };
 
   // Initialize with default view mode
   useEffect(() => {
@@ -500,7 +500,8 @@ function Navbar() {
               </div> */}
               <div className="w-full flex justify-end">
                 <a
-                  href={typeof window !== "undefined" && localStorage.getItem('accessToken')
+                  href={typeof window !== "undefined" &&
+                    (localStorage.getItem('accessToken') || document.cookie.includes('accessToken'))
                     ? "https://app-test.goodtime.app/guess-gtr"
                     : "https://app-test.goodtime.app/"}
                   className="flex self-end items-center p-4 rounded-[22px] bg-[#FF9933] text-[14px] font-medium px-5"
@@ -636,7 +637,8 @@ function Navbar() {
 
           <div className="w-full flex justify-end">
             <a
-              href={typeof window !== "undefined" && localStorage.getItem('accessToken')
+              href={typeof window !== "undefined" &&
+                (localStorage.getItem('accessToken') || document.cookie.includes('accessToken'))
                 ? "https://app-test.goodtime.app/guess-gtr"
                 : "https://app-test.goodtime.app/"}
               className="flex self-end items-center p-4 rounded-[22px] bg-[#FF9933] text-[14px] font-medium px-5"
