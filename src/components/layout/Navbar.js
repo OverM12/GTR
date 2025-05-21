@@ -480,9 +480,9 @@ function Navbar() {
                   alt="Picture of the author"
                 />
               </div>
-              {/* <div className="flex">
+              <div className="flex">
                 <div className="w-[48px] h-[48px] flex items-center justify-center">
-                  <Image
+                  {/* <Image
                     src="/your-gtr/users_img/Icon.svg"
                     width={24}
                     height={24}
@@ -495,16 +495,16 @@ function Navbar() {
                     width={24}
                     height={24}
                     alt="Picture of the author"
-                  />
+                  /> */}
+                  <div className="w-full flex justify-end">
+                    <a
+                      href="https://app-test.goodtime.app/guess-gtr"
+                      className="flex self-end items-center p-4 rounded-[22px] bg-[#FF9933] text-[14px] font-medium px-5"
+                    >
+                      Start New Assessment
+                    </a>
+                  </div>
                 </div>
-              </div> */}
-              <div className="w-full flex justify-end">
-                <a
-                  href="https://app-test.goodtime.app/guess-gtr"
-                  className="flex self-end items-center p-4 rounded-[22px] bg-[#FF9933] text-[14px] font-medium px-5"
-                >
-                  Start New Assessment
-                </a>
               </div>
             </div>
             {pathname != "/" ? "" : renderDateRangeDisplay()}
@@ -516,7 +516,7 @@ function Navbar() {
       {!isMobile && (
         <div className="flex w-full items-center gap-8 bg-white drop-shadow-sm shadow-[0px_-3px_8px_rgba(0,0,0,0.5)] py-[16px] px-[16px]">
           {/* Area Deep Dive Layout */}
-          {pathname === "/area-deep-dive" && (
+          {/* {pathname === "/area-deep-dive" && (
             <>
               {renderDateRangeDisplay()}
               <div className="relative flex-1">
@@ -537,10 +537,10 @@ function Navbar() {
                 New Log
               </button>
             </>
-          )}
+          )} */}
 
           {/* Dashboard Layout */}
-          {pathname === "/dashboard" && (
+          {(pathname === "/dashboard" || pathname === "/insights" || pathname === "/") && (
             <>
               <div className="flex items-center">
                 <div className="flex rounded-full overflow-hidden">
