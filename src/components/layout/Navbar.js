@@ -500,10 +500,7 @@ function Navbar() {
               </div> */}
               <div className="w-full flex justify-end">
                 <a
-                  href={typeof window !== "undefined" &&
-                    (localStorage.getItem('accessToken') || document.cookie.includes('accessToken'))
-                    ? "https://app-test.goodtime.app/guess-gtr"
-                    : "https://app-test.goodtime.app/"}
+                  href="https://app-test.goodtime.app/guess-gtr"
                   className="flex self-end items-center p-4 rounded-[22px] bg-[#FF9933] text-[14px] font-medium px-5"
                 >
                   Start New Assessment
@@ -637,10 +634,7 @@ function Navbar() {
 
           <div className="w-full flex justify-end">
             <a
-              href={typeof window !== "undefined" &&
-                (localStorage.getItem('accessToken') || document.cookie.includes('accessToken'))
-                ? "https://app-test.goodtime.app/guess-gtr"
-                : "https://app-test.goodtime.app/"}
+              href="https://app-test.goodtime.app/guess-gtr"
               className="flex self-end items-center p-4 rounded-[22px] bg-[#FF9933] text-[14px] font-medium px-5"
             >
               Start New Assessment

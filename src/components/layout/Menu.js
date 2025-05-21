@@ -319,7 +319,7 @@ function Menu() {
           </>
         )}
         <div>
-          <p className="text-white text-xs">v.1.0.0</p>
+          <p className="text-white text-xs">v.1.0.1</p>
         </div>
       </div>
     </>
