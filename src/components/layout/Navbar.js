@@ -71,7 +71,7 @@ function Navbar() {
     const day = date.getDate().toString().padStart(2, "0"); // Ensuring 2 digits for day
     const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Ensuring 2 digits for month
     const year = date.getFullYear(); // Using the full year as is
-    return `${month}/${day}/${year}`; // Return in MM/DD/YYYY format
+    return `${day}/${month}/${year}`; // Return in MM/DD/YYYY format
   };
 
   // Fetch data based on current date range
@@ -332,8 +332,8 @@ function Navbar() {
         }}
         ref={datePickerRef}
       >
-        <div className="flex justify-between items-center mb-4">
-          <div className="font-medium flex items-center gap-2">
+        <div className="flex gap-2 font-medium justify-between">
+          <div className="flex">
             <select
               value={currentCalendarMonth}
               onChange={handleMonthChange}
@@ -345,6 +345,9 @@ function Navbar() {
                 </option>
               ))}
             </select>
+          </div>
+
+          <div className="flex">
             <select
               value={currentCalendarYear}
               onChange={handleYearChange}
@@ -357,7 +360,7 @@ function Navbar() {
               ))}
             </select>
           </div>
-          <div className="flex gap-2">
+          {/* <div className="flex gap-2">
             <button
               onClick={goToPrevMonth}
               className="text-gray-500 hover:text-gray-700 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
@@ -376,7 +379,7 @@ function Navbar() {
             >
               <span>×</span>
             </button>
-          </div>
+          </div> */}
         </div>
 
         <div className="flex flex-col">
