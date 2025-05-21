@@ -11,7 +11,9 @@ function Navbar() {
   const { dateRange, setDateRange } = useDateRange();
   const pathname = usePathname();
   const [viewMode, setViewMode] = useState("M"); // Default to "M"
-
+  const fromDateRef = useRef(null);
+  const toDateRef = useRef(null);
+  
   // Add these missing state variables
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectingField, setSelectingField] = useState(null);
