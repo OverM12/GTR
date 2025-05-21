@@ -24,16 +24,16 @@ export default function Page() {
     const handleVerifyOTP = async () => {
         const email = localStorage.getItem("email");
         if (!email || !otp) return setError("Email or OTP missing");
-    
+
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/login/verify-otp`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, otp })
             });
-    
+
             if (!response.ok) throw new Error("OTP verification failed");
-    
+
             const data = await response.json();
             // Fix: Store the actual token value instead of the cookies object
             localStorage.setItem("accessToken", data.data.accessToken);
@@ -43,7 +43,7 @@ export default function Page() {
             setError(err.message);
         }
     };
-    
+
 
     return (
         <div className="w-full min-h-screen bg-gradient-to-b from-white via-white to-orange-100">

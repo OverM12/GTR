@@ -58,9 +58,9 @@ function KeyInfluencers() {
             </div>
             <div className="flex w-full flex-col pl-[32px]">
               {loading ? (
-               <div className="flex justify-center items-center h-[300px]">
-               <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
-             </div>
+                <div className="flex justify-center items-center h-[300px]">
+                  <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+                </div>
               ) : highInfluencers.length > 0 ? (
                 highInfluencers.map((item, index) => (
                   <div className="flex" key={`high-${index}`}>
@@ -92,9 +92,9 @@ function KeyInfluencers() {
             </div>
             <div className="flex w-full flex-col pl-[32px]">
               {loading ? (
-               <div className="flex justify-center items-center h-[300px]">
-               <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
-             </div>
+                <div className="flex justify-center items-center h-[300px]">
+                  <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+                </div>
               ) : lowInfluencers.length > 0 ? (
                 lowInfluencers.map((item, index) => (
                   <div className="flex" key={`low-${index}`}>

@@ -7,7 +7,7 @@ import Haderbar from '@/components/layout/Haderbar'
 export default function AccountDeleted() {
     return (
         <div className="w-full min-h-screen bg-gradient-to-b from-white via-white to-orange-100">
-            <Haderbar/>
+            <Haderbar />
             <div className="flex flex-col items-center py-16 px-6 space-y-16 relative z-10">
                 <div className="max-w-[680px] w-full flex flex-col items-center space-y-6">
                     <div className="w-full flex flex-col items-center space-y-2">

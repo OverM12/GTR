@@ -18,7 +18,7 @@ export default function SelfBoxDesk() {
   }, [gtrData]);
 
   const selfScore = areaData?.gtr ? parseFloat(areaData.gtr).toFixed(2) : "0.00"; // เปลี่ยนเป็นทศนิยม 2 หลัก
-  
+
   // Function to format element name for display
   const formatElementName = (name) => {
     if (typeof name !== 'string') return name;
@@ -32,8 +32,8 @@ export default function SelfBoxDesk() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-[300px]">
-              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
-            </div>
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+      </div>
     );
   }
 
@@ -84,12 +84,12 @@ export default function SelfBoxDesk() {
                   {/* Icon for isHigh or isLow */}
                   {element.isHigh && (
                     <span className="text-blue-600 text-lg" title="High">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="#2563eb"><circle cx="12" cy="12" r="8"/></svg>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="#2563eb"><circle cx="12" cy="12" r="8" /></svg>
                     </span>
                   )}
                   {element.isLow && (
                     <span className="text-red-600 text-lg" title="Low">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="#dc2626"><circle cx="12" cy="12" r="8"/></svg>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="#dc2626"><circle cx="12" cy="12" r="8" /></svg>
                     </span>
                   )}
                   {/* Label */}

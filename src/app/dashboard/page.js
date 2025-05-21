@@ -14,7 +14,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     // console.log("document.cookie:", document.cookie);
-  
+
     // วิธีอ่าน cookie แบบ manual จาก document.cookie
     function getCookie(name) {
       const value = `; ${document.cookie}`;
@@ -22,10 +22,10 @@ export default function Dashboard() {
       if (parts.length === 2) return parts.pop().split(';').shift();
       return null;
     }
-  
+
     const accessToken = getCookie("accessToken");
     // console.log("accessToken from document.cookie:", accessToken);
-  
+
     if (accessToken) {
       localStorage.setItem("accessToken", accessToken);
       setHasToken(true);
@@ -37,9 +37,9 @@ export default function Dashboard() {
         setHasToken(false);
       }
     }
-  
+
     window.scrollTo(0, 0);
-  }, []);  
+  }, []);
 
   if (!hasToken) {
     return (

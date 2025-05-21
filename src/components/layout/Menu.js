@@ -133,10 +133,10 @@ function Menu() {
 
       <div
         className={`fixed z-100 min-h-screen top-0 left-0 transition-all duration-300 flex flex-col bg-[#0C2955] ${isMobile
-            ? isOpen
-              ? "w-[240px] p-4"
-              : "w-0 p-0"
-            : "w-[240px] p-4 static"
+          ? isOpen
+            ? "w-[240px] p-4"
+            : "w-0 p-0"
+          : "w-[240px] p-4 static"
           }`}
       >
         {/* Show content if sidebar is open (mobile/tablet) OR always on desktop */}
@@ -185,8 +185,8 @@ function Menu() {
               <Link
                 href="/dashboard"
                 className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 w-full ${pathname === "/dashboard"
-                    ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
-                    : "text-[#C1C6DA]"
+                  ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
+                  : "text-[#C1C6DA]"
                   }`}
               >
                 <div className="min-w-[24px] flex justify-center">
@@ -204,8 +204,8 @@ function Menu() {
               <Link
                 href="/insights"
                 className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 w-full ${pathname === "/insights"
-                    ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
-                    : "text-[#C1C6DA]"
+                  ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
+                  : "text-[#C1C6DA]"
                   }`}
               >
                 <div className="min-w-[24px] flex justify-center">
@@ -223,8 +223,8 @@ function Menu() {
               <Link
                 href="/development"
                 className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 w-full ${pathname === "/development"
-                    ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
-                    : "text-[#C1C6DA]"
+                  ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
+                  : "text-[#C1C6DA]"
                   }`}
               >
                 <div className="min-w-[24px] flex justify-center">
@@ -248,8 +248,8 @@ function Menu() {
                 <Link
                   href="/user-mangement"
                   className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 w-full ${pathname === "/user-mangement"
-                      ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
-                      : "text-[#C1C6DA]"
+                    ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
+                    : "text-[#C1C6DA]"
                     }`}
                 >
                   <div className="min-w-[24px] flex justify-center">

@@ -26,7 +26,7 @@ export default function Signup() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         if (!termsAccepted) {
             setError("Please accept the terms of use");
             return;
@@ -37,10 +37,10 @@ export default function Signup() {
 
         try {
             const response = await authService.register(formData);
-            
+
             // Store the access token securely in HTTP-only cookie
             // Note: This assumes your backend sets the cookie with the token
-            
+
             // Alternative: If you need to store in localStorage (less secure)
             if (response.accessToken) {
                 // Store encrypted token
@@ -124,11 +124,10 @@ export default function Signup() {
                             <button
                                 type="submit"
                                 disabled={loading || !termsAccepted}
-                                className={`w-full text-center rounded-[24px] px-3 sm:px-4 py-2 sm:py-3 text-black font-medium text-sm sm:text-base transition-colors ${
-                                    termsAccepted 
-                                    ? "bg-[#ff9933] hover:bg-[#f08827]" 
-                                    : "bg-gray-300 cursor-not-allowed"
-                                } disabled:opacity-50`}
+                                className={`w-full text-center rounded-[24px] px-3 sm:px-4 py-2 sm:py-3 text-black font-medium text-sm sm:text-base transition-colors ${termsAccepted
+                                        ? "bg-[#ff9933] hover:bg-[#f08827]"
+                                        : "bg-gray-300 cursor-not-allowed"
+                                    } disabled:opacity-50`}
                             >
                                 {loading ? "Creating Account..." : "Create Account"}
                             </button>

@@ -21,9 +21,9 @@ export default function RootLayout({ children }) {
       <body className={`${inter.className}`}>
         <DateRangeProvider>
           <NavbarProvider>
-          <CookiesProvider>
-            {children}
-          </CookiesProvider>
+            <CookiesProvider>
+              {children}
+            </CookiesProvider>
           </NavbarProvider>
         </DateRangeProvider>
       </body>

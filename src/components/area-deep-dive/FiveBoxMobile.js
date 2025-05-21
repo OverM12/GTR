@@ -13,7 +13,7 @@ const IMAGE_PATHS = {
   SENSE_ICON: "/your-gtr/area-deep-dive/sense-icon.svg",
   OBTAIN_ICON: "/your-gtr/area-deep-dive/obtain-icon.svg",
   ENVIRONMENT_ICON: "/your-gtr/area-deep-dive/environment-icon.svg",
-  
+
   // UI elements
   ARROW_UP_ICON: "/your-gtr/area-deep-dive/arrow-up-icon.svg",
   NO_DATA_ICON: "/your-gtr/area-deep-dive/no-data-icon.svg"
@@ -115,9 +115,9 @@ function FiveBoxMobile() {
                     style={{ width: `${percent}%` }}
                   >
                   </div>
-                  <span 
+                  <span
                     className="text-white text-xs font-semibold absolute z-10"
-                    style={{ 
+                    style={{
                       left: parseFloat(percent) >= 14.0 ? `calc(min(${parseFloat(percent)}%, 90%) - 30px)` : '8px',
                       top: '50%',
                       transform: 'translateY(-50%)'
@@ -138,8 +138,8 @@ function FiveBoxMobile() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-[300px]">
-              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
-            </div>
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+      </div>
     );
   }
 
@@ -188,9 +188,9 @@ function FiveBoxMobile() {
               style={{ width: `${parseFloat(selfScore)}%` }}
             >
             </div>
-            <span 
+            <span
               className="text-white text-xs font-semibold absolute z-10"
-              style={{ 
+              style={{
                 left: parseFloat(selfScore) >= 14.0 ? `calc(min(${parseFloat(selfScore)}%, 90%) - 30px)` : '8px',
                 top: '50%',
                 transform: 'translateY(-50%)'
@@ -237,9 +237,9 @@ function FiveBoxMobile() {
               style={{ width: `${parseFloat(socialScore)}%` }}
             >
             </div>
-            <span 
+            <span
               className="text-white text-xs font-semibold absolute z-10"
-              style={{ 
+              style={{
                 left: parseFloat(socialScore) >= 14.0 ? `calc(min(${parseFloat(socialScore)}%, 90%) - 30px)` : '8px',
                 top: '50%',
                 transform: 'translateY(-50%)'
@@ -286,9 +286,9 @@ function FiveBoxMobile() {
               style={{ width: `${parseFloat(actionsScore)}%` }}
             >
             </div>
-            <span 
+            <span
               className="text-white text-xs font-semibold absolute z-10"
-              style={{ 
+              style={{
                 left: parseFloat(actionsScore) >= 14.0 ? `calc(min(${parseFloat(actionsScore)}%, 90%) - 30px)` : '8px',
                 top: '50%',
                 transform: 'translateY(-50%)'
@@ -335,9 +335,9 @@ function FiveBoxMobile() {
               style={{ width: `${parseFloat(getsScore)}%` }}
             >
             </div>
-            <span 
+            <span
               className="text-white text-xs font-semibold absolute z-10"
-              style={{ 
+              style={{
                 left: parseFloat(getsScore) >= 14.0 ? `calc(min(${parseFloat(getsScore)}%, 90%) - 30px)` : '8px',
                 top: '50%',
                 transform: 'translateY(-50%)'
@@ -384,9 +384,9 @@ function FiveBoxMobile() {
               style={{ width: `${parseFloat(environmentScore)}%` }}
             >
               {parseFloat(environmentScore) >= 14.0 && (
-                <span 
+                <span
                   className="text-white text-xs font-semibold absolute z-10"
-                  style={{ 
+                  style={{
                     right: '4px',
                     top: '50%',
                     transform: 'translateY(-50%)'
@@ -397,9 +397,9 @@ function FiveBoxMobile() {
               )}
             </div>
             {parseFloat(environmentScore) < 14.0 && (
-              <span 
+              <span
                 className="text-white text-xs font-semibold absolute z-10"
-                style={{ 
+                style={{
                   left: '8px',
                   top: '50%',
                   transform: 'translateY(-50%)'

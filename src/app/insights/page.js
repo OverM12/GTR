@@ -107,8 +107,8 @@ function TabNavigation() {
 
     if (error) {
       <div className="flex justify-center items-center h-[300px]">
-          <div className="rounded-full h-8 w-8 border-t-2"></div>
-        </div>
+        <div className="rounded-full h-8 w-8 border-t-2"></div>
+      </div>
     }
 
     switch (activeTab) {

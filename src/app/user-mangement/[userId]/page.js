@@ -168,14 +168,14 @@ function UserGTRContent({ params }) {
 
     const calculateAverageFeelingScore = (assessments, elementName) => {
         if (!assessments || assessments.length === 0) return 0;
-        
+
         const element = assessments.find(a => a.element === elementName);
         if (!element) return 0;
-        
+
         // Calculate average based on feeling counts
         let total = 0;
         let count = 0;
-        
+
         for (let i = 1; i <= 7; i++) {
             const feelingKey = `feeling${i}Count`;
             if (element[feelingKey]) {
@@ -183,9 +183,9 @@ function UserGTRContent({ params }) {
                 count += element[feelingKey];
             }
         }
-        
+
         if (count === 0) return 0;
-        
+
         // Convert to percentage (assuming 7 is max)
         return (total / count / 7) * 100;
     };
@@ -216,7 +216,7 @@ function UserGTRContent({ params }) {
 
     const getSelfElements = (session) => {
         if (!session || !session.selfAssessments) return [];
-        
+
         return session.selfAssessments.map(assessment => ({
             element: assessment.element,
             score: calculateAverageFeelingScore(session.selfAssessments, assessment.element),
@@ -226,7 +226,7 @@ function UserGTRContent({ params }) {
 
     const getSocialElements = (session) => {
         if (!session || !session.socialAssessments) return [];
-        
+
         return session.socialAssessments.map(assessment => ({
             element: assessment.element,
             score: calculateAverageFeelingScore(session.socialAssessments, assessment.element),
@@ -237,7 +237,7 @@ function UserGTRContent({ params }) {
 
     const getActionsElements = (session) => {
         if (!session || !session.actionsAssessments) return [];
-        
+
         return session.actionsAssessments.map(assessment => ({
             element: assessment.element,
             score: calculateAverageFeelingScore(session.actionsAssessments, assessment.element),
@@ -248,7 +248,7 @@ function UserGTRContent({ params }) {
 
     const getGetsElements = (session) => {
         if (!session || !session.getsAssessments) return [];
-        
+
         return session.getsAssessments.map(assessment => ({
             element: assessment.element,
             score: calculateAverageFeelingScore(session.getsAssessments, assessment.element),
@@ -260,7 +260,7 @@ function UserGTRContent({ params }) {
 
     const getEnvironmentElements = (session) => {
         if (!session || !session.environmentAssessments) return [];
-        
+
         return session.environmentAssessments.map(assessment => ({
             element: assessment.element,
             score: calculateAverageFeelingScore(session.environmentAssessments, assessment.element),
@@ -271,130 +271,129 @@ function UserGTRContent({ params }) {
 
     const AreaSection = ({ title, score, elements, isExpanded, toggleExpanded }) => (
         <div className="w-full mt-6">
-          <div className="flex items-center mb-2">
-            <div className="flex items-center gap-2 w-[150px]">
-              <span className="font-semibold text-gray-800 pl-12">{title}</span>
-            </div>
-            <div className="flex-1 flex justify-end">
-              <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
-                <div
-                  className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
-                  style={{ width: `${parseFloat(score).toFixed(1)}%` }}
-                >
-                  {parseFloat(score) >= 4.0 && (
-                    <span
-                      className="text-white text-xs font-semibold absolute"
-                      style={{
-                        right: "8px",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                      }}
-                    >
-                      {parseFloat(score).toFixed(1)}%
-                    </span>
-                  )}
+            <div className="flex items-center mb-2">
+                <div className="flex items-center gap-2 w-[150px]">
+                    <span className="font-semibold text-gray-800 pl-12">{title}</span>
                 </div>
-                {parseFloat(score) < 4.0 && (
-                  <span
-                    className="text-white text-xs font-semibold absolute"
-                    style={{
-                      left: "8px",
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                    }}
-                  >
-                    {parseFloat(score).toFixed(1)}%
-                  </span>
-                )}
-              </div>
-            </div>
-            <div className="ml-2">
-              <button
-                onClick={toggleExpanded}
-                className="text-gray-500 hover:text-gray-700 transform transition-transform duration-300"
-                style={{ transform: isExpanded ? "rotate(0deg)" : "rotate(180deg)" }}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <polyline points="18 15 12 9 6 15"></polyline>
-                </svg>
-              </button>
-            </div>
-          </div>
-      
-          {/* Container for elements */}
-          <div
-            className={`ml-24 mb-4 pl-32 pr-13 border-l-2 border-gray-200 transition-all duration-300 ease-in-out ${
-              isExpanded ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0 overflow-hidden"
-            }`}
-          >
-            <div className="flex flex-col gap-2 md:gap-3 py-2">
-              {elements.map((element, idx) => {
-                const percent = parseFloat(element.score ?? 0).toFixed(1);
-                return (
-                  <div
-                    key={idx}
-                    className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-0"
-                  >
-                    <div className="flex items-center w-full md:w-[300px] md:min-w-[0px] mb-2 md:mb-0">
-                      <span className="text-gray-700 text-xs md:text-sm whitespace-nowrap">
-                        {formatElementName(element.element)}
-                      </span>
-                    </div>
-      
-                    <div className="w-full h-[24px] md:h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
-                      <div
-                        className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
-                        style={{ width: `${percent}%` }}
-                      >
-                        {parseFloat(percent) >= 4.0 && (
-                          <span
-                            className="text-white text-[10px] md:text-xs font-semibold absolute"
-                            style={{
-                              right: "8px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                            }}
-                          >
-                            {percent}%
-                          </span>
-                        )}
-                      </div>
-                      {parseFloat(percent) < 4.0 && (
-                        <span
-                          className="text-white text-[10px] md:text-xs font-semibold absolute"
-                          style={{
-                            left: "8px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                          }}
+                <div className="flex-1 flex justify-end">
+                    <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+                        <div
+                            className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
+                            style={{ width: `${parseFloat(score).toFixed(1)}%` }}
                         >
-                          {percent}%
-                        </span>
-                      )}
+                            {parseFloat(score) >= 4.0 && (
+                                <span
+                                    className="text-white text-xs font-semibold absolute"
+                                    style={{
+                                        right: "8px",
+                                        top: "50%",
+                                        transform: "translateY(-50%)",
+                                    }}
+                                >
+                                    {parseFloat(score).toFixed(1)}%
+                                </span>
+                            )}
+                        </div>
+                        {parseFloat(score) < 4.0 && (
+                            <span
+                                className="text-white text-xs font-semibold absolute"
+                                style={{
+                                    left: "8px",
+                                    top: "50%",
+                                    transform: "translateY(-50%)",
+                                }}
+                            >
+                                {parseFloat(score).toFixed(1)}%
+                            </span>
+                        )}
                     </div>
-                  </div>
-                );
-              })}
+                </div>
+                <div className="ml-2">
+                    <button
+                        onClick={toggleExpanded}
+                        className="text-gray-500 hover:text-gray-700 transform transition-transform duration-300"
+                        style={{ transform: isExpanded ? "rotate(0deg)" : "rotate(180deg)" }}
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                    </button>
+                </div>
             </div>
-          </div>
+
+            {/* Container for elements */}
+            <div
+                className={`ml-24 mb-4 pl-32 pr-13 border-l-2 border-gray-200 transition-all duration-300 ease-in-out ${isExpanded ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0 overflow-hidden"
+                    }`}
+            >
+                <div className="flex flex-col gap-2 md:gap-3 py-2">
+                    {elements.map((element, idx) => {
+                        const percent = parseFloat(element.score ?? 0).toFixed(1);
+                        return (
+                            <div
+                                key={idx}
+                                className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-0"
+                            >
+                                <div className="flex items-center w-full md:w-[300px] md:min-w-[0px] mb-2 md:mb-0">
+                                    <span className="text-gray-700 text-xs md:text-sm whitespace-nowrap">
+                                        {formatElementName(element.element)}
+                                    </span>
+                                </div>
+
+                                <div className="w-full h-[24px] md:h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+                                    <div
+                                        className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
+                                        style={{ width: `${percent}%` }}
+                                    >
+                                        {parseFloat(percent) >= 4.0 && (
+                                            <span
+                                                className="text-white text-[10px] md:text-xs font-semibold absolute"
+                                                style={{
+                                                    right: "8px",
+                                                    top: "50%",
+                                                    transform: "translateY(-50%)",
+                                                }}
+                                            >
+                                                {percent}%
+                                            </span>
+                                        )}
+                                    </div>
+                                    {parseFloat(percent) < 4.0 && (
+                                        <span
+                                            className="text-white text-[10px] md:text-xs font-semibold absolute"
+                                            style={{
+                                                left: "8px",
+                                                top: "50%",
+                                                transform: "translateY(-50%)",
+                                            }}
+                                        >
+                                            {percent}%
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
         </div>
-      );
-      
+    );
+
 
     if (loading)
         return (
             <div className="flex justify-center items-center h-[300px]">
-              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
             </div>
         );
     if (error)
@@ -471,11 +470,10 @@ function UserGTRContent({ params }) {
                                                         }
                                                     }
                                                 }}
-                                                className={`px-4 py-2 rounded-lg transition-colors ${
-                                                    showDetails && selectedSessionIndex === index 
-                                                    ? "bg-white hover:bg-[#f8ece2] text-[#FF9933] border border-[#FF9933]" 
-                                                    : "bg-[#FF9955] hover:bg-[#f0ba85] text-white hover:"
-                                                }`}
+                                                className={`px-4 py-2 rounded-lg transition-colors ${showDetails && selectedSessionIndex === index
+                                                        ? "bg-white hover:bg-[#f8ece2] text-[#FF9933] border border-[#FF9933]"
+                                                        : "bg-[#FF9955] hover:bg-[#f0ba85] text-white hover:"
+                                                    }`}
                                             >
                                                 {showDetails && selectedSessionIndex === index ? "Hide" : "View"}
                                             </button>
@@ -523,17 +521,17 @@ function UserGTRContent({ params }) {
                                 <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
                                     <div className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative" style={{ width: `${sessionScores.gtr}%` }}>
                                         <div className="absolute inset-0 flex items-center justify-end pr-2">
-                                        {parseFloat(sessionScores.gtr) >= 4.0 && (
-                                            <span
-                                                className="text-white text-xs font-semibold absolute"
-                                                style={{
-                                                    right: '8px',
-                                                    top: '50%',
-                                                    transform: 'translateY(-50%)'
-                                                }}
-                                            >{parseFloat(sessionScores.gtr).toFixed(1)}%
-                                            </span>
-                                        )}
+                                            {parseFloat(sessionScores.gtr) >= 4.0 && (
+                                                <span
+                                                    className="text-white text-xs font-semibold absolute"
+                                                    style={{
+                                                        right: '8px',
+                                                        top: '50%',
+                                                        transform: 'translateY(-50%)'
+                                                    }}
+                                                >{parseFloat(sessionScores.gtr).toFixed(1)}%
+                                                </span>
+                                            )}
                                         </div>
                                     </div>
                                 </div>

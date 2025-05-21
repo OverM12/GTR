@@ -71,8 +71,8 @@ function Trends() {
       <div className="w-full flex flex-col md:flex-row gap-[16px] mt-4">
         {loading ? (
           <div className="flex justify-center items-center h-[300px]">
-          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
-        </div>
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+          </div>
         ) : error ? (
           <div className="text-red-500 w-full">{error}</div>
         ) : !hasData ? (

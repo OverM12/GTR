@@ -18,14 +18,14 @@ export default function SelfBoxMobile() {
         //console.log("SelfBoxMobile: Date range not available yet");
         return;
       }
-      
+
       //console.log("SelfBoxMobile: Fetching data with date range:", dateRange);
-      
+
       try {
         setLoading(true);
         const data = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
         //console.log("SelfBoxMobile: Data fetched successfully:", data);
-        
+
         // Update state with fetched data - we only need the self data
         setAreaData(data.self);
         setError(null);
@@ -55,8 +55,8 @@ export default function SelfBoxMobile() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-[300px]">
-              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
-            </div>
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+      </div>
     );
   }
 

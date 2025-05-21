@@ -8,27 +8,27 @@ function FiveBoxDesk() {
   const { dateRange } = useDateRange();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   // State for data
   const [selfData, setSelfData] = useState(null);
   const [socialData, setSocialData] = useState(null);
   const [actionsData, setActionsData] = useState(null);
   const [getsData, setGetsData] = useState(null);
   const [environmentData, setEnvironmentData] = useState(null);
-  
+
   // State for expanded sections
   const [selfExpanded, setSelfExpanded] = useState(true);
   const [socialExpanded, setSocialExpanded] = useState(true);
   const [actionsExpanded, setActionsExpanded] = useState(true);
   const [getsExpanded, setGetsExpanded] = useState(true);
   const [environmentExpanded, setEnvironmentExpanded] = useState(true);
-  
+
   // State for showing detailed elements
   const [showSelfElements, setShowSelfElements] = useState(false);
   const [showSocialElements, setShowSocialElements] = useState(false);
   const [showActionsElements, setShowActionsElements] = useState(false);
   const [showGetsElements, setShowGetsElements] = useState(false);
-  
+
   // Update component data when gtrData changes
   useEffect(() => {
     const fetchData = async () => {
@@ -36,14 +36,14 @@ function FiveBoxDesk() {
         //console.log("Date range not available yet");
         return;
       }
-      
+
       //console.log("FourBoxDesk: Fetching data with date range:", dateRange);
-      
+
       try {
         setLoading(true);
         const data = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
         //console.log("FourBoxDesk: Data fetched successfully:", data);
-        
+
         // Update state with fetched data
         setSelfData(data.self);
         setSocialData(data.social);
@@ -61,7 +61,7 @@ function FiveBoxDesk() {
 
     fetchData();
   }, [dateRange]); // Include dateRange as a dependency
-  
+
   // Get scores from the data
   const selfScore = selfData?.gtr ? parseFloat(selfData.gtr).toFixed(1) : "77.5";
   const socialScore = socialData?.gtr ? parseFloat(socialData.gtr).toFixed(1) : "90.4";
@@ -82,8 +82,8 @@ function FiveBoxDesk() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-[300px]">
-              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
-            </div>
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+      </div>
     );
   }
 
@@ -98,7 +98,7 @@ function FiveBoxDesk() {
 
   return (
     <div className="hidden md:flex md:flex-col gap-1">
-      
+
       {/* Self Section */}
       <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
         <div className="flex items-center gap-2">
@@ -164,7 +164,7 @@ function FiveBoxDesk() {
               </div>
             ))}
           </div>
-          
+
           {selfData.notes && (
             <div className="mt-4 bg-gray-50 p-3 rounded-md">
               <h4 className="text-sm font-semibold mb-1">Notes:</h4>
@@ -173,7 +173,7 @@ function FiveBoxDesk() {
           )}
         </div>
       )}
-      
+
       {/* Social Section */}
       <div className="flex pl-26 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
         <div className="flex items-center gap-2">

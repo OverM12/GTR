@@ -20,12 +20,12 @@ export default function Page() {
                 },
                 body: JSON.stringify({ email })
             });
-    
+
             if (!response.ok) throw new Error("Failed to request OTP");
-    
+
             const json = await response.json();
             // console.log("Received OTP:", json.data.otp);
-    
+
             localStorage.setItem("email", email); // save email to use in otp-verification
             localStorage.setItem("otp", json.data.otp); // save otp เพื่อเอาไปใช้ต่อ
             router.push("/auth/otp-verification");
@@ -35,7 +35,7 @@ export default function Page() {
             setLoading(false);
         }
     };
-    
+
 
     return (
         <div className="w-full min-h-screen bg-gradient-to-b from-white via-white to-orange-100">

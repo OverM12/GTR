@@ -43,7 +43,7 @@ function User() {
       ? path
       : `${process.env.NEXT_PUBLIC_BASE_URL}/${path}`;
   };
-  
+
 
   const EditProfileIcon = () => (
     <svg
@@ -72,8 +72,8 @@ function User() {
   const ProfileSection = () => {
     if (loading) {
       return <div className="flex justify-center items-center h-[300px]">
-      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
-    </div>
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+      </div>
     }
 
     if (error) {
@@ -138,12 +138,10 @@ function User() {
             </div>
             <div className='flex flex-col space-y-4'>
               <p className='font-bold text-[14px]'>{userProfile.yearOfBirth}</p>
-              <p className='font-bold text-[14px]'>{userProfile.gender ? userProfile.gender.charAt(0).toUpperCase() + userProfile.gender.slice(1) : 'Not specified'}</p>
-              <p className='font-bold text-[14px]'>{userProfile.countryOfOrigin || 'Not specified'}</p>
+              <p className='font-bold text-[14px]'>{userProfile.gender ? userProfile.gender.charAt(0).toUpperCase() + userProfile.gender.slice(1) : ''}</p>
+              <p className='font-bold text-[14px]'>{userProfile.countryOfOrigin}</p>
               <p className='font-bold text-[14px]'>
-                {userProfile.currentCity && userProfile.currentCountry
-                  ? `${userProfile.currentCity}, ${userProfile.currentCountry}`
-                  : userProfile.currentCountry || userProfile.currentCity || 'Not specified'}
+                {userProfile.currentCity && userProfile.currentCountry ? `${userProfile.currentCity}, ${userProfile.currentCountry}` : userProfile.currentCountry || userProfile.currentCity}
               </p>
             </div>
           </div>

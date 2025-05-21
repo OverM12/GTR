@@ -16,7 +16,7 @@ function Haderbar() {
   const handleTabChange = (tab) => {
     // Update the activeTab in the parent component
     setActiveTab(tab)
-    
+
     // Close the menu after changing tab
     setShowMenu(false)
   }
@@ -29,7 +29,7 @@ function Haderbar() {
           Good Time
         </h3>
       )}
-      
+
       <style jsx global>{`
         @keyframes slide-in {
           from { transform: translateX(-100%); }

@@ -107,7 +107,7 @@ function Navbar() {
   const updateDateRangeForViewMode = (mode) => {
     const today = new Date();
     let fromDate = new Date(today);
-
+  
     switch (mode) {
       case "D":
         // Just today
@@ -128,21 +128,21 @@ function Navbar() {
         // Default to last 30 days
         fromDate.setDate(today.getDate() - 30);
     }
-
-    // Format dates for API
+  
+    const toDate = new Date(today);
+    toDate.setDate(today.getDate() + 1); // ตั้ง toDate เป็น 1 วันข้างหน้า
+  
     const fromDateStr = fromDate.toISOString().split("T")[0];
-    const toDateStr = today.toISOString().split("T")[0];
-
-    // Update the date range in the context
+    const toDateStr = toDate.toISOString().split("T")[0];
+  
     const newDateRange = {
       fromDate: fromDateStr,
       toDate: toDateStr,
     };
-
+  
     setDateRange(newDateRange);
     fetchDataForDateRange(fromDateStr, toDateStr);
-    // console.log("Date range updated:", newDateRange);
-  };
+  };  
 
   // Initialize with default view mode
   useEffect(() => {

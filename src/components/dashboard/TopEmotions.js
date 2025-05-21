@@ -38,9 +38,8 @@ function TopEmotions() {
     list.map((item, index) => (
       <div
         key={index}
-        className={`flex ${
-          index < list.length - 1 ? "border-b" : ""
-        } w-full py-[16px] text-[14px] items-center font-normal gap-[8px]`}
+        className={`flex ${index < list.length - 1 ? "border-b" : ""
+          } w-full py-[16px] text-[14px] items-center font-normal gap-[8px]`}
       >
         {item.emotion}
       </div>
@@ -62,8 +61,8 @@ function TopEmotions() {
             <div className="flex w-full flex-col pl-[32px]">
               {loading ? (
                 <div className="flex justify-center items-center h-[300px]">
-                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
-              </div>
+                  <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+                </div>
               ) : positiveEmotions.length > 0 ? (
                 renderEmotionList(positiveEmotions)
               ) : (
@@ -85,8 +84,8 @@ function TopEmotions() {
             <div className="flex w-full flex-col pl-[32px]">
               {loading ? (
                 <div className="flex justify-center items-center h-[300px]">
-                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
-              </div>
+                  <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+                </div>
               ) : negativeEmotions.length > 0 ? (
                 renderEmotionList(negativeEmotions)
               ) : (

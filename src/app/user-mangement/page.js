@@ -15,7 +15,7 @@ function UserManagement() {
     const [itemsPerPage, setItemsPerPage] = useState(10);
 
     const [currentPage, setCurrentPage] = useState(1);
-    console.log("currentPage",currentPage);
+    console.log("currentPage", currentPage);
 
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -30,21 +30,21 @@ function UserManagement() {
 
                 const response = await fetch(
                     `${process.env.NEXT_PUBLIC_BASE_URL}/users?page=${currentPage}&pageSize=${itemsPerPage}`,
-                    
+
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
                     }
                 );
-                 console.log("Payload",`${process.env.NEXT_PUBLIC_BASE_URL}/users?page=${currentPage}&pageSize=${itemsPerPage}`)
+                console.log("Payload", `${process.env.NEXT_PUBLIC_BASE_URL}/users?page=${currentPage}&pageSize=${itemsPerPage}`)
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
                 const json = await response.json();
-                console.log("response userM",json);
+                console.log("response userM", json);
                 let fetchedUsers = json.data;
                 const total = json.meta?.totalRecords || fetchedUsers.length;
 

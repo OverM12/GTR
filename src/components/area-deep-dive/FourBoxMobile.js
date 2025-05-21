@@ -6,27 +6,27 @@ import reportService from '@/services/reportService';
 export default function FourBoxMobile() {
   const { dateRange, loading, gtrData } = useDateRange();
   const [error, setError] = useState(null);
-  
+
   // State for data
   const [selfData, setSelfData] = useState(null);
   const [socialData, setSocialData] = useState(null);
   const [actionsData, setActionsData] = useState(null);
   const [getsData, setGetsData] = useState(null);
   const [environmentData, setEnvironmentData] = useState(null);
-  
+
   // State for UI
   const [selfExpanded, setSelfExpanded] = useState(true);
   const [socialExpanded, setSocialExpanded] = useState(true);
   const [actionsExpanded, setActionsExpanded] = useState(true);
   const [getsExpanded, setGetsExpanded] = useState(true);
   const [environmentExpanded, setEnvironmentExpanded] = useState(true);
-  
+
   const [showSelfElements, setShowSelfElements] = useState(false);
   const [showSocialElements, setShowSocialElements] = useState(false);
   const [showActionsElements, setShowActionsElements] = useState(false);
   const [showGetsElements, setShowGetsElements] = useState(false);
   const [showEnvironmentElements, setShowEnvironmentElements] = useState(false);
-  
+
   // Update component data when gtrData changes
   useEffect(() => {
     if (gtrData) {
@@ -46,14 +46,14 @@ export default function FourBoxMobile() {
         //console.log("Date range not available yet");
         return;
       }
-      
+
       //console.log("FourBoxMobile: Fetching data with date range:", dateRange);
-      
+
       try {
         setLoading(true);
         const data = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
         //console.log("FourBoxMobile: Data fetched successfully:", data);
-        
+
         // Update state with fetched data
         setSelfData(data.self);
         setSocialData(data.social);
@@ -71,7 +71,7 @@ export default function FourBoxMobile() {
 
     fetchData();
   }, [dateRange]); // Include dateRange as a dependency
-  
+
   // Get scores from the data
   const selfScore = selfData?.gtr ? parseFloat(selfData.gtr).toFixed(1) : "77.5";
   const socialScore = socialData?.gtr ? parseFloat(socialData.gtr).toFixed(1) : "0.0";
@@ -92,8 +92,8 @@ export default function FourBoxMobile() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-[300px]">
-              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
-            </div>
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
+      </div>
     );
   }
 
@@ -135,7 +135,7 @@ export default function FourBoxMobile() {
             </div>
           </div>
         )}
-        
+
         {/* Self Elements */}
         {showSelfElements && selfData?.elements && (
           <div className="mt-4 pl-4 border-l-2 border-gray-200">
@@ -164,7 +164,7 @@ export default function FourBoxMobile() {
                 </div>
               </div>
             ))}
-            
+
             {selfData.notes && (
               <div className="mt-2 mb-4 bg-gray-50 p-3 rounded-md">
                 <h4 className="text-sm font-semibold mb-1">Notes:</h4>
@@ -202,7 +202,7 @@ export default function FourBoxMobile() {
             </div>
           </div>
         )}
-        
+
         {/* Social Elements */}
         {showSocialElements && socialData?.elements && (
           <div className="mt-4 pl-4 border-l-2 border-gray-200">
@@ -231,7 +231,7 @@ export default function FourBoxMobile() {
                 </div>
               </div>
             ))}
-            
+
             {socialData.notes && (
               <div className="mt-2 mb-4 bg-gray-50 p-3 rounded-md">
                 <h4 className="text-sm font-semibold mb-1">Notes:</h4>
@@ -269,7 +269,7 @@ export default function FourBoxMobile() {
             </div>
           </div>
         )}
-        
+
         {/* Actions Elements */}
         {showActionsElements && actionsData?.elements && (
           <div className="mt-4 pl-4 border-l-2 border-gray-200">
@@ -298,7 +298,7 @@ export default function FourBoxMobile() {
                 </div>
               </div>
             ))}
-            
+
             {actionsData.notes && (
               <div className="mt-2 mb-4 bg-gray-50 p-3 rounded-md">
                 <h4 className="text-sm font-semibold mb-1">Notes:</h4>
@@ -336,7 +336,7 @@ export default function FourBoxMobile() {
             </div>
           </div>
         )}
-        
+
         {/* Gets Elements */}
         {showGetsElements && getsData?.elements && (
           <div className="mt-4 pl-4 border-l-2 border-gray-200">
@@ -365,7 +365,7 @@ export default function FourBoxMobile() {
                 </div>
               </div>
             ))}
-            
+
             {getsData.notes && (
               <div className="mt-2 mb-4 bg-gray-50 p-3 rounded-md">
                 <h4 className="text-sm font-semibold mb-1">Notes:</h4>
@@ -403,7 +403,7 @@ export default function FourBoxMobile() {
             </div>
           </div>
         )}
-        
+
         {/* Environment Elements */}
         {showEnvironmentElements && environmentData?.elements && (
           <div className="mt-4 pl-4 border-l-2 border-gray-200">
@@ -432,7 +432,7 @@ export default function FourBoxMobile() {
                 </div>
               </div>
             ))}
-            
+
             {environmentData.notes && (
               <div className="mt-2 mb-4 bg-gray-50 p-3 rounded-md">
                 <h4 className="text-sm font-semibold mb-1">Notes:</h4>
