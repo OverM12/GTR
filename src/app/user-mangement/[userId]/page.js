@@ -396,6 +396,20 @@ function UserGTRContent({ params }) {
                 <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
             </div>
         );
+    if (
+        error === "User not found" ||
+        error?.toLowerCase().includes("failed to fetch session data") ||
+        error?.toLowerCase().includes("page not found") ||
+        (user && (!sessions || sessions.length === 0))
+    )
+        return (
+            <div className="flex flex-col items-center justify-center h-screen">
+                <h1 className="text-2xl text-gray-500 font-bold mb-4">No information</h1>
+                <Link href="/user-mangement" className="text-blue-600 hover:text-blue-800">
+                    Back to User Management
+                </Link>
+            </div>
+        );
     if (error)
         return (
             <div className="flex flex-col items-center justify-center h-screen">
@@ -465,7 +479,6 @@ function UserGTRContent({ params }) {
                                                         setSelectedSessionIndex(index);
                                                         setShowDetails(true);
                                                         if (typeof window !== "undefined") {
-                                                            // localStorage.setItem(`user-${userId}-selectedSessionIndex`, JSON.stringify(index));
                                                             // localStorage.setItem(`user-${userId}-showDetails`, JSON.stringify(true));
                                                         }
                                                     }

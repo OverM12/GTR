@@ -30,33 +30,30 @@ function UserManagement() {
 
                 const response = await fetch(
                     `${process.env.NEXT_PUBLIC_BASE_URL}/users?page=${currentPage}&pageSize=${itemsPerPage}`,
-
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
                     }
                 );
-                console.log("Payload", `${process.env.NEXT_PUBLIC_BASE_URL}/users?page=${currentPage}&pageSize=${itemsPerPage}`)
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
                 const json = await response.json();
-                console.log("response userM", json);
-                let fetchedUsers = json.data;
-                const total = json.meta?.totalRecords || fetchedUsers.length;
 
-                // Search filter
+                let fetchedUsers = json.data;
+                const meta = json.meta || {};
+
+                // Filter and sort locally if you want
                 if (searchTerm) {
                     fetchedUsers = fetchedUsers.filter((user) =>
-                        user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                        user.email?.toLowerCase().includes(searchTerm.toLowerCase())
+                        (user.name ?? '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        (user.email ?? '').toLowerCase().includes(searchTerm.toLowerCase())
                     );
                 }
 
-                // Sort
                 fetchedUsers.sort((a, b) => {
                     const valueA = a[sortField] ?? '';
                     const valueB = b[sortField] ?? '';
@@ -76,8 +73,10 @@ function UserManagement() {
                     }
                 });
 
-                setUsers(fetchedUsers);        // ตั้งค่าข้อมูลผู้ใช้
-                setTotalUsers(total);          // ตั้งค่าจำนวนทั้งหมด
+                setUsers(fetchedUsers);
+                setTotalUsers(meta.totalRecords ?? fetchedUsers.length);
+                setItemsPerPage(meta.pageSize ?? itemsPerPage);
+                setCurrentPage(meta.page ?? currentPage);
                 setError(null);
             } catch (err) {
                 console.error("Error fetching user data:", err);
@@ -89,7 +88,6 @@ function UserManagement() {
 
         fetchUsers();
     }, [sortField, sortOrder, searchTerm, currentPage, itemsPerPage]);
-
 
     const handleSort = (field) => {
 
@@ -180,7 +178,7 @@ function UserManagement() {
 
     // Pagination logic
     const totalPages = Math.ceil(totalUsers / itemsPerPage);
-    const paginatedUsers = users;
+    const paginatedUsers = users; // API already paginates
 
     return (
         <div className="w-full min-h-screen bg-gray-50 p-4 sm:p-6 md:p-8">
