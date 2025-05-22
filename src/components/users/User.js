@@ -141,7 +141,8 @@ function User() {
               <p className='font-bold text-[14px]'>{userProfile.gender ? userProfile.gender.charAt(0).toUpperCase() + userProfile.gender.slice(1) : ''}</p>
               <p className='font-bold text-[14px]'>{userProfile.countryOfOrigin}</p>
               <p className='font-bold text-[14px]'>
-                {userProfile.currentCity && userProfile.currentCountry ? `${userProfile.currentCity}, ${userProfile.currentCountry}` : userProfile.currentCountry || userProfile.currentCity}
+                {/* {userProfile.currentCity && userProfile.currentCountry ? `${userProfile.currentCity}, ${userProfile.currentCountry}` : userProfile.currentCountry || userProfile.currentCity} */}
+              {userProfile.currentCity}, {userProfile.currentCountry}
               </p>
             </div>
           </div>
