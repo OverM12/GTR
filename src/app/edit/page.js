@@ -250,7 +250,7 @@ export default function EditProfilePage() {
 
                                 <div className="space-y-3 md:space-y-4">
                                     <div>
-                                        <label htmlFor="yearOfBirth" className="block text-xs md:text-sm font-medium mb-2">What&apos;s your birthday</label>
+                                        <label htmlFor="yearOfBirth" className="block text-xs md:text-sm font-medium mb-2">What&apos;s your birthday?</label>
                                         <input
                                             type="number"
                                             id="yearOfBirth"

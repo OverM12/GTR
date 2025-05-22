@@ -496,12 +496,20 @@ function Navbar() {
                     height={24}
                     alt="Picture of the author"
                   /> */}
-                  <div className="w-full flex justify-end">
+                  {/* <div className="w-full flex justify-end">
                     <a
                       href="https://app-test.goodtime.app/guess-gtr"
                       className="flex self-end items-center p-4 rounded-[22px] bg-[#FF9933] text-[14px] font-medium px-5"
                     >
                       Start New Assessment
+                    </a>
+                  </div> */}
+                  <div className="w-full flex justify-end">
+                    <a
+                      href="https://app-test.goodtime.app/guess-gtr"
+                      className="flex self-end items-center p-4 rounded-[22px] bg-[#FF9933] text-[14px] font-medium px-5"
+                    >
+                      Log
                     </a>
                   </div>
                 </div>
@@ -632,12 +640,20 @@ function Navbar() {
             </>
           )}
 
-          <div className="w-full flex justify-end">
+          {/* <div className="w-full flex justify-end">
             <a
               href="https://app-test.goodtime.app/guess-gtr"
               className="flex self-end items-center p-4 rounded-[22px] bg-[#FF9933] text-[14px] font-medium px-5"
             >
               Start New Assessment
+            </a>
+          </div> */}
+          <div className="w-full flex justify-end">
+            <a
+              href="https://app-test.goodtime.app/guess-gtr"
+              className="flex self-end items-center p-4 rounded-[22px] bg-[#FF9933] text-[14px] font-medium px-5"
+            >
+              Log
             </a>
           </div>
         </div>
