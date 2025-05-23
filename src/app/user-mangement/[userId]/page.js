@@ -1,20 +1,26 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import { useDateRange } from "@/context/DateRangeContext";
+import { use } from "react";
 
 function UserGTRPage({ params }) {
-    return <UserGTRContent params={params} />;
+    // แก้ไข: resolve Promise params ด้วย use()
+    const paramsResolved = use(params);
+
+    return <UserGTRContent params={paramsResolved} />;
 }
 
 function UserGTRContent({ params }) {
-    const { userId } = params;
+    const { dateRange } = useDateRange();
+    const userId = params.userId;
     const [user, setUser] = useState(null);
     const [sessions, setSessions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    // Add state for selected session with localStorage persistence
+
+    // เลือก session ที่แสดง
     const [selectedSessionIndex, setSelectedSessionIndex] = useState(() => {
         if (typeof window !== "undefined") {
             const stored = localStorage.getItem(`user-${userId}-selectedSessionIndex`);
@@ -23,7 +29,7 @@ function UserGTRContent({ params }) {
         return 0;
     });
 
-    // State management for showing/hiding sections
+    // State สำหรับการแสดงรายละเอียดต่าง ๆ
     const [showDetails, setShowDetails] = useState(() => {
         if (typeof window !== "undefined") {
             const stored = localStorage.getItem(`user-${userId}-showDetails`);
@@ -86,7 +92,7 @@ function UserGTRContent({ params }) {
                     return;
                 }
 
-                // 1. Fetch user data from /users
+                // Fetch user info
                 const userUrl = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/users`);
                 userUrl.searchParams.append("page", "1");
                 userUrl.searchParams.append("pageSize", "50");
@@ -113,12 +119,33 @@ function UserGTRContent({ params }) {
                     return;
                 }
 
-                // 2. Fetch assessment session data from /assessments/sessions
+                // เซ็ต user info เบื้องต้น (lastAssessment จะตั้งทีหลัง)
+                setUser({
+                    id: foundUser.id,
+                    name: foundUser.name,
+                    email: foundUser.email,
+                    profilePicture: foundUser.profilePicturePath || null,
+                    gender: foundUser.gender,
+                    yearOfBirth: foundUser.yearOfBirth,
+                    lastAssessment: null, // แก้ไขให้ตั้งค่าจาก session หลังดึงเสร็จ
+                    countryOfOrigin: foundUser.countryOfOrigin,
+                    currentCountry: foundUser.currentCountry,
+                    currentCity: foundUser.currentCity,
+                });
+
+                // Fetch sessions filtered by date range
                 const sessionUrl = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/assessments/sessions`);
                 sessionUrl.searchParams.append("page", "1");
-                sessionUrl.searchParams.append("pageSize", "10");
+                sessionUrl.searchParams.append("pageSize", "100");
                 sessionUrl.searchParams.append("sort", "-createdAt");
                 sessionUrl.searchParams.append("filter[userId]", userId);
+
+                if (dateRange.fromDate) {
+                    sessionUrl.searchParams.append("filter[createdAt_gte]", dateRange.fromDate);
+                }
+                if (dateRange.toDate) {
+                    sessionUrl.searchParams.append("filter[createdAt_lte]", dateRange.toDate);
+                }
 
                 const sessionRes = await fetch(sessionUrl.toString(), {
                     headers: {
@@ -133,22 +160,22 @@ function UserGTRContent({ params }) {
                 }
 
                 const sessionJson = await sessionRes.json();
-                const latestSession = sessionJson.data?.[0];
-
-                setUser({
-                    id: foundUser.id,
-                    name: foundUser.name,
-                    email: foundUser.email,
-                    profilePicture: foundUser.profilePicturePath || null,
-                    gender: foundUser.gender,
-                    yearOfBirth: foundUser.yearOfBirth,
-                    lastAssessment: latestSession?.createdAt || null,
-                    countryOfOrigin: foundUser.countryOfOrigin,
-                    currentCountry: foundUser.currentCountry,
-                    currentCity: foundUser.currentCity,
-                });
 
                 setSessions(sessionJson.data || []);
+
+                // แก้ไข: อัพเดต lastAssessment ด้วยวันที่ session ล่าสุด (ถ้ามี)
+                if (sessionJson.data && sessionJson.data.length > 0) {
+                    setUser(prev => ({
+                        ...prev,
+                        lastAssessment: sessionJson.data[0].createdAt,
+                    }));
+                } else {
+                    setUser(prev => ({
+                        ...prev,
+                        lastAssessment: null,
+                    }));
+                }
+
             } catch (error) {
                 setError(error.message);
                 setUser(null);
@@ -159,7 +186,12 @@ function UserGTRContent({ params }) {
         };
 
         fetchUserAndSession();
-    }, [userId]);
+    }, [userId, dateRange.fromDate, dateRange.toDate]);
+
+    // DEBUG: ดูข้อมูลก่อนแสดงผล
+    console.log("user:", userId);
+    console.log("sessions:", sessions);
+    console.log("error:", error);
 
     const formatElementName = (name) => {
         if (!name) return "";
@@ -390,41 +422,47 @@ function UserGTRContent({ params }) {
     );
 
 
-    if (loading)
-        return (
-            <div className="flex justify-center items-center h-[300px]">
-                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
-            </div>
-        );
     if (
         error === "User not found" ||
         error?.toLowerCase().includes("failed to fetch session data") ||
-        error?.toLowerCase().includes("page not found") ||
-        (user && (!sessions || sessions.length === 0))
-    )
+        error?.toLowerCase().includes("page not found")
+    ) {
         return (
             <div className="flex flex-col items-center justify-center h-screen">
                 <h1 className="text-2xl text-gray-500 font-bold mb-4">No information</h1>
-                <Link href="/user-mangement" className="text-blue-600 hover:text-blue-800">
+                <Link href="/user-management" className="text-blue-600 hover:text-blue-800">
                     Back to User Management
                 </Link>
             </div>
         );
-    if (error)
+    }
+
+    if (user && sessions && sessions.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center h-screen">
-                <h1 className="text-2xl text-red-500 font-bold mb-4">{error}</h1>
-                <Link href="/user-mangement" className="text-blue-600 hover:text-blue-800">
+                <h1 className="text-2xl text-gray-500 font-bold mb-4">No session data for the selected date range</h1>
+                <Link href="/user-management" className="text-blue-600 hover:text-blue-800">
                     Back to User Management
                 </Link>
             </div>
         );
-    if (!user)
+    }
+
+    if (loading) {
         return (
             <div className="flex justify-center items-center h-screen">
                 <div className="animate-spin h-12 w-12 border-t-4 border-blue-500 rounded-full"></div>
             </div>
         );
+    }
+
+    if (!user) {
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <div className="animate-spin h-12 w-12 border-t-4 border-blue-500 rounded-full"></div>
+            </div>
+        );
+    }
 
     const latestSession = getLatestSession();
     const sessionScores = getSessionScores(latestSession);
@@ -484,8 +522,8 @@ function UserGTRContent({ params }) {
                                                     }
                                                 }}
                                                 className={`px-4 py-2 rounded-lg transition-colors ${showDetails && selectedSessionIndex === index
-                                                        ? "bg-white hover:bg-[#f8ece2] text-[#FF9933] border border-[#FF9933]"
-                                                        : "bg-[#FF9955] hover:bg-[#f0ba85] text-white hover:"
+                                                    ? "bg-white hover:bg-[#f8ece2] text-[#FF9933] border border-[#FF9933]"
+                                                    : "bg-[#FF9955] hover:bg-[#f0ba85] text-white hover:"
                                                     }`}
                                             >
                                                 {showDetails && selectedSessionIndex === index ? "Hide" : "View"}

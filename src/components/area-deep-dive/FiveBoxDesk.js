@@ -126,43 +126,37 @@ function FiveBoxDesk() {
       <div className="ml-4 md:ml-24 mb-4 pl-4 md:pl-63 pr-2 md:pr-13 border-l-2 border-gray-200 ease-in-out">
         <div className="flex flex-col gap-2 md:gap-3">
           {data.elements.map((element, index) => {
-            const percent = parseFloat(element.gtr).toFixed(1);
+            const percentRaw = parseFloat(element.gtr);
+            const percentDisplay = percentRaw.toFixed(1);
+            const widthPercent = Math.min(percentRaw, 100);
+
             return (
-              <div key={index} className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-0">
+              <div
+                key={index}
+                className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-0"
+              >
                 <div className="flex items-center w-full md:w-[300px] md:min-w-[300px] mb-2 md:mb-0">
-                  <span className="text-gray-700 text-xs md:text-sm">{formatElementName(element.element)}</span>
+                  <span className="text-gray-700 text-xs md:text-sm">
+                    {formatElementName(element.element)}
+                  </span>
                 </div>
 
-                <div className="w-full h-[24px] md:h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+                <div className="w-[85%] h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
                   <div
-                    className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
-                    style={{ width: `${percent}%` }}
+                    className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
+                    style={{ width: `${widthPercent}%` }}
                   >
-                    {parseFloat(percent) >= 4.0 && (
-                      <span
-                        className="text-white text-[10px] md:text-xs font-semibold absolute"
-                        style={{
-                          right: '8px',
-                          top: '50%',
-                          transform: 'translateY(-50%)'
-                        }}
-                      >
-                        {percent}%
-                      </span>
-                    )}
-                  </div>
-                  {parseFloat(percent) < 4.0 && (
+                    {/* แสดง % ตรงนี้อยู่ภายในสีเขียว */}
                     <span
-                      className="text-white text-[10px] md:text-xs font-semibold absolute"
+                      className="text-white text-[10px] md:text-xs font-semibold absolute top-1/2 transform -translate-y-1/2"
                       style={{
-                        left: '8px',
-                        top: '50%',
-                        transform: 'translateY(-50%)'
+                        right: widthPercent > 15 ? "8px" : "2px", // เลื่อนขวาออกนิดถ้าแท่งสั้น
+                        whiteSpace: "nowrap",
                       }}
                     >
-                      {percent}%
+                      {percentDisplay}%
                     </span>
-                  )}
+                  </div>
                 </div>
               </div>
             );
@@ -206,33 +200,19 @@ function FiveBoxDesk() {
             <div className="w-full max-w-[1250px] h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
               <div
                 className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
-                style={{ width: `${parseFloat(selfScore)}%` }}
+                style={{ width: `${Math.min(parseFloat(selfScore), 100)}%` }}
               >
-                {parseFloat(selfScore) >= 4.0 && (
-                  <span
-                    className="text-white text-xs font-semibold absolute"
-                    style={{
-                      right: '8px',
-                      top: '50%',
-                      transform: 'translateY(-50%)'
-                    }}
-                  >
-                    {selfScore}%
-                  </span>
-                )}
-              </div>
-              {parseFloat(selfScore) < 4.0 && (
+                {/* แสดง % อยู่ในแท่งสีเหลือง */}
                 <span
-                  className="text-white text-xs font-semibold absolute"
+                  className="text-white text-xs font-semibold absolute top-1/2 transform -translate-y-1/2"
                   style={{
-                    left: '8px',
-                    top: '50%',
-                    transform: 'translateY(-50%)'
+                    right: parseFloat(selfScore) > 15 ? '8px' : '2px',
+                    whiteSpace: 'nowrap',
                   }}
                 >
                   {selfScore}%
                 </span>
-              )}
+              </div>
             </div>
           )}
         </div>
@@ -276,33 +256,19 @@ function FiveBoxDesk() {
             <div className="w-full max-w-[1250px] h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
               <div
                 className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
-                style={{ width: `${parseFloat(socialScore)}%` }}
+                style={{ width: `${Math.min(parseFloat(socialScore), 100)}%` }}
               >
-                {parseFloat(socialScore) >= 4.0 && (
-                  <span
-                    className="text-white text-xs font-semibold absolute"
-                    style={{
-                      right: '8px',
-                      top: '50%',
-                      transform: 'translateY(-50%)'
-                    }}
-                  >
-                    {socialScore}%
-                  </span>
-                )}
-              </div>
-              {parseFloat(socialScore) < 4.0 && (
+                {/* แสดง % อยู่ในแท่งสีเหลือง */}
                 <span
-                  className="text-white text-xs font-semibold absolute"
+                  className="text-white text-xs font-semibold absolute top-1/2 transform -translate-y-1/2"
                   style={{
-                    left: '8px',
-                    top: '50%',
-                    transform: 'translateY(-50%)'
+                    right: parseFloat(socialScore) > 15 ? '8px' : '2px',
+                    whiteSpace: 'nowrap',
                   }}
                 >
                   {socialScore}%
                 </span>
-              )}
+              </div>
             </div>
           )}
         </div>
@@ -346,33 +312,19 @@ function FiveBoxDesk() {
             <div className="w-full max-w-[1250px] h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
               <div
                 className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
-                style={{ width: `${parseFloat(actionsScore)}%` }}
+                style={{ width: `${Math.min(parseFloat(actionsScore), 100)}%` }}
               >
-                {parseFloat(actionsScore) >= 4.0 && (
-                  <span
-                    className="text-white text-xs font-semibold absolute"
-                    style={{
-                      right: '8px',
-                      top: '50%',
-                      transform: 'translateY(-50%)'
-                    }}
-                  >
-                    {actionsScore}%
-                  </span>
-                )}
-              </div>
-              {parseFloat(actionsScore) < 4.0 && (
+                {/* แสดง % อยู่ในแท่งสีเหลือง */}
                 <span
-                  className="text-white text-xs font-semibold absolute"
+                  className="text-white text-xs font-semibold absolute top-1/2 transform -translate-y-1/2"
                   style={{
-                    left: '8px',
-                    top: '50%',
-                    transform: 'translateY(-50%)'
+                    right: parseFloat(actionsScore) > 15 ? '8px' : '2px',
+                    whiteSpace: 'nowrap',
                   }}
                 >
                   {actionsScore}%
                 </span>
-              )}
+              </div>
             </div>
           )}
         </div>
@@ -410,33 +362,19 @@ function FiveBoxDesk() {
             <div className="w-full max-w-[1250px] h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
               <div
                 className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
-                style={{ width: `${parseFloat(getsScore)}%` }}
+                style={{ width: `${Math.min(parseFloat(getsScore), 100)}%` }}
               >
-                {parseFloat(getsScore) >= 4.0 && (
-                  <span
-                    className="text-white text-xs font-semibold absolute"
-                    style={{
-                      right: '8px',
-                      top: '50%',
-                      transform: 'translateY(-50%)'
-                    }}
-                  >
-                    {getsScore}%
-                  </span>
-                )}
-              </div>
-              {parseFloat(getsScore) < 4.0 && (
+                {/* แสดง % อยู่ในแท่งสีเหลือง */}
                 <span
-                  className="text-white text-xs font-semibold absolute"
+                  className="text-white text-xs font-semibold absolute top-1/2 transform -translate-y-1/2"
                   style={{
-                    left: '8px',
-                    top: '50%',
-                    transform: 'translateY(-50%)'
+                    right: parseFloat(getsScore) > 15 ? '8px' : '2px',
+                    whiteSpace: 'nowrap',
                   }}
                 >
                   {getsScore}%
                 </span>
-              )}
+              </div>
             </div>
           )}
         </div>
@@ -474,33 +412,18 @@ function FiveBoxDesk() {
             <div className="w-full max-w-[1250px] h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
               <div
                 className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
-                style={{ width: `${parseFloat(environmentScore)}%` }}
+                style={{ width: `${Math.min(parseFloat(environmentScore), 100)}%` }}
               >
-                {parseFloat(environmentScore) >= 4.0 && (
-                  <span
-                    className="text-white text-xs font-semibold absolute"
-                    style={{
-                      right: '8px',
-                      top: '50%',
-                      transform: 'translateY(-50%)'
-                    }}
-                  >
-                    {environmentScore}%
-                  </span>
-                )}
-              </div>
-              {parseFloat(environmentScore) < 4.0 && (
                 <span
-                  className="text-white text-xs font-semibold absolute"
+                  className="text-white text-xs font-semibold absolute top-1/2 transform -translate-y-1/2"
                   style={{
-                    left: '8px',
-                    top: '50%',
-                    transform: 'translateY(-50%)'
+                    right: parseFloat(environmentScore) > 15 ? '8px' : '2px',
+                    whiteSpace: 'nowrap',
                   }}
                 >
                   {environmentScore}%
                 </span>
-              )}
+              </div>
             </div>
           )}
         </div>

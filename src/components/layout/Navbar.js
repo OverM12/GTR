@@ -130,7 +130,7 @@ function Navbar() {
     }
 
     const toDate = new Date(today);
-    toDate.setDate(today.getDate() + 1); // ตั้ง toDate เป็น 1 วันข้างหน้า
+    toDate.setDate(today.getDate() + 0); // ตั้ง toDate เป็น 1 วันข้างหน้า
 
     const fromDateStr = fromDate.toISOString().split("T")[0];
     const toDateStr = toDate.toISOString().split("T")[0];
