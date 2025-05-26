@@ -712,7 +712,7 @@ function UserGTRContent({ params }) {
                                 <div>
                                     <label className="block text-sm font-medium text-gray-600">Last Assessment</label>
                                     <p className="mt-1 text-sm text-gray-900">
-                                        {user.lastAssessment ? new Date(user.lastAssessment).toLocaleDateString() : "N/A"}
+                                        {user.lastAssessment ? new Date(user.lastAssessment).toLocaleDateString("en-GB") : "N/A"}
                                     </p>
                                 </div>
                             </div>
