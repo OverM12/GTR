@@ -78,6 +78,7 @@ function UserManagement() {
                 setItemsPerPage(meta.pageSize ?? itemsPerPage);
                 setCurrentPage(meta.page ?? currentPage);
                 setError(null);
+                fetchLastAssessmentDates(fetchedUsers);
             } catch (err) {
                 console.error("Error fetching user data:", err);
                 setError("Failed to load user data. Please try again later.");
@@ -88,6 +89,41 @@ function UserManagement() {
 
         fetchUsers();
     }, [sortField, sortOrder, searchTerm, currentPage, itemsPerPage]);
+
+    const fetchLastAssessmentDates = async (usersList) => {
+        const token = localStorage.getItem("accessToken");
+        const updatedUsers = await Promise.all(
+            usersList.map(async (user) => {
+                try {
+                    const sessionRes = await fetch(
+                        `${process.env.NEXT_PUBLIC_BASE_URL}/assessments/sessions?page=1&pageSize=1&sort=-createdAt&filter[userId]=${user.id}`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                                "Content-Type": "application/json",
+                            },
+                        }
+                    );
+                    if (!sessionRes.ok) throw new Error("Failed to fetch session");
+
+                    const sessionData = await sessionRes.json();
+                    const lastAssessment = sessionData.data?.[0]?.createdAt || null;
+
+                    return {
+                        ...user,
+                        lastAssessment,
+                    };
+                } catch (err) {
+                    console.error(`Error fetching session for user ${user.id}:`, err);
+                    return {
+                        ...user,
+                        lastAssessment: null,
+                    };
+                }
+            })
+        );
+        setUsers(updatedUsers);
+    };
 
     const handleSort = (field) => {
 
@@ -269,7 +305,7 @@ function UserManagement() {
                                                     <td className="py-2 sm:py-3 px-2 sm:px-4 whitespace-nowrap">{user.yearOfBirth}</td>
                                                     <td className="py-2 sm:py-3 px-2 sm:px-4 whitespace-nowrap">{user.gender}</td>
                                                     <td className="py-2 sm:py-3 px-2 sm:px-4 whitespace-nowrap">
-                                                        {user.lastAssessment || '-'}
+                                                    {user.lastAssessment ? new Date(user.lastAssessment).toLocaleDateString('en-GB') : '-'}
                                                     </td>
                                                     <td className="py-2 sm:py-3 px-2 sm:px-4 whitespace-nowrap">
                                                         {user.createdAt ? new Date(user.createdAt).toLocaleDateString('en-GB') : '-'}
