@@ -3,13 +3,15 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useDateRange } from "@/context/DateRangeContext";
-import { use } from "react";
+// ลบการ import use ที่ไม่จำเป็น
+// import { use } from "react";
 
 function UserGTRPage({ params }) {
-    // แก้ไข: resolve Promise params ด้วย use()
-    const paramsResolved = use(params);
-
-    return <UserGTRContent params={paramsResolved} />;
+    // แก้ไขการใช้ use() ที่อาจทำให้เกิดปัญหา
+    // const paramsResolved = use(params);
+    
+    // ส่ง params โดยตรงไปยัง UserGTRContent
+    return <UserGTRContent params={params} />;
 }
 
 function UserGTRContent({ params }) {
@@ -140,12 +142,12 @@ function UserGTRContent({ params }) {
                 sessionUrl.searchParams.append("sort", "-createdAt");
                 sessionUrl.searchParams.append("filter[userId]", userId);
 
-                if (dateRange.fromDate) {
-                    sessionUrl.searchParams.append("filter[createdAt_gte]", dateRange.fromDate);
-                }
-                if (dateRange.toDate) {
-                    sessionUrl.searchParams.append("filter[createdAt_lte]", dateRange.toDate);
-                }
+                // if (dateRange.fromDate) {
+                //     sessionUrl.searchParams.append("filter[createdAt_gte]", dateRange.fromDate);
+                // }
+                // if (dateRange.toDate) {
+                //     sessionUrl.searchParams.append("filter[createdAt_lte]", dateRange.toDate);
+                // }
 
                 const sessionRes = await fetch(sessionUrl.toString(), {
                     headers: {
@@ -552,7 +554,7 @@ function UserGTRContent({ params }) {
                                         </span>
                                     )}
                                 </div>
-                                <Link href="/user-mangement" className="text-[#FF9933] hover:text-blue-800 flex items-center">
+                                <Link href="/user-management" className="text-[#FF9933] hover:text-blue-800 flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                                         <path
                                             fillRule="evenodd"

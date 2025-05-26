@@ -75,20 +75,13 @@ export default function AreaDeepDive() {
               {totalExpanded && (
                 <div className="md:hidden w-[80%] mx-auto h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
                   <div
-                    className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out"
+                    className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative flex items-center justify-end pr-4"
                     style={{ width: `${totalGtr}%` }}
                   >
+                    <span className="text-white text-xs font-semibold whitespace-nowrap">
+                      {totalGtr}%
+                    </span>
                   </div>
-                  <span
-                    className="text-white text-xs font-semibold absolute"
-                    style={{
-                      right: '8px',
-                      top: '50%',
-                      transform: 'translateY(-50%)'
-                    }}
-                  >
-                    {totalGtr}%
-                  </span>
                 </div>
               )}
             </div>
@@ -99,20 +92,13 @@ export default function AreaDeepDive() {
               </span>
               <div className="w-[85%] h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
                 <div
-                  className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out"
+                  className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative flex items-center justify-end pr-4"
                   style={{ width: `${totalGtr}%` }}
                 >
+                  <span className="text-white text-xs font-semibold whitespace-nowrap">
+                    {totalGtr}%
+                  </span>
                 </div>
-                <span
-                  className="text-white text-xs font-semibold absolute"
-                  style={{
-                    right: '8px',
-                    top: '50%',
-                    transform: 'translateY(-50%)'
-                  }}
-                >
-                  {totalGtr}%
-                </span>
               </div>
             </div>
           </>

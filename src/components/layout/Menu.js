@@ -246,8 +246,8 @@ function Menu() {
               {/* Only show Users Management link for admin users */}
               {userData && userData.role === "admin" && (
                 <Link
-                  href="/user-mangement"
-                  className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 w-full ${pathname === "/user-mangement"
+                  href="/user-management"
+                  className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 w-full ${pathname === "/user-management"
                     ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
                     : "text-[#C1C6DA]"
                     }`}
@@ -258,7 +258,7 @@ function Menu() {
                       width={24}
                       height={24}
                       alt="Users Management"
-                      className={pathname === "/user-mangement" ? "filter invert" : ""}
+                      className={pathname === "/user-management" ? "filter invert" : ""}
                     />
                   </div>
                   <span className="whitespace-nowrap">Users Management</span>

@@ -276,7 +276,7 @@ function UserManagement() {
                                                     </td>
                                                     <td className="py-2 sm:py-3 px-2 sm:px-4 whitespace-nowrap">
                                                         <Link
-                                                            href={`/user-mangement/${user.id}`}
+                                                            href={`/user-management/${user.id}`}
                                                             className="inline-block px-3 py-1 sm:px-4 sm:py-2 bg-[#FF9933] text-white rounded-lg hover:bg-[#FF9955] transition-colors text-xs sm:text-sm whitespace-nowrap"
                                                         >
                                                             View

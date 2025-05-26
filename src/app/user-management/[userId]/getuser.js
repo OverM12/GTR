@@ -127,7 +127,7 @@ function UserGTRContent({ params }) {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
         <h1 className="text-2xl text-red-500 font-bold mb-4">{error}</h1>
-        <Link href="/user-mangement" className="text-blue-600 hover:text-blue-800">
+        <Link href="/user-management" className="text-blue-600 hover:text-blue-800">
           Back to User Management
         </Link>
       </div>
