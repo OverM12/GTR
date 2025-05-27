@@ -67,7 +67,7 @@ function Trends() {
 
   return (
     <div className="bg-white flex flex-col w-full p-[16px] rounded-[40px]">
-      <h1 className="font-bold text-[18px]">Trends</h1>
+      <h1 className="font-bold text-[24px]">Trends</h1>
       <div className="w-full flex flex-col md:flex-row gap-[16px] mt-4">
         {loading ? (
           <div className="flex justify-center items-center h-[300px]">

@@ -47,7 +47,7 @@ function TopEmotions() {
 
   return (
     <div className="bg-white flex flex-col w-full p-[16px] rounded-[40px]">
-      <h1 className="font-bold text-[18px] hidden md:flex">Top Emotions</h1>
+      <h1 className="font-bold text-[24px] hidden md:flex">Top Emotions</h1>
       <div className="w-full flex flex-col md:flex-row p-[8px] gap-[16px]">
         <h1 className="font-bold text-[18px] md:hidden">Top Emotions</h1>
 

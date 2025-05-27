@@ -107,7 +107,7 @@ const ApexLineChart = () => {
     <>
       <div className="md:hidden bg-white rounded-[40px] p-[16px] flex flex-col gap-[16px]">
         <div className="p-[8px]">
-          <h1 className="font-bold text-[18px]">Actions Time Journey</h1>
+          <h1 className="font-bold text-[24px]">Actions Time Journey</h1>
           {loading ? (
             <div className="flex justify-center items-center h-[300px]">
               <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
@@ -153,7 +153,7 @@ const ApexLineChart = () => {
 
       <div className="hidden md:flex bg-white rounded-[40px] p-[16px] gap-[16px]">
         <div className="w-full p-[8px]">
-          <h1 className="font-bold text-[18px]">Actions Time Journey</h1>
+          <h1 className="font-bold text-[24px]">Actions Time Journey</h1>
           {loading ? (
             <div className="flex justify-center items-center h-[300px]">
               <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>

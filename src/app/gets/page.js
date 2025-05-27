@@ -73,7 +73,7 @@ export default function Gets() {
       </h1>
 
       <div className="w-full flex flex-col bg-white p-2 rounded-4xl py-6 px-6">
-        <h1 className="m-2 font-bold">GTR</h1>
+        <h1 className="m-2 font-bold text-[24px]">GTR</h1>
         {loading ? (
           <div className="flex justify-center items-center h-[300px]">
             <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C6B06A]"></div>
@@ -90,18 +90,19 @@ export default function Gets() {
               <span className="text-gray-700">Gets</span> */}
             </div>
             <div className="flex-1 flex items-center relative h-[30px] mx-2">
-              <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+              <div className="w-full h-[48px] bg-[#B60A06] rounded-full overflow-hidden relative">
                 <div
-                  className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
-                  style={{ width: `${formattedScore}%` }}
+                  className="h-[48px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
+                  style={{ width: `${Math.min(parseFloat(formattedScore), 100)}%` }}
                 >
                   {parseFloat(formattedScore) >= 3.0 && (
                     <span
-                      className="text-white text-xs font-semibold absolute"
+                      className="text-white text-[24px] font-semibold absolute"
                       style={{
                         right: '8px',
                         top: '50%',
-                        transform: 'translateY(-50%)'
+                        transform: 'translateY(-50%)',
+                        whiteSpace: 'nowrap'
                       }}
                     >
                       {formattedScore}%
@@ -110,11 +111,12 @@ export default function Gets() {
                 </div>
                 {parseFloat(formattedScore) < 3.0 && (
                   <span
-                    className="text-white text-xs font-semibold absolute"
+                    className="text-white text-[24px] font-semibold absolute"
                     style={{
                       left: '8px',
                       top: '50%',
-                      transform: 'translateY(-50%)'
+                      transform: 'translateY(-50%)',
+                      whiteSpace: 'nowrap'
                     }}
                   >
                     {formattedScore}%
@@ -205,8 +207,8 @@ export default function Gets() {
 
       <div className="w-full flex flex-col bg-white p-6 rounded-4xl">
         <div className="mb-6">
-          <h2 className="font-semibold text-lg">Your personal Place reflection notes</h2>
-          <p className="text-sm text-gray-500">These are the notes you made during the assessment. Now that you&apos;ve seen the bigger picture, would you like to add anything?</p>
+          <h2 className="font-semibold text-[24px]">Your personal Place reflection notes</h2>
+          <p className="text-[14px] text-gray-500">These are the notes you made during the assessment. Now that you&apos;ve seen the bigger picture, would you like to add anything?</p>
         </div>
 
         {loading ? (

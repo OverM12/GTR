@@ -54,7 +54,7 @@ export default function AreaDeepDive() {
   return (
     <div className="flex h-dvh py-[32px] px-[16px] flex-col bg-[#F0F2F5] overflow-y-auto gap-8">
       <div className="mt-6 bg-white md:rounded-[40px] rounded-[40px] p-8 shadow-sm">
-        <h2 className="text-xl font-bold mb-4">GTR</h2>
+        <h2 className="text-[24px] font-bold mb-4">GTR</h2>
 
         {data?.data && (
           <>

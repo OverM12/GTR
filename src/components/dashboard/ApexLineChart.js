@@ -127,7 +127,7 @@ const ApexLineChart = () => {
     <>
       <div className="md:hidden bg-white rounded-[40px] p-[16px] flex flex-col gap-[16px]">
         <div className="p-[8px]">
-          <h1 className="font-bold text-[18px]">Good Time Journey</h1>
+          <h1 className="font-bold text-[24px]">Good Time Journey</h1>
           <ReactApexChart
             options={chartData.options}
             series={chartData.series}
@@ -167,7 +167,7 @@ const ApexLineChart = () => {
 
       <div className="hidden md:flex bg-white rounded-[40px] p-[16px] gap-[16px]">
         <div className="w-full p-[8px]">
-          <h1 className="font-bold text-[18px]">Good Time Journey</h1>
+          <h1 className="font-bold text-[24px]">Good Time Journey</h1>
           <ReactApexChart
             options={chartData.options}
             series={chartData.series}

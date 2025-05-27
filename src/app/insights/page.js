@@ -146,13 +146,13 @@ function TabNavigation() {
           ))}
         </div>
 
-        <div className="flex mt-2 gap-4 text-xs text-gray-600">
+        <div className="flex mt-2 gap-4 text-[14px] text-gray-600">
           <p className="flex items-center">
-            <Image src="/your-gtr/dashboard/energy-flow-icon.png" width={17} height={17} alt="Energy flow icon" />
+            <Image src="/your-gtr/dashboard/energy-flow-icon.png" width={16} height={16} alt="Energy flow icon" />
             = biggest influencer to energy flow
           </p>
           <p className="flex items-center">
-            <Image src="/your-gtr/dashboard/energy-tension-icon.png" width={17} height={17} alt="Energy tension icon" />
+            <Image src="/your-gtr/dashboard/energy-tension-icon.png" width={16} height={16} alt="Energy tension icon" />
             = biggest influencer to energy blockage
           </p>
         </div>

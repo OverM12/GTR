@@ -39,7 +39,7 @@ function KeyInfluencers() {
 
   return (
     <div className="bg-white flex flex-col w-full p-[16px] rounded-[40px]">
-      <h1 className="font-bold text-[18px] hidden md:flex">Key influencers</h1>
+      <h1 className="font-bold text-[24px] hidden md:flex">Key influencers</h1>
       <div className="w-full flex flex-col md:flex-row p-[8px] gap-[16px]">
         <h1 className="font-bold text-[18px] md:hidden">Key influencers</h1>
 
@@ -47,11 +47,11 @@ function KeyInfluencers() {
         <div className="flex bg-[#F8F9FB] w-full rounded-[24px] overflow-hidden">
           <div className="flex h-full w-[8px] bg-[#C6B06A]"></div>
           <div className="flex flex-col w-full p-[16px]">
-            <div className="flex text-[#151C2A] text-[16px] font-bold items-center gap-x-[8px]">
+            <div className="flex text-[#151C2A] text-[20px] font-bold items-center gap-x-[8px]">
               <Image
                 src="/your-gtr/dashboard/energy-flow-icon.png"
-                width={40}
-                height={40}
+                width={32}
+                height={32}
                 alt="Energy Flow Icon"
               />
               Energy-Flow
@@ -81,11 +81,11 @@ function KeyInfluencers() {
         <div className="flex bg-[#F8F9FB] w-full rounded-[24px] overflow-hidden">
           <div className="flex h-full w-[8px] bg-[#B60A06]"></div>
           <div className="flex flex-col w-full p-[16px]">
-            <div className="flex text-[#151C2A] text-[16px] font-bold items-center gap-x-[8px]">
+            <div className="flex text-[#151C2A] text-[20px] font-bold items-center gap-x-[8px]">
               <Image
                 src="/your-gtr/dashboard/energy-tension-icon.png"
-                width={40}
-                height={40}
+                width={32}
+                height={32}
                 alt="Energy Tension Icon"
               />
               Energy-Tension

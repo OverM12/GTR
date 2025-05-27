@@ -9,14 +9,10 @@ function UserManagement() {
     const [totalUsers, setTotalUsers] = useState(0);
     const [error, setError] = useState(null);
     const [sortField, setSortField] = useState("id");
-
     const [sortOrder, setSortOrder] = useState('asc');
-
     const [itemsPerPage, setItemsPerPage] = useState(10);
-
     const [currentPage, setCurrentPage] = useState(1);
-    console.log("currentPage", currentPage);
-
+    // console.log("currentPage", currentPage);
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
@@ -129,40 +125,40 @@ function UserManagement() {
 
         // Special case for Year of Birth
         if (field.toLowerCase() === 'yearofbirth' || field.toLowerCase().includes('year')) {
-            // console.log('Handling Year of Birth sorting');
+            console.log('Handling Year of Birth sorting');
 
             // Toggle sort order if already sorting by year
             const newOrder = (sortField === 'yearOfBirth' && sortOrder === 'asc') ? 'desc' : 'asc';
             setSortField('yearOfBirth');
             setSortOrder(newOrder);
 
-            // console.log(`Sorting by yearOfBirth in ${newOrder} order`);
+            console.log(`Sorting by yearOfBirth in ${newOrder} order`);
             return;
         }
 
         // Special case for Last Assessment
         if (field.toLowerCase() === 'lastassessment' || field.toLowerCase().includes('assessment')) {
-            // console.log('Handling Last Assessment sorting');
+            console.log('Handling Last Assessment sorting');
 
             // Toggle sort order if already sorting by last assessment
             const newOrder = (sortField === 'lastAssessment' && sortOrder === 'asc') ? 'desc' : 'asc';
             setSortField('lastAssessment');
             setSortOrder(newOrder);
 
-            // console.log(`Sorting by lastAssessment in ${newOrder} order`);
+            console.log(`Sorting by lastAssessment in ${newOrder} order`);
             return;
         }
 
         // Special case for Registered On
         if (field.toLowerCase() === 'registeredon' || field.toLowerCase().includes('registered')) {
-            // console.log('Handling Registered On sorting');
+            console.log('Handling Registered On sorting');
 
             // Toggle sort order if already sorting by registration date
             const newOrder = (sortField === 'createdAt' && sortOrder === 'asc') ? 'desc' : 'asc';
             setSortField('createdAt');
             setSortOrder(newOrder);
 
-            // console.log(`Sorting by createdAt in ${newOrder} order`);
+            console.log(`Sorting by createdAt in ${newOrder} order`);
             return;
         }
 
@@ -183,8 +179,8 @@ function UserManagement() {
             normalizedField = fieldMappings[normalizedField];
         }
 
-        // console.log('Normalized field:', normalizedField);
-        // console.log('Current sort field:', sortField);
+        console.log('Normalized field:', normalizedField);
+        console.log('Current sort field:', sortField);
 
         // Always toggle sort order regardless of field
         let newOrder;
@@ -200,7 +196,7 @@ function UserManagement() {
         setSortOrder(newOrder);
 
         // Log for debugging
-        // console.log(`Sorting by ${normalizedField} in ${newOrder} order`);
+        console.log(`Sorting by ${normalizedField} in ${newOrder} order`);
     };
 
     const handleItemsPerPageChange = (e) => {
@@ -221,7 +217,7 @@ function UserManagement() {
             <div className="max-w-7xl mx-auto">
                 <div>
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
-                        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">User Management</h1>
+                        <h1 className="text-[32px] sm:text-[32px] font-bold text-gray-800">User Management</h1>
                         <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
                             {/* <input
                                 type="text"

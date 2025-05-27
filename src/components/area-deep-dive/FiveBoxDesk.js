@@ -136,7 +136,7 @@ function FiveBoxDesk() {
                 className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-0"
               >
                 <div className="flex items-center w-full md:w-[300px] md:min-w-[300px] mb-2 md:mb-0">
-                  <span className="text-gray-700 text-xs md:text-sm">
+                  <span className="text-gray-700 text-[14px] text-xs md:text-sm">
                     {formatElementName(element.element)}
                   </span>
                 </div>
@@ -189,11 +189,11 @@ function FiveBoxDesk() {
         <div className="flex items-center gap-2 pl-[39px] min-w-[200px]">
           <Image
             src={IMAGE_PATHS.SELF_ICON}
-            width={40}
-            height={40}
+            width={24}
+            height={24}
             alt="Self Icon"
           />
-          <span className="text-gray-700">Self</span>
+          <span className="text-gray-700 text-[14px]">Self</span>
         </div>
         <div className="flex-1 flex items-center justify-end relative h-[30px] ml-12">
           {selfExpanded && (
@@ -224,8 +224,8 @@ function FiveBoxDesk() {
           >
             <Image
               src="/your-gtr/area-deep-dive/arrow-up-icon.svg"
-              width={40}
-              height={40}
+              width={24}
+              height={24}
               alt="Magnify Icon"
             />
           </button>
@@ -239,17 +239,17 @@ function FiveBoxDesk() {
         <div className="flex items-center gap-2 pl-[39px] min-w-[200px]">
           <Image
             src={IMAGE_PATHS.MENTAL_ICON}
-            width={40}
-            height={40}
+            width={24}
+            height={24}
             alt="Mental Icon"
           />
           <Image
             src={IMAGE_PATHS.SOCIAL_ICON}
-            width={40}
-            height={40}
+            width={24}
+            height={24}
             alt="Social Icon"
           />
-          <span className="text-gray-700">Social</span>
+          <span className="text-gray-700 text-[14px]">Social</span>
         </div>
         <div className="flex-1 flex items-center justify-end relative h-[30px] ml-12">
           {socialExpanded && (
@@ -280,8 +280,8 @@ function FiveBoxDesk() {
           >
             <Image
               src="/your-gtr/area-deep-dive/arrow-up-icon.svg"
-              width={40}
-              height={40}
+              width={24}
+              height={24}
               alt="Magnify Icon"
             />
           </button>
@@ -295,17 +295,17 @@ function FiveBoxDesk() {
         <div className="flex items-center gap-2 pl-[39px] min-w-[200px]">
           <Image
             src={IMAGE_PATHS.SENSE_ICON}
-            width={40}
-            height={40}
+            width={24}
+            height={24}
             alt="Sense Icon"
           />
           <Image
             src={IMAGE_PATHS.ACTIONS_ICON}
-            width={40}
-            height={40}
+            width={24}
+            height={24}
             alt="Actions Icon"
           />
-          <span className="text-gray-700">Actions</span>
+          <span className="text-gray-700 text-[14px]">Actions</span>
         </div>
         <div className="flex-1 flex items-center justify-end relative h-[30px] ml-12">
           {actionsExpanded && (
@@ -336,8 +336,8 @@ function FiveBoxDesk() {
           >
             <Image
               src="/your-gtr/area-deep-dive/arrow-up-icon.svg"
-              width={40}
-              height={40}
+              width={24}
+              height={24}
               alt="Magnify Icon"
             />
           </button>
@@ -351,11 +351,11 @@ function FiveBoxDesk() {
         <div className="flex items-center gap-2 pl-[39px] min-w-[200px]">
           <Image
             src={IMAGE_PATHS.OBTAIN_ICON}
-            width={40}
-            height={40}
+            width={24}
+            height={24}
             alt="Obtain Icon"
           />
-          <span className="text-gray-700">Obtainments</span>
+          <span className="text-gray-700 text-[14px]">Obtainments</span>
         </div>
         <div className="flex-1 flex items-center justify-end relative h-[30px] ml-12">
           {getsExpanded && (
@@ -386,8 +386,8 @@ function FiveBoxDesk() {
           >
             <Image
               src="/your-gtr/area-deep-dive/arrow-up-icon.svg"
-              width={40}
-              height={40}
+              width={24}
+              height={24}
               alt="Magnify Icon"
             />
           </button>
@@ -401,11 +401,11 @@ function FiveBoxDesk() {
         <div className="flex items-center gap-2 pl-[39px] min-w-[200px]">
           <Image
             src={IMAGE_PATHS.ENVIRONMENT_ICON}
-            width={40}
-            height={40}
+            width={24}
+            height={24}
             alt="Environment Icon"
           />
-          <span className="text-gray-700">Environment</span>
+          <span className="text-gray-700 text-[14px]">Environment</span>
         </div>
         <div className="flex-1 flex items-center justify-end relative h-[30px] ml-12">
           {environmentExpanded && (
@@ -436,8 +436,8 @@ function FiveBoxDesk() {
           >
             <Image
               src="/your-gtr/area-deep-dive/arrow-up-icon.svg"
-              width={40}
-              height={40}
+              width={24}
+              height={24}
               alt="Magnify Icon"
             />
           </button>
