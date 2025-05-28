@@ -1,7 +1,10 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import Papa from "papaparse";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function UserManagement() {
     const [users, setUsers] = useState([]);
@@ -14,6 +17,21 @@ function UserManagement() {
     const [currentPage, setCurrentPage] = useState(1);
     // console.log("currentPage", currentPage);
     const [searchTerm, setSearchTerm] = useState('');
+
+    const endDateRef = useRef(null);
+    const [isStartOpen, setIsStartOpen] = useState(false);
+    const [isEndOpen, setIsEndOpen] = useState(false);
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+    const [showDateModal, setShowDateModal] = useState(false);
+    const [tempStartDate, setTempStartDate] = useState(null);
+    const [tempEndDate, setTempEndDate] = useState('');
+    const [exportReady, setExportReady] = useState(false);
+    const [selectingField, setSelectingField] = useState(null); // "fromDate" | "toDate"
+    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [currentCalendarMonth, setCurrentCalendarMonth] = useState(new Date().getMonth());
+    const [currentCalendarYear, setCurrentCalendarYear] = useState(new Date().getFullYear());
+    const datePickerRef = useRef(null); // ใช้สำหรับปิด popup เมื่อคลิกข้างนอก
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -85,6 +103,238 @@ function UserManagement() {
 
         fetchUsers();
     }, [sortField, sortOrder, searchTerm, currentPage, itemsPerPage]);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (datePickerRef.current && !datePickerRef.current.contains(event.target)) {
+                setShowDatePicker(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+
+    const formatDateForDisplay = (dateString) => {
+        if (!dateString) return "";
+        const date = new Date(dateString);
+        const day = date.getDate().toString().padStart(2, "0");
+        const month = (date.getMonth() + 1).toString().padStart(2, "0");
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+
+    const generateCalendar = () => {
+        const firstDay = new Date(currentCalendarYear, currentCalendarMonth, 1);
+        const startingDayOfWeek = firstDay.getDay();
+        const daysInMonth = new Date(currentCalendarYear, currentCalendarMonth + 1, 0).getDate();
+
+        const calendarDays = [];
+
+        for (let i = 0; i < startingDayOfWeek; i++) {
+            calendarDays.push(<div key={`empty-${i}`} className="w-8 h-8" />);
+        }
+
+        for (let day = 1; day <= daysInMonth; day++) {
+            const date = `${currentCalendarYear}-${String(currentCalendarMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+            const isInRange = date >= startDate && date <= endDate;
+            const isStartDate = date === startDate;
+            const isEndDate = date === endDate;
+
+            calendarDays.push(
+                <div
+                    key={`day-${day}`}
+                    onClick={() => handleDateClick(date)}
+                    className={`w-8 h-8 flex items-center justify-center cursor-pointer text-sm transition-colors
+                ${isInRange && !isStartDate && !isEndDate ? "bg-orange-100" : ""}
+                ${isStartDate || isEndDate ? "bg-[#FF9933] text-white rounded-full" : "rounded-full"}
+                ${date === new Date().toISOString().split("T")[0] && !isStartDate && !isEndDate ? "border border-gray-400" : ""}
+                hover:bg-gray-200 hover:rounded-full`}
+                >
+                    {day}
+                </div>
+            );
+        }
+
+        return calendarDays;
+    };
+
+    const handleDateClick = (date) => {
+        if (selectingField === "fromDate") {
+            setStartDate(date);
+            setSelectingField("toDate");
+        } else {
+            if (date < startDate) {
+                setStartDate(date);
+                setEndDate(startDate);
+            } else {
+                setEndDate(date);
+            }
+            setShowDatePicker(false);
+        }
+    };
+
+    const CustomDatePicker = () => {
+        if (!showDatePicker) return null;
+    
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const years = Array.from({ length: 21 }, (_, i) => new Date().getFullYear() - 10 + i);
+    
+        return (
+          <div className="fixed inset-0 z-50 bg-black/20 flex justify-center items-center">
+            <div className="bg-white rounded-lg shadow-xl border border-gray-200 p-6 w-[320px]" ref={datePickerRef}>
+              <div className="flex justify-between items-center mb-2">
+                <select
+                  value={currentCalendarMonth}
+                  onChange={(e) => setCurrentCalendarMonth(parseInt(e.target.value))}
+                  className="bg-gray-100 rounded px-2 py-1 text-sm"
+                >
+                  {months.map((m, i) => <option key={m} value={i}>{m}</option>)}
+                </select>
+                <select
+                  value={currentCalendarYear}
+                  onChange={(e) => setCurrentCalendarYear(parseInt(e.target.value))}
+                  className="bg-gray-100 rounded px-2 py-1 text-sm"
+                >
+                  {years.map((y) => <option key={y} value={y}>{y}</option>)}
+                </select>
+              </div>
+    
+              <div className="grid grid-cols-7 gap-1 mb-2 text-xs text-gray-600">
+                {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map(d => <div key={d} className="w-8 h-8 flex items-center justify-center">{d}</div>)}
+              </div>
+    
+              <div className="grid grid-cols-7 gap-1">{generateCalendar()}</div>
+    
+              <div className="mt-2 text-xs text-gray-500 text-center italic">
+                {selectingField === "fromDate" ? "Click to select start date" : "Click to select end date"}
+              </div>
+            </div>
+          </div>
+        );
+      };
+      
+    // const downloadCSVFromAPI = async () => {
+    //     try {
+    //         const token = localStorage.getItem("accessToken");
+    //         if (!token) throw new Error("Missing token");
+
+    //         // ใช้ค่าจาก state
+    //         const page = currentPage;
+    //         const pageSize = itemsPerPage;
+    //         const gte = startDate || "2025-05-01";  // fallback ถ้ายังไม่ได้กรอก
+    //         const lte = endDate || "2025-05-31";    // fallback ถ้ายังไม่ได้กรอก
+
+    //         const url = `${process.env.NEXT_PUBLIC_BASE_URL}/users/export?` +
+    //             `filter[role]=participant` +
+    //             `&page=${page}` +
+    //             `&pageSize=${pageSize}` +
+    //             `&sort=-createdAt` +
+    //             `&filter[latestSession.createdAt][gte]=${gte}` +
+    //             `&filter[latestSession.createdAt][lte]=${lte}`;
+
+    //         const response = await fetch(url, {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`,
+    //                 "Content-Type": "application/json",
+    //             },
+    //         });
+
+    //         if (!response.ok) {
+    //             throw new Error(`Export failed: ${response.status}`);
+    //         }
+
+    //         const csvText = await response.text();
+    //         const blob = new Blob([csvText], { type: "text/csv;charset=utf-8;" });
+    //         const downloadUrl = window.URL.createObjectURL(blob);
+
+    //         const link = document.createElement("a");
+    //         link.href = downloadUrl;
+    //         link.setAttribute("download", "exported_users.csv");
+    //         document.body.appendChild(link);
+    //         link.click();
+    //         document.body.removeChild(link);
+    //     } catch (err) {
+    //         console.error("CSV Export Error:", err);
+    //         alert("Export failed. Please try again.");
+    //     }
+    // };
+
+
+    const downloadCSVFromAPI = async (gte, lte) => {
+        try {
+            const token = localStorage.getItem("accessToken");
+            if (!token) throw new Error("Missing token");
+
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_BASE_URL}/users/export?filter[role]=participant&page=${currentPage}&pageSize=${itemsPerPage}&sort=-createdAt&filter[latestSession.createdAt][gte]=${gte}&filter[latestSession.createdAt][lte]=${lte}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            if (!response.ok) throw new Error(`Export failed: ${response.status}`);
+
+            const csvText = await response.text();
+            const blob = new Blob([csvText], { type: "text/csv;charset=utf-8;" });
+            const url = window.URL.createObjectURL(blob);
+
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", "exported_users.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (err) {
+            console.error("CSV Export Error:", err);
+            alert("Export failed.");
+        }
+    };
+
+
+    const exportToCSV = () => {
+        // กรองตามวันที่ถ้ามีการกรอก
+        const filtered = paginatedUsers.filter(user => {
+            if (!user.lastAssessment) return false;
+            const date = new Date(user.lastAssessment);
+            if (startDate && endDate) {
+                return date >= new Date(startDate) && date <= new Date(endDate);
+            }
+            return true;
+        });
+
+        const data = filtered.map(user => ({
+            Name: user.name,
+            Email: user.email,
+            Gender: user.gender,
+            "Year of Birth": user.yearOfBirth,
+            "Country of Origin": user.countryOfOrigin,
+            "Current Location": user.currentCountry,
+            "Last Assessment": user.lastAssessment ? new Date(user.lastAssessment).toLocaleDateString('en-GB') : "-",
+            Registered: user.createdAt ? new Date(user.createdAt).toLocaleDateString('en-GB') : "-",
+            Status: user.status ?? "",
+            "Total GTR": user.totalGtr ?? "",
+            Self: user.self ?? "",
+            Social: user.social ?? "",
+            Actions: user.actions ?? "",
+            Gets: user.gets ?? "",
+            Environment: user.environment ?? ""
+        }));
+
+        const csv = Papa.unparse(data);
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "filtered_users.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
 
     const fetchLastAssessmentDates = async (usersList) => {
         const token = localStorage.getItem("accessToken");
@@ -236,6 +486,70 @@ function UserManagement() {
                                 <option value={20}>20 per page</option>
                                 <option value={50}>50 per page</option>
                             </select>
+                            <div className="flex gap-2 items-center">
+                                <button
+                                    onClick={() => {
+                                        setSelectingField("fromDate");
+                                        setShowDateModal(true);
+                                        setShowDatePicker(true);
+                                    }}
+                                    className="bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700"
+                                >
+                                    Export CSV
+                                </button>
+                            </div>
+
+                            {/* Modal Popup */}
+                            {showDateModal && (
+                                <div className="fixed inset-0 flex items-center justify-center bg-black/10 z-50">
+                                    <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+                                        <h2 className="text-lg font-semibold mb-4">Select Date Range</h2>
+                                        <div className="flex flex-col gap-4">
+                                            <div className="flex gap-2 items-center justify-center">
+                                                <div
+                                                    onClick={() => {
+                                                        setSelectingField("fromDate");
+                                                        setShowDatePicker(true);
+                                                    }}
+                                                    className="bg-gray-100 px-3 py-2 rounded cursor-pointer"
+                                                >
+                                                    {formatDateForDisplay(startDate) || "Start Date"}
+                                                </div>
+                                                <span>to</span>
+                                                <div
+                                                    onClick={() => {
+                                                        setSelectingField("toDate");
+                                                        setShowDatePicker(true);
+                                                    }}
+                                                    className="bg-gray-100 px-3 py-2 rounded cursor-pointer"
+                                                >
+                                                    {formatDateForDisplay(endDate) || "End Date"}
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-end gap-2 mt-4">
+                                                <button
+                                                    onClick={() => setShowDateModal(false)}
+                                                    className="px-4 py-2 border rounded-lg hover:bg-gray-100"
+                                                >
+                                                    Cancel
+                                                </button>
+                                                <button
+                                                    onClick={() => {
+                                                        setShowDateModal(false);
+                                                        downloadCSVFromAPI(startDate, endDate);
+                                                    }}
+                                                    disabled={!startDate || !endDate}
+                                                    className="bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 disabled:opacity-50"
+                                                >
+                                                    Export CSV
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {showDatePicker && <CustomDatePicker />}
+                                </div>
+                            )}
+
                         </div>
                     </div>
 
@@ -279,7 +593,7 @@ function UserManagement() {
                                                     {/* <td className="py-2 sm:py-3 px-2 sm:px-4 whitespace-nowrap">{user.id}</td> */}
                                                     <td className="py-2 sm:py-3 px-2 sm:px-4">
                                                         <div className="flex items-center min-w-[150px]">
-                                                            {user.profilePictureUrl  ? (
+                                                            {user.profilePictureUrl ? (
                                                                 <Image
                                                                     src={user.profilePictureUrl}
                                                                     alt={user.name}
@@ -301,7 +615,7 @@ function UserManagement() {
                                                     <td className="py-2 sm:py-3 px-2 sm:px-4 whitespace-nowrap">{user.yearOfBirth}</td>
                                                     <td className="py-2 sm:py-3 px-2 sm:px-4 whitespace-nowrap">{user.gender}</td>
                                                     <td className="py-2 sm:py-3 px-2 sm:px-4 whitespace-nowrap">
-                                                    {user.lastAssessment ? new Date(user.lastAssessment).toLocaleDateString('en-GB') : '-'}
+                                                        {user.lastAssessment ? new Date(user.lastAssessment).toLocaleDateString('en-GB') : '-'}
                                                     </td>
                                                     <td className="py-2 sm:py-3 px-2 sm:px-4 whitespace-nowrap">
                                                         {user.createdAt ? new Date(user.createdAt).toLocaleDateString('en-GB') : '-'}
