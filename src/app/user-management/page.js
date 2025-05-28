@@ -279,9 +279,9 @@ function UserManagement() {
                                                     {/* <td className="py-2 sm:py-3 px-2 sm:px-4 whitespace-nowrap">{user.id}</td> */}
                                                     <td className="py-2 sm:py-3 px-2 sm:px-4">
                                                         <div className="flex items-center min-w-[150px]">
-                                                            {user.profilePicture ? (
+                                                            {user.profilePictureUrl  ? (
                                                                 <Image
-                                                                    src={user.profilePicture}
+                                                                    src={user.profilePictureUrl}
                                                                     alt={user.name}
                                                                     width={32}
                                                                     height={32}

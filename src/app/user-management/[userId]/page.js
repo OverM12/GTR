@@ -9,7 +9,7 @@ import { useDateRange } from "@/context/DateRangeContext";
 function UserGTRPage({ params }) {
     // แก้ไขการใช้ use() ที่อาจทำให้เกิดปัญหา
     // const paramsResolved = use(params);
-    
+
     // ส่ง params โดยตรงไปยัง UserGTRContent
     return <UserGTRContent params={params} />;
 }
@@ -126,7 +126,7 @@ function UserGTRContent({ params }) {
                     id: foundUser.id,
                     name: foundUser.name,
                     email: foundUser.email,
-                    profilePicture: foundUser.profilePicturePath || null,
+                    profilePictureUrl: foundUser.profilePictureUrl || null,
                     gender: foundUser.gender,
                     yearOfBirth: foundUser.yearOfBirth,
                     lastAssessment: null, // แก้ไขให้ตั้งค่าจาก session หลังดึงเสร็จ
@@ -670,9 +670,9 @@ function UserGTRContent({ params }) {
                         <div className="bg-white rounded-lg shadow p-6">
                             <h2 className="text-xl font-semibold mb-4">User Information</h2>
 
-                            {user.profilePicture ? (
+                            {user.profilePictureUrl ? (
                                 <img
-                                    src={user.profilePicture}
+                                    src={user.profilePictureUrl}
                                     alt={user.name}
                                     className="w-24 h-24 rounded-full object-cover mb-4"
                                 />

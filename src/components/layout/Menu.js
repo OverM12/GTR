@@ -113,8 +113,13 @@ function Menu() {
   }, [userData]);
 
   const getProfilePictureUrl = useMemo(() => {
-    if (!userData || !userData.profilePicturePath) return null;
-    return `${process.env.NEXT_PUBLIC_BASE_URL}/${userData.profilePicturePath}`;
+    if (!userData || !userData.profilePictureUrl) return null;
+    // ตรวจสอบว่า profilePictureUrl เป็น URL เต็มหรือไม่
+    if (userData.profilePictureUrl.startsWith('http')) {
+      return userData.profilePictureUrl;
+    }
+    // ถ้าไม่ใช่ URL เต็ม จึงต่อกับ BASE_URL
+    return `${process.env.NEXT_PUBLIC_BASE_URL}/${userData.profilePictureUrl}`;
   }, [userData]);
 
   const mainGtrScore = useMemo(() =>
@@ -147,6 +152,20 @@ function Menu() {
               <div className="flex w-full items-center justify-between">
                 <Link href="/users">
                   <div className="flex items-center gap-[8px] py-[16px]">
+                    {/* เพิ่มรูปโปรไฟล์ตรงนี้ */}
+                    {getProfilePictureUrl ? (
+                      <img
+                        src={getProfilePictureUrl}
+                        width={40}
+                        height={40}
+                        className="rounded-full object-cover"
+                        alt="Profile"
+                      />
+                    ) : (
+                      <div className="w-[40px] h-[40px] rounded-full bg-[#C6B06A] flex items-center justify-center text-white text-sm font-medium">
+                        {getUserInitials}
+                      </div>
+                    )}
                     <p className="text-sm font-semibold text-white whitespace-nowrap overflow-hidden text-ellipsis max-w-[160px]">
                       {loading ? "Loading..." : getDisplayName}
                     </p>

@@ -55,10 +55,8 @@ export default function EditProfilePage() {
                     privacyPolicyConsent: userData.privacyPolicyConsent !== undefined ? userData.privacyPolicyConsent : true,
                 }));
 
-                if (userData.profilePicturePath) {
-                    // ใช้ profilePicturePath จาก API response
-                    const fullImageUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${userData.profilePicturePath}`;
-                    setProfilePictureUrl(fullImageUrl);
+                if (userData.profilePictureUrl) {
+                    setProfilePictureUrl(userData.profilePictureUrl); // ใช้ URL ตรงจาก API
                 }
             } catch (err) {
                 console.error("Error fetching user profile:", err);
@@ -190,6 +188,7 @@ export default function EditProfilePage() {
                                                 layout="fill"
                                                 objectFit="cover"
                                                 className="w-full h-full"
+                                                unoptimized
                                             />
                                         ) : (
                                             <>
