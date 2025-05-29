@@ -2,15 +2,19 @@
 
 import Haderbar from "@/components/layout/Haderbar"
 import Link from "next/link"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation";
 import { useCookies } from 'next-client-cookies';
 
-// Change the component name from 'page' to 'Page'
 export default function Page() {
     const router = useRouter();
-    const [otp, setOtp] = useState(""), [countdown, setCountdown] = useState(60), [isResending, setIsResending] = useState(false), [error, setError] = useState(null);
+    const [otp, setOtp] = useState("");
+    const [countdown, setCountdown] = useState(60);
+    const [isResending, setIsResending] = useState(false);
+    const [error, setError] = useState(null);
     const cookies = useCookies();
+
+    const inputsRef = useRef([]);
 
     useEffect(() => {
         if (countdown > 0) {
@@ -23,7 +27,7 @@ export default function Page() {
 
     const handleVerifyOTP = async () => {
         const email = localStorage.getItem("email");
-        if (!email || !otp) return setError("Email or OTP missing");
+        if (!email || otp.length < 6) return setError("Email or OTP missing");
 
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/login/verify-otp`, {
@@ -35,7 +39,6 @@ export default function Page() {
             if (!response.ok) throw new Error("OTP verification failed");
 
             const data = await response.json();
-            // Fix: Store the actual token value instead of the cookies object
             localStorage.setItem("accessToken", data.data.accessToken);
             cookies.set('accessToken', data.data.accessToken);
             router.push("/dashboard");
@@ -44,6 +47,45 @@ export default function Page() {
         }
     };
 
+    const handleChange = (e, index) => {
+        const value = e.target.value.replace(/[^0-9]/g, '');
+        if (value) {
+            const newOtpArray = otp.split('');
+            newOtpArray[index] = value;
+            const finalOtp = newOtpArray.join('').padEnd(6, '');
+            setOtp(finalOtp);
+
+            if (index < 5) {
+                inputsRef.current[index + 1]?.focus();
+            }
+
+            if (finalOtp.length === 6) {
+                handleVerifyOTP();
+            }
+        }
+    };
+
+    const handleKeyDown = (e, index) => {
+        if (e.key === 'Backspace' && !otp[index] && index > 0) {
+            inputsRef.current[index - 1]?.focus();
+        }
+    };
+
+    const handlePaste = (e) => {
+        const paste = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+        const otpArray = paste.split('');
+        setOtp(paste);
+
+        otpArray.forEach((digit, idx) => {
+            if (inputsRef.current[idx]) {
+                inputsRef.current[idx].value = digit;
+            }
+        });
+
+        if (paste.length === 6) {
+            handleVerifyOTP();
+        }
+    };
 
     return (
         <div className="w-full min-h-screen bg-gradient-to-b from-white via-white to-orange-100">
@@ -54,23 +96,21 @@ export default function Page() {
                     <h2 className="text-3xl text-center text-black font-bold">Verification</h2>
                     <p className="text-lg text-center text-black py-6">We have sent a verification code to your email.</p>
 
-                    <input
-                        type="text"
-                        maxLength="6"
-                        placeholder="Enter OTP"
-                        value={otp}
-                        onChange={(e) => setOtp(e.target.value)}
-                        className="text-center text-xl border px-6 py-3 rounded-full mb-6"
-                    />
+                    <div className="flex gap-4 mb-6" onPaste={handlePaste}>
+                        {[...Array(6)].map((_, index) => (
+                            <input
+                                key={index}
+                                ref={el => inputsRef.current[index] = el}
+                                type="text"
+                                maxLength="1"
+                                onChange={(e) => handleChange(e, index)}
+                                onKeyDown={(e) => handleKeyDown(e, index)}
+                                className="w-12 h-15 text-center text-xl border rounded-full"
+                            />
+                        ))}
+                    </div>
 
                     {error && <p className="text-red-500 text-sm text-center mb-4">{error}</p>}
-
-                    <button
-                        onClick={handleVerifyOTP}
-                        className="bg-[#ff9933] hover:bg-[#ff8000] text-black font-medium rounded-full px-6 py-3"
-                    >
-                        Verify OTP
-                    </button>
 
                     <div className="pt-6 text-sm text-center">
                         {countdown > 0 ? (
