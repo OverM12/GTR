@@ -92,10 +92,13 @@ export default function AreaDeepDive() {
               </span>
               <div className="w-[85%] h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
                 <div
-                  className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative flex items-center justify-end pr-4"
-                  style={{ width: `${totalGtr}%` }}
+                  className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative flex items-center"
+                  style={{ width: `${Math.min(totalGtr, 100)}%` }}
                 >
-                  <span className="text-white text-xs font-semibold whitespace-nowrap">
+                  <span
+                    className="text-white text-xs font-semibold absolute right-2 top-1/2 transform -translate-y-1/2 whitespace-nowrap overflow-hidden text-ellipsis"
+                    style={{ maxWidth: `${Math.min(totalGtr, 100)}%` }}
+                  >
                     {totalGtr}%
                   </span>
                 </div>
