@@ -105,10 +105,13 @@ function GtrScore() {
       <div className="flex w-full items-center justify-between">
         <div className="w-full h-[48px] bg-[#B60A06] rounded-full overflow-hidden relative">
           <div
-            className="h-[48px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative flex items-center justify-end pr-4"
-            style={{ width: `${mainGtrScore}%` }}
+            className="h-[48px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative flex items-center"
+            style={{ width: `${Math.min(mainGtrScore, 100)}%` }}
           >
-            <span className="text-white text-[28px] font-semibold whitespace-nowrap">
+            <span
+              className="text-white text-[28px] font-semibold absolute right-4 top-1/2 transform -translate-y-1/2 whitespace-nowrap overflow-hidden text-ellipsis"
+              style={{ maxWidth: `${Math.min(mainGtrScore, 100)}%` }}
+            >
               {mainGtrScore}%
             </span>
           </div>
