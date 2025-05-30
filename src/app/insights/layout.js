@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
     const accessToken = localStorage.getItem('accessToken');
 
     if (!accessToken) {
-      router.push('https://app-test.goodtime.app/login');
+      router.push('https://my.goodtime.app/login');
     }
   }, [router]);
 

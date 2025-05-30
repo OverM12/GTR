@@ -320,7 +320,7 @@ function Menu() {
                   sessionStorage.clear();
 
                   // Redirect to login page
-                  window.location.href = 'https://app-test.goodtime.app/login';
+                  window.location.href = 'https://my.goodtime.app/login';
                 }}
                 className="flex w-full py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] text-white rounded-[24px] transition-all duration-200 hover:bg-[#1A3966]"
               >
