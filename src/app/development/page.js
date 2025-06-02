@@ -63,7 +63,7 @@ export default function DevelopmentPage() {
   return (
     <div className="bg-gray-100 min-h-screen">
       <div className="container mx-auto p-4">
-        <h1 className="text-[32px] font-bold mb-4">Development</h1>
+        <h1 className="text-[32px] md:text-[40px] font-bold mb-4">Development</h1>
 
         {loading ? (
           <div className="flex justify-center items-center h-[300px]">
@@ -72,17 +72,17 @@ export default function DevelopmentPage() {
         ) : !dateRange.fromDate || !dateRange.toDate ? (
           <p className="text-gray-600">Please select a date range to view data.</p>
         ) : (
-          <div className="bg-white rounded-3xl shadow-lg p-8">
+          <div className="bg-white rounded-3xl shadow-lg p-4 md:p-8">
             <div className="mb-4">
-              <h2 className="text-[24px] font-bold mb-1">Improving your GTR</h2>
-              <p className="text-gray-600 text-[14px]">Explore how you are currently influencing your inner energy flow.</p>
+              <h2 className="text-[20px] md:text-[24px] font-bold mb-1">Improving your GTR</h2>
+              <p className="text-gray-600 text-[12px] md:text-[14px]">Explore how you are currently influencing your inner energy flow.</p>
             </div>
 
             <div className="space-y-6">
               {/* Keep Section */}
-              <div className="flex">
-                <div className="flex-shrink-0 bg-gray-100 rounded-2xl p-4 mr-4 h-fit">
-                  <div data-layer="thumbnail / symbol" className="ThumbnailSymbol w-40 h-24 bg-layer-background-neutral-container-neutral rounded-3xl inline-flex justify-center items-center gap-2.5">
+              <div className="flex flex-col md:flex-row gap-4 md:gap-0">
+                <div className="flex-shrink-0 bg-gray-100 rounded-2xl p-4 md:mr-4 h-fit">
+                  <div data-layer="thumbnail / symbol" className="ThumbnailSymbol w-full md:w-40 h-24 bg-layer-background-neutral-container-neutral rounded-3xl inline-flex justify-center items-center gap-2.5">
                     <div data-svg-wrapper data-layer="symbol / energy-flow" data-variants="Flow" className="SymbolEnergyFlow relative">
                       <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g filter="url(#filter0_d_1427_112487)">
@@ -106,8 +106,8 @@ export default function DevelopmentPage() {
                   </div>
                 </div>
                 <div>
-                  <h3 className="font-bold text-[20px] mb-2">Keep</h3>
-                  <p className="text-gray-700 text-[14px]">
+                  <h3 className="font-bold text-[18px] md:text-[20px] mb-2">Keep</h3>
+                  <p className="text-gray-700 text-[12px] md:text-[14px]">
                     Your main energy sources come from {developmentData.keep[0]} and {developmentData.keep[1]}.
                     Continuing to nurture these will feel great and help you to clear blocks in other areas.
                   </p>
@@ -115,9 +115,9 @@ export default function DevelopmentPage() {
               </div>
 
               {/* Lift Section */}
-              <div className="flex">
-                <div className="flex-shrink-0 bg-gray-100 rounded-2xl p-4 mr-4 h-fit">
-                  <div data-layer="thumbnail / symbol" className="ThumbnailSymbol w-40 h-24 bg-layer-background-neutral-container-neutral rounded-3xl inline-flex justify-center items-center gap-2.5">
+              <div className="flex flex-col md:flex-row gap-4 md:gap-0">
+                <div className="flex-shrink-0 bg-gray-100 rounded-2xl p-4 md:mr-4 h-fit">
+                  <div data-layer="thumbnail / symbol" className="ThumbnailSymbol w-full md:w-40 h-24 bg-layer-background-neutral-container-neutral rounded-3xl inline-flex justify-center items-center gap-2.5">
                     <div data-svg-wrapper data-layer="symbol / energy-flow" data-variants="Flow" className="SymbolEnergyFlow relative">
                       <svg width="52" height="56" viewBox="0 0 52 56" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g filter="url(#filter0_d_1427_112493)">
@@ -145,8 +145,8 @@ export default function DevelopmentPage() {
                   </div>
                 </div>
                 <div>
-                  <h3 className="font-bold text-[20px] mb-2">Lift</h3>
-                  <p className="text-gray-700 text-[14px]">
+                  <h3 className="font-bold text-[18px] md:text-[20px] mb-2">Lift</h3>
+                  <p className="text-gray-700 text-[12px] md:text-[14px]">
                     Meanwhile, {developmentData.lift[0]} and {developmentData.lift[1]} hold great growth potential.
                     With just a bit more focus, they might break through and offer a noticeable boost to your life.
                   </p>
@@ -154,9 +154,9 @@ export default function DevelopmentPage() {
               </div>
 
               {/* Reduce Section */}
-              <div className="flex">
-                <div className="flex-shrink-0 bg-gray-100 rounded-2xl p-4 mr-4 h-fit">
-                  <div data-layer="thumbnail / symbol" className="ThumbnailSymbol w-40 h-24 bg-layer-background-neutral-container-neutral rounded-3xl inline-flex justify-center items-center gap-2.5">
+              <div className="flex flex-col md:flex-row gap-4 md:gap-0">
+                <div className="flex-shrink-0 bg-gray-100 rounded-2xl p-4 md:mr-4 h-fit">
+                  <div data-layer="thumbnail / symbol" className="ThumbnailSymbol w-full md:w-40 h-24 bg-layer-background-neutral-container-neutral rounded-3xl inline-flex justify-center items-center gap-2.5">
                     <div data-svg-wrapper data-layer="symbol / energy-flow" data-variants="Flow" className="SymbolEnergyFlow relative">
                       <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g filter="url(#filter0_d_1427_112499)">
@@ -180,8 +180,8 @@ export default function DevelopmentPage() {
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  <h3 className="font-bold text-[20px] mb-2">Reduce</h3>
-                  <p className="text-gray-700 text-[14px]">
+                  <h3 className="font-bold text-[18px] md:text-[20px] mb-2">Reduce</h3>
+                  <p className="text-gray-700 text-[12px] md:text-[14px]">
                     Currently, {developmentData.reduce[0]} may affect your self-confidence the most. You might consider whether it&apos;s something you&apos;d like to address now or if giving yourself permission to step back until you feel naturally drawn to it helps you better manage your current energy. Sometimes, simply releasing the pressure can be the first step, allowing you to return to it when you have the capacity to address it.
                   </p>
                 </div>

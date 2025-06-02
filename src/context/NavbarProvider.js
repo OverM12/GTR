@@ -4,7 +4,7 @@ import { createContext, useState } from 'react';
 export const NavbarContext = createContext();
 
 export function NavbarProvider({ children }) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('profile');
 
   return (

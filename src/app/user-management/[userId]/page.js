@@ -304,45 +304,42 @@ function UserGTRContent({ params }) {
     };
 
     const AreaSection = ({ title, score, elements, isExpanded, toggleExpanded }) => (
-        <div className="w-full mt-6">
-            <div className="flex items-center mb-2">
-                <div className="flex items-center gap-2 w-[150px]">
-                    <span className="font-semibold text-gray-800 pl-12">{title}</span>
+        <div className="w-full mt-3 md:mt-6">
+            {/* หัวข้อและแถบความคืบหน้าหลัก - แสดงแบบแนวตั้งบนมือถือ แนวนอนบนคอมพิวเตอร์ */}
+            <div className="flex flex-col md:flex-row md:items-center mb-2">
+                {/* ส่วนหัวข้อ */}
+                <div className="flex items-center gap-2 w-full md:w-[150px] mb-3 md:mb-0">
+                    <span className="font-semibold text-gray-800 pl-2 md:pl-12 text-base md:text-lg">{title}</span>
                 </div>
+
+                {/* ส่วนแถบความคืบหน้า */}
                 <div className="flex-1 flex justify-end">
-                    <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+                    <div className="w-full h-[20px] md:h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
                         <div
                             className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
-                            style={{ width: `${parseFloat(score).toFixed(1)}%` }}
+                            style={{ width: `${Math.max(Math.min(parseFloat(score), 100), 0.5).toFixed(1)}%` }}
                         >
-                            {parseFloat(score) >= 4.0 && (
+                            <div className="absolute inset-0 flex items-center">
                                 <span
-                                    className="text-white text-xs font-semibold absolute"
+                                    className="text-white text-[10px] md:text-xs font-semibold"
                                     style={{
-                                        right: "8px",
-                                        top: "50%",
-                                        transform: "translateY(-50%)",
+                                        position: 'absolute',
+                                        right: '4px',
+                                        top: '50%',
+                                        transform: 'translateY(-50%)',
+                                        whiteSpace: 'nowrap',
+                                        zIndex: 10
                                     }}
                                 >
                                     {parseFloat(score).toFixed(1)}%
                                 </span>
-                            )}
+                            </div>
                         </div>
-                        {parseFloat(score) < 4.0 && (
-                            <span
-                                className="text-white text-xs font-semibold absolute"
-                                style={{
-                                    left: "8px",
-                                    top: "50%",
-                                    transform: "translateY(-50%)",
-                                }}
-                            >
-                                {parseFloat(score).toFixed(1)}%
-                            </span>
-                        )}
                     </div>
                 </div>
-                <div className="ml-2">
+
+                {/* ปุ่มขยาย/ย่อ */}
+                <div className="absolute right-2 top-0 md:relative md:top-auto md:right-auto md:ml-2">
                     <button
                         onClick={toggleExpanded}
                         className="text-gray-500 hover:text-gray-700 transform transition-transform duration-300"
@@ -350,14 +347,15 @@ function UserGTRContent({ params }) {
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
+                            width="18"
+                            height="18"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
                             strokeWidth="2"
                             strokeLinecap="round"
                             strokeLinejoin="round"
+                            className="md:w-6 md:h-6"
                         >
                             <polyline points="18 15 12 9 6 15"></polyline>
                         </svg>
@@ -365,55 +363,48 @@ function UserGTRContent({ params }) {
                 </div>
             </div>
 
-            {/* Container for elements */}
+            {/* Container for elements - ปรับ margin และ padding ให้เหมาะกับแต่ละอุปกรณ์ */}
             <div
-                className={`ml-24 mb-4 pl-32 pr-13 border-l-2 border-gray-200 transition-all duration-300 ease-in-out ${isExpanded ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0 overflow-hidden"
+                className={`ml-2 md:ml-24 mb-4 pl-2 md:pl-32 pr-2 md:pr-13 border-l-2 border-gray-200 transition-all duration-300 ease-in-out ${isExpanded ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0 overflow-hidden"
                     }`}
             >
-                <div className="flex flex-col gap-2 md:gap-3 py-2">
+                <div className="flex flex-col gap-3 md:gap-3 py-2">
                     {elements.map((element, idx) => {
-                        const percent = parseFloat(element.score ?? 0).toFixed(1);
+                        const percent = Math.min(parseFloat(element.score ?? 0), 100).toFixed(1);
                         return (
                             <div
                                 key={idx}
-                                className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-0"
+                                className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-0 relative"
                             >
+                                {/* ชื่องค์ประกอบ - เต็มความกว้างบนมือถือ จำกัดความกว้างบนคอมพิวเตอร์ */}
                                 <div className="flex items-center w-full md:w-[300px] md:min-w-[0px] mb-2 md:mb-0">
-                                    <span className="text-gray-700 text-xs md:text-sm whitespace-nowrap">
+                                    <span className="text-gray-700 text-[11px] md:text-sm break-words md:whitespace-nowrap pr-2 md:pr-0">
                                         {formatElementName(element.element)}
                                     </span>
                                 </div>
 
-                                <div className="w-full h-[24px] md:h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+                                {/* แถบความคืบหน้าย่อย */}
+                                <div className="w-full h-[18px] md:h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
                                     <div
                                         className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
-                                        style={{ width: `${percent}%` }}
+                                        style={{ width: `${Math.max(parseFloat(percent), 0.5)}%` }}
                                     >
-                                        {parseFloat(percent) >= 4.0 && (
+                                        <div className="inset-0 flex items-center">
                                             <span
-                                                className="text-white text-[10px] md:text-xs font-semibold absolute"
+                                                className="text-white text-[9px] md:text-xs font-semibold"
                                                 style={{
-                                                    right: "8px",
-                                                    top: "50%",
-                                                    transform: "translateY(-50%)",
+                                                    position: 'absolute',
+                                                    right: '4px',
+                                                    top: '50%',
+                                                    transform: 'translateY(-50%)',
+                                                    whiteSpace: 'nowrap',
+                                                    zIndex: 10
                                                 }}
                                             >
                                                 {percent}%
                                             </span>
-                                        )}
+                                        </div>
                                     </div>
-                                    {parseFloat(percent) < 4.0 && (
-                                        <span
-                                            className="text-white text-[10px] md:text-xs font-semibold absolute"
-                                            style={{
-                                                left: "8px",
-                                                top: "50%",
-                                                transform: "translateY(-50%)",
-                                            }}
-                                        >
-                                            {percent}%
-                                        </span>
-                                    )}
                                 </div>
                             </div>
                         );
@@ -470,23 +461,22 @@ function UserGTRContent({ params }) {
     const sessionScores = getSessionScores(latestSession);
 
     return (
-        <div className="w-full min-h-screen bg-gray-50 p-6">
+        <div className="w-full min-h-screen bg-gray-50 p-2 sm:p-4 md:p-6">
             <div className="max-w-7xl mx-auto">
                 {/* User table */}
-                <div className="overflow-x-auto rounded-lg border bg-white mb-6 text-sm">
+                <div className="overflow-x-auto rounded-lg border bg-white mb-4 md:mb-6 text-xs sm:text-sm">
                     <table className="min-w-full bg-white">
                         <thead>
                             <tr className="bg-gray-100">
-                                <th className="py-3 px-4 text-left font-semibold text-gray-600">Status</th>
-                                {/* <th className="py-3 px-4 text-left font-semibold text-gray-600">ID</th> */}
-                                <th className="py-3 px-4 text-left font-semibold text-gray-600">Name</th>
-                                <th className="py-3 px-4 text-left font-semibold text-gray-600">GTR</th>
-                                <th className="py-3 px-4 text-left font-semibold text-gray-600">Self</th>
-                                <th className="py-3 px-4 text-left font-semibold text-gray-600">Social</th>
-                                <th className="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
-                                <th className="py-3 px-4 text-left font-semibold text-gray-600">Gets</th>
-                                <th className="py-3 px-4 text-left font-semibold text-gray-600">Environment</th>
-                                <th className="py-3 px-4 text-left font-semibold text-gray-600">Action</th>
+                                <th className="py-2 px-2 md:py-3 md:px-4 text-left font-semibold text-gray-600">Status</th>
+                                <th className="py-2 px-2 md:py-3 md:px-4 text-left font-semibold text-gray-600">Name</th>
+                                <th className="py-2 px-2 md:py-3 md:px-4 text-left font-semibold text-gray-600">GTR</th>
+                                <th className="py-2 px-2 md:py-3 md:px-4 text-left font-semibold text-gray-600">Self</th>
+                                <th className="py-2 px-2 md:py-3 md:px-4 text-left font-semibold text-gray-600">Social</th>
+                                <th className="py-2 px-2 md:py-3 md:px-4 text-left font-semibold text-gray-600">Actions</th>
+                                <th className="py-2 px-2 md:py-3 md:px-4 text-left font-semibold text-gray-600">Gets</th>
+                                <th className="py-2 px-2 md:py-3 md:px-4 text-left font-semibold text-gray-600">Environment</th>
+                                <th className="py-2 px-2 md:py-3 md:px-4 text-left font-semibold text-gray-600">Action</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200">
@@ -494,28 +484,25 @@ function UserGTRContent({ params }) {
                                 const scores = getSessionScores(session);
                                 return (
                                     <tr key={index} className="hover:bg-gray-50 transition-colors">
-                                        <td className="py-3 px-4">
+                                        <td className="py-2 px-2 md:py-3 md:px-4">
                                             {session.isCompleted ? "Complete" : "In Progress"}
                                         </td>
-                                        {/* <td className="py-3 px-4">{user.id}</td> */}
-                                        <td className="py-3 px-4">{user.name}</td>
-                                        <td className="py-3 px-4">{parseFloat(scores.gtr).toFixed(1)}%</td>
-                                        <td className="py-3 px-4">{parseFloat(scores.selfGtr).toFixed(1)}%</td>
-                                        <td className="py-3 px-4">{parseFloat(scores.socialGtr).toFixed(1)}%</td>
-                                        <td className="py-3 px-4">{parseFloat(scores.actionsGtr).toFixed(1)}%</td>
-                                        <td className="py-3 px-4">{parseFloat(scores.getsGtr).toFixed(1)}%</td>
-                                        <td className="py-3 px-4">{parseFloat(scores.environmentGtr).toFixed(1)}%</td>
-                                        <td className="py-3 px-4">
+                                        <td className="py-2 px-2 md:py-3 md:px-4">{user.name}</td>
+                                        <td className="py-2 px-2 md:py-3 md:px-4">{parseFloat(scores.gtr).toFixed(1)}%</td>
+                                        <td className="py-2 px-2 md:py-3 md:px-4">{parseFloat(scores.selfGtr).toFixed(1)}%</td>
+                                        <td className="py-2 px-2 md:py-3 md:px-4">{parseFloat(scores.socialGtr).toFixed(1)}%</td>
+                                        <td className="py-2 px-2 md:py-3 md:px-4">{parseFloat(scores.actionsGtr).toFixed(1)}%</td>
+                                        <td className="py-2 px-2 md:py-3 md:px-4">{parseFloat(scores.getsGtr).toFixed(1)}%</td>
+                                        <td className="py-2 px-2 md:py-3 md:px-4">{parseFloat(scores.environmentGtr).toFixed(1)}%</td>
+                                        <td className="py-2 px-2 md:py-3 md:px-4">
                                             <button
                                                 onClick={() => {
-                                                    // If this is already the selected session, toggle visibility
                                                     if (selectedSessionIndex === index && showDetails) {
                                                         setShowDetails(false);
                                                         if (typeof window !== "undefined") {
                                                             // localStorage.setItem(`user-${userId}-showDetails`, JSON.stringify(false));
                                                         }
                                                     } else {
-                                                        // Otherwise, select this session and show details
                                                         setSelectedSessionIndex(index);
                                                         setShowDetails(true);
                                                         if (typeof window !== "undefined") {
@@ -523,9 +510,9 @@ function UserGTRContent({ params }) {
                                                         }
                                                     }
                                                 }}
-                                                className={`px-4 py-2 rounded-lg transition-colors ${showDetails && selectedSessionIndex === index
-                                                    ? "bg-white hover:bg-[#f8ece2] text-[#FF9933] border border-[#FF9933]"
-                                                    : "bg-[#FF9955] hover:bg-[#f0ba85] text-white hover:"
+                                                className={`px-2 py-1 md:px-4 md:py-2 rounded-lg transition-colors text-sm ${showDetails && selectedSessionIndex === index
+                                                        ? "bg-white hover:bg-[#f8ece2] text-[#FF9933] border border-[#FF9933]"
+                                                        : "bg-[#FF9955] hover:bg-[#f0ba85] text-white hover:"
                                                     }`}
                                             >
                                                 {showDetails && selectedSessionIndex === index ? "Hide" : "View"}
@@ -538,24 +525,21 @@ function UserGTRContent({ params }) {
                     </table>
                 </div>
 
-                {/* Remove the separate assessment history section */}
-
-                {/* Main content area - only shown when View is clicked */}
                 {showDetails && (
-                    <div className="grid grid-cols-3 gap-6 mt-6">
-                        {/* GTR Score section - takes up 2/3 of the width */}
-                        <div className="col-span-2 bg-white rounded-lg shadow p-6">
-                            <div className="flex justify-between items-center mb-4">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 mt-4 md:mt-6">
+                        {/* GTR Score section */}
+                        <div className="lg:col-span-2 bg-white rounded-lg shadow p-4 md:p-6">
+                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
                                 <div className="flex items-center">
-                                    <h2 className="text-xl font-semibold">GTR Score</h2>
+                                    <h2 className="text-lg md:text-xl font-semibold">GTR Score</h2>
                                     {selectedSessionIndex > 0 && sessions[selectedSessionIndex] && (
-                                        <span className="ml-2 text-sm text-gray-500">
+                                        <span className="ml-2 text-xs md:text-sm text-gray-500">
                                             (Session from {new Date(sessions[selectedSessionIndex].createdAt).toLocaleDateString()})
                                         </span>
                                     )}
                                 </div>
-                                <Link href="/user-management" className="text-[#FF9933] hover:text-blue-800 flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                <Link href="/user-management" className="text-[#FF9933] hover:text-blue-800 flex items-center text-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 md:h-5 md:w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                                         <path
                                             fillRule="evenodd"
                                             d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
@@ -569,10 +553,10 @@ function UserGTRContent({ params }) {
                             {/* Total GTR Score */}
                             <div className="mb-6">
                                 <div className="flex justify-between items-center">
-                                    <span className="font-semibold">Total GTR Score</span>
+                                    <span className="font-semibold text-sm md:text-base">Total GTR Score</span>
                                 </div>
-                                <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
-                                    <div className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative" style={{ width: `${sessionScores.gtr}%` }}>
+                                <div className="w-full h-[24px] md:h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+                                    <div className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out relative" style={{ width: `${sessionScores.gtr}%` }}>
                                         <div className="absolute inset-0 flex items-center justify-end pr-2">
                                             {parseFloat(sessionScores.gtr) >= 4.0 && (
                                                 <span
@@ -590,128 +574,126 @@ function UserGTRContent({ params }) {
                                 </div>
                             </div>
 
-                            {/* Self section */}
-                            <AreaSection
-                                title="Self"
-                                score={parseFloat(sessionScores.selfGtr)}
-                                elements={getSelfElements(latestSession)}
-                                isExpanded={showSelf}
-                                toggleExpanded={() => {
-                                    const newState = !showSelf;
-                                    setShowSelf(newState);
-                                    if (typeof window !== "undefined") {
-                                        localStorage.setItem(`user-${userId}-showSelf`, JSON.stringify(newState));
-                                    }
-                                }}
-                            />
+                            {/* Area Sections */}
+                            <div className="space-y-4">
+                                <AreaSection
+                                    title="Self"
+                                    score={parseFloat(sessionScores.selfGtr)}
+                                    elements={getSelfElements(latestSession)}
+                                    isExpanded={showSelf}
+                                    toggleExpanded={() => {
+                                        const newState = !showSelf;
+                                        setShowSelf(newState);
+                                        if (typeof window !== "undefined") {
+                                            localStorage.setItem(`user-${userId}-showSelf`, JSON.stringify(newState));
+                                        }
+                                    }}
+                                />
 
-                            {/* Social section */}
-                            <AreaSection
-                                title="Social"
-                                score={parseFloat(sessionScores.socialGtr)}
-                                elements={getSocialElements(latestSession)}
-                                isExpanded={showSocial}
-                                toggleExpanded={() => {
-                                    const newState = !showSocial;
-                                    setShowSocial(newState);
-                                    if (typeof window !== "undefined") {
-                                        localStorage.setItem(`user-${userId}-showSocial`, JSON.stringify(newState));
-                                    }
-                                }}
-                            />
+                                <AreaSection
+                                    title="Social"
+                                    score={parseFloat(sessionScores.socialGtr)}
+                                    elements={getSocialElements(latestSession)}
+                                    isExpanded={showSocial}
+                                    toggleExpanded={() => {
+                                        const newState = !showSocial;
+                                        setShowSocial(newState);
+                                        if (typeof window !== "undefined") {
+                                            localStorage.setItem(`user-${userId}-showSocial`, JSON.stringify(newState));
+                                        }
+                                    }}
+                                />
 
-                            {/* Actions section */}
-                            <AreaSection
-                                title="Actions"
-                                score={parseFloat(sessionScores.actionsGtr)}
-                                elements={getActionsElements(latestSession)}
-                                isExpanded={showActions}
-                                toggleExpanded={() => {
-                                    const newState = !showActions;
-                                    setShowActions(newState);
-                                    if (typeof window !== "undefined") {
-                                        localStorage.setItem(`user-${userId}-showActions`, JSON.stringify(newState));
-                                    }
-                                }}
-                            />
+                                <AreaSection
+                                    title="Actions"
+                                    score={parseFloat(sessionScores.actionsGtr)}
+                                    elements={getActionsElements(latestSession)}
+                                    isExpanded={showActions}
+                                    toggleExpanded={() => {
+                                        const newState = !showActions;
+                                        setShowActions(newState);
+                                        if (typeof window !== "undefined") {
+                                            localStorage.setItem(`user-${userId}-showActions`, JSON.stringify(newState));
+                                        }
+                                    }}
+                                />
 
-                            {/* Gets section */}
-                            <AreaSection
-                                title="Gets"
-                                score={parseFloat(sessionScores.getsGtr)}
-                                elements={getGetsElements(latestSession)}
-                                isExpanded={showGets}
-                                toggleExpanded={() => {
-                                    const newState = !showGets;
-                                    setShowGets(newState);
-                                    if (typeof window !== "undefined") {
-                                        localStorage.setItem(`user-${userId}-showGets`, JSON.stringify(newState));
-                                    }
-                                }}
-                            />
+                                <AreaSection
+                                    title="Gets"
+                                    score={parseFloat(sessionScores.getsGtr)}
+                                    elements={getGetsElements(latestSession)}
+                                    isExpanded={showGets}
+                                    toggleExpanded={() => {
+                                        const newState = !showGets;
+                                        setShowGets(newState);
+                                        if (typeof window !== "undefined") {
+                                            localStorage.setItem(`user-${userId}-showGets`, JSON.stringify(newState));
+                                        }
+                                    }}
+                                />
 
-                            {/* Environment section */}
-                            <AreaSection
-                                title="Environment"
-                                score={parseFloat(sessionScores.environmentGtr)}
-                                elements={getEnvironmentElements(latestSession)}
-                                isExpanded={showEnvironment}
-                                toggleExpanded={() => {
-                                    const newState = !showEnvironment;
-                                    setShowEnvironment(newState);
-                                    if (typeof window !== "undefined") {
-                                        localStorage.setItem(`user-${userId}-showEnvironment`, JSON.stringify(newState));
-                                    }
-                                }}
-                            />
+                                <AreaSection
+                                    title="Environment"
+                                    score={parseFloat(sessionScores.environmentGtr)}
+                                    elements={getEnvironmentElements(latestSession)}
+                                    isExpanded={showEnvironment}
+                                    toggleExpanded={() => {
+                                        const newState = !showEnvironment;
+                                        setShowEnvironment(newState);
+                                        if (typeof window !== "undefined") {
+                                            localStorage.setItem(`user-${userId}-showEnvironment`, JSON.stringify(newState));
+                                        }
+                                    }}
+                                />
+                            </div>
                         </div>
 
-                        {/* User Info section - takes up 1/3 of the width */}
-                        <div className="bg-white rounded-lg shadow p-6">
-                            <h2 className="text-xl font-semibold mb-4">User Information</h2>
+                        {/* User Info section */}
+                        <div className="bg-white rounded-lg shadow p-4 md:p-6">
+                            <h2 className="text-lg md:text-xl font-semibold mb-4">User Information</h2>
 
                             {user.profilePictureUrl ? (
                                 <img
                                     src={user.profilePictureUrl}
                                     alt={user.name}
-                                    className="w-24 h-24 rounded-full object-cover mb-4"
+                                    className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover mb-4"
                                 />
                             ) : (
-                                <div className="w-24 h-24 rounded-full bg-gray-300 flex items-center justify-center mb-4 text-4xl text-gray-600 font-bold">
+                                <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gray-300 flex items-center justify-center mb-4 text-3xl md:text-4xl text-gray-600 font-bold">
                                     {user.name?.charAt(0).toUpperCase() || "U"}
                                 </div>
                             )}
 
-                            <div className="space-y-4">
+                            <div className="space-y-3 md:space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-600">Name</label>
-                                    <p className="mt-1 text-sm text-gray-900">{user.name}</p>
+                                    <label className="block text-xs md:text-sm font-medium text-gray-600">Name</label>
+                                    <p className="mt-1 text-xs md:text-sm text-gray-900">{user.name}</p>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-600">Email</label>
-                                    <p className="mt-1 text-sm text-gray-900">{user.email}</p>
+                                    <label className="block text-xs md:text-sm font-medium text-gray-600">Email</label>
+                                    <p className="mt-1 text-xs md:text-sm text-gray-900">{user.email}</p>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-600">Gender</label>
-                                    <p className="mt-1 text-sm text-gray-900">{user.gender || "Not specified"}</p>
+                                    <label className="block text-xs md:text-sm font-medium text-gray-600">Gender</label>
+                                    <p className="mt-1 text-xs md:text-sm text-gray-900">{user.gender || "Not specified"}</p>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-600">Year of Birth</label>
-                                    <p className="mt-1 text-sm text-gray-900">{user.yearOfBirth || "Not specified"}</p>
+                                    <label className="block text-xs md:text-sm font-medium text-gray-600">Year of Birth</label>
+                                    <p className="mt-1 text-xs md:text-sm text-gray-900">{user.yearOfBirth || "Not specified"}</p>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-600">Country of Origin</label>
-                                    <p className="mt-1 text-sm text-gray-900">{user.countryOfOrigin || "Not specified"}</p>
+                                    <label className="block text-xs md:text-sm font-medium text-gray-600">Country of Origin</label>
+                                    <p className="mt-1 text-xs md:text-sm text-gray-900">{user.countryOfOrigin || "Not specified"}</p>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-600">Current Location</label>
-                                    <p className="mt-1 text-sm text-gray-900">
+                                    <label className="block text-xs md:text-sm font-medium text-gray-600">Current Location</label>
+                                    <p className="mt-1 text-xs md:text-sm text-gray-900">
                                         {user.currentCity}, {user.currentCountry}
                                     </p>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-600">Last Assessment</label>
-                                    <p className="mt-1 text-sm text-gray-900">
+                                    <label className="block text-xs md:text-sm font-medium text-gray-600">Last Assessment</label>
+                                    <p className="mt-1 text-xs md:text-sm text-gray-900">
                                         {user.lastAssessment ? new Date(user.lastAssessment).toLocaleDateString("en-GB") : "N/A"}
                                     </p>
                                 </div>

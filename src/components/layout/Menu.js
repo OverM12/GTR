@@ -191,7 +191,7 @@ function Menu() {
                       width: `${Math.min(parseFloat(mainGtrScore), 100)}%`
                     }}
                   >
-                    <span className="w-full text-right pr-1 text-white text-[10.5px] font-medium">
+                    <span className="w-full text-right pl-1 text-white text-[10.5px] font-medium">
                       {parseFloat(mainGtrScore).toFixed(1)}
                     </span>
                   </div>
