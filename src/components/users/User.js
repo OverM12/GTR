@@ -205,8 +205,8 @@ function User() {
   };
 
   return (
-    <div className="flex-1">
-      <div className='px-4 sm:px-12 h-screen bg-[#F0F1F5] overflow-auto'>
+    <div className="flex-1 bg-[#F0F1F5] min-h-screen">
+      <div className="px-4 sm:px-12">
         <h1 className="hidden sm:flex flex-col sm:flex-row px-4 sm:px-12 mt-5 mb-5 py-4 text-2xl sm:text-3xl font-bold">
           User Account
         </h1>
@@ -216,17 +216,18 @@ function User() {
           <EditProfileButton />
         </div>
 
-        <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm h-auto sm:h-auto overflow-auto">
+        <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm h-auto">
           <div className="flex flex-col h-full">
             <div className="hidden sm:flex sticky top-0 bg-white z-10 text-base">
               <MenuUser activeTab={activeTab} setActiveTab={setActiveTab} />
             </div>
-            <div className="flex-1 overflow-y-auto">
+            <div className="flex-1">
               {activeTab === 'profile' ? <ProfileSection /> : <Payment />}
             </div>
           </div>
         </div>
       </div>
+
       <TermsOfUseModal isOpen={termsModalOpen} onClose={() => setTermsModalOpen(false)} />
       <PrivacyPolicyModal isOpen={privacyModalOpen} onClose={() => setPrivacyModalOpen(false)} />
     </div>

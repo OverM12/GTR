@@ -17,10 +17,10 @@ export default function RootLayout({ children }) {
 
 	return (
 		<html lang="en">
-			<body className="">
-				<div className="flex">
+			<body className="overflow-hidden h-screen">
+				<div className="flex h-full">
 					<Menu />
-					<div className="flex flex-col w-full">
+					<div className="flex flex-col w-full overflow-y-auto">
 						<Navbar />
 						{children}
 					</div>

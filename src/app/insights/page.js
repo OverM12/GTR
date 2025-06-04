@@ -22,17 +22,15 @@ function TabNavigation() {
   const [reportData, setReportData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectingField, setSelectingField] = useState("fromDate");
 
   const handleTabChange = (tabId) => {
     setActiveTab(tabId);
-    router.replace(`?tab=${tabId}`); // เปลี่ยนเป็น replace
+    router.replace(`?tab=${tabId}`);
   };
 
   useEffect(() => {
     const fetchReportData = async () => {
       if (!dateRange.fromDate || !dateRange.toDate) {
-        // console.log("Insights page: Date range not complete, using default values");
         setReportData({
           gtr: 0,
           self: { gtr: 0 },
@@ -47,7 +45,10 @@ function TabNavigation() {
 
       try {
         setLoading(true);
-        const data = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
+        const data = await reportService.getGtrReport(
+          dateRange.fromDate,
+          dateRange.toDate
+        );
 
         const processedData = {
           gtr: data?.gtr || 0,
@@ -58,18 +59,11 @@ function TabNavigation() {
           environment: data?.environment || { gtr: 0 },
         };
 
-        if (!processedData.self.gtr) processedData.self.gtr = 0;
-        if (!processedData.social.gtr) processedData.social.gtr = 0;
-        if (!processedData.actions.gtr) processedData.actions.gtr = 0;
-        if (!processedData.gets.gtr) processedData.gets.gtr = 0;
-        if (!processedData.environment.gtr) processedData.environment.gtr = 0;
-
         setReportData(processedData);
         setError(null);
       } catch (err) {
         console.error("Error loading report data:", err);
         setError("Failed to load report data");
-
         setReportData({
           gtr: 0,
           self: { gtr: 0 },
@@ -84,8 +78,7 @@ function TabNavigation() {
     };
 
     fetchReportData();
-  }, [dateRange, setDateRange, /* updateDateRangeForViewMode, viewMode */]);
-  // ถ้าคุณใช้ updateDateRangeForViewMode หรือ viewMode จริงๆ ก็เพิ่มใน dependencies ด้วยนะครับ
+  }, [dateRange, setDateRange]);
 
   const tabs = [
     { id: "Overview", label: "Overview" },
@@ -106,9 +99,11 @@ function TabNavigation() {
     }
 
     if (error) {
-      <div className="flex justify-center items-center h-[300px]">
-        <div className="rounded-full h-8 w-8 border-t-2"></div>
-      </div>
+      return (
+        <div className="flex justify-center items-center h-[300px]">
+          <p className="text-red-500">{error}</p>
+        </div>
+      );
     }
 
     switch (activeTab) {
@@ -119,7 +114,7 @@ function TabNavigation() {
       case "Social":
         return <Social reportData={reportData?.social} />;
       case "Actions":
-        return <Action reportData={reportData?.actions} />; // แก้ชื่อจาก action -> actions
+        return <Action reportData={reportData?.actions} />;
       case "Place":
         return <Gets reportData={reportData?.gets} />;
       case "Obtainment":
@@ -130,7 +125,7 @@ function TabNavigation() {
   };
 
   return (
-    <div className="w-full bg-gray-100 py-4">
+    <div className="w-full h-full bg-gray-100 py-4 overflow-y-auto">
       <div className="w-full p-4">
         <div className="flex flex-wrap md:flex-nowrap overflow-x-auto border-b border-gray-200">
           {tabs.map((tab) => (
@@ -141,7 +136,9 @@ function TabNavigation() {
                 ${activeTab === tab.id ? "text-black" : "text-gray-400"}`}
             >
               {tab.label}
-              {activeTab === tab.id && <div className="absolute bottom-0 left-0 w-full h-1 bg-[#A7A7A9]"></div>}
+              {activeTab === tab.id && (
+                <div className="absolute bottom-0 left-0 w-full h-1 bg-[#A7A7A9]"></div>
+              )}
             </button>
           ))}
         </div>
@@ -163,7 +160,6 @@ function TabNavigation() {
   );
 }
 
-// ห่อ TabNavigation ด้วย Suspense
 export default function InsightsPageWrapper() {
   return (
     <React.Suspense fallback={<div>Loading...</div>}>

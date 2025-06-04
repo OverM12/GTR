@@ -100,12 +100,12 @@ function FiveBoxMobile() {
   const renderElements = (data, show) => {
     if (!show || !data?.elements) return null;
     return (
-      <div className="ml-4 mb-4 pl-4 border-l-2 border-gray-200 ease-in-out">
+      <div className="ml-4 mb-4 pl-12 border-l-2 border-gray-200 ease-in-out">
         <div className="flex flex-col gap-3">
           {data.elements.map((element, index) => {
             const percent = parseFloat(element.gtr).toFixed(1);
             return (
-              <div key={index} className="flex flex-col mb-3">
+              <div key={index} className="flex flex-col mb-3 mr-4">
                 <div className="flex items-center mb-1">
                   <span className="text-gray-700 text-sm">{formatElementName(element.element)}</span>
                 </div>
@@ -153,7 +153,7 @@ function FiveBoxMobile() {
   }
 
   return (
-    <div className="md:hidden flex flex-col p-4 w-full overflow-x-auto">
+    <div className="lg:hidden flex flex-col p-4 w-full overflow-x-auto">
       {/* Self Section */}
       <div className="flex flex-col w-full mb-4 hover:bg-[#F0F1F5] py-4 rounded-[24px]">
         <div className="flex items-center justify-between px-4">

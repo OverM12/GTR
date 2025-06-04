@@ -123,7 +123,7 @@ function FiveBoxDesk() {
   const renderElements = (data, show) => {
     if (!show || !data?.elements) return null;
     return (
-      <div className="ml-4 md:ml-24 mb-4 pl-4 md:pl-63 pr-2 md:pr-13 border-l-2 border-gray-200 ease-in-out">
+      <div className="ml-4 md:ml-24 mb-4 pl-4 md:pl-63 pr-2 md:pr-10 border-l-2 border-gray-200 ease-in-out">
         <div className="flex flex-col gap-2 md:gap-3">
           {data.elements.map((element, index) => {
             const percentRaw = parseFloat(element.gtr);
@@ -183,7 +183,7 @@ function FiveBoxDesk() {
   }
 
   return (
-    <div className="hidden md:flex md:flex-col gap-1">
+    <div className="hidden lg:flex lg:flex-col gap-1">
       {/* Self Section */}
       <div className="flex pl-12 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
         <div className="flex items-center gap-2 pl-[39px] min-w-[200px]">

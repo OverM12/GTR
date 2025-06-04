@@ -156,7 +156,7 @@ export default function EditProfilePage() {
         <>
             <div className="flex">
                 <div className="bg-gray-50 w-full min-h-screen">
-                    <div className="max-w-full h-lvh overflow-auto mx-auto w-full px-4 sm:px-6 lg:px-8 mt-4 pb-8">
+                    <div className="max-w-full h-lvh mx-auto w-full px-4 sm:px-6 lg:px-8 mt-4 pb-8">
                         <h1 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold mb-4">Edit Profile</h1>
 
                         {error && (
