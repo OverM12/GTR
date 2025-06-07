@@ -63,11 +63,11 @@ function FiveBoxDesk() {
   }, [dateRange]); // Include dateRange as a dependency
 
   // Get scores from the data
-  const selfScore = selfData?.gtr ? parseFloat(selfData.gtr).toFixed(1) : "77.5";
-  const socialScore = socialData?.gtr ? parseFloat(socialData.gtr).toFixed(1) : "90.4";
-  const actionsScore = actionsData?.gtr ? parseFloat(actionsData.gtr).toFixed(1) : "47.0";
-  const getsScore = getsData?.gtr ? parseFloat(getsData.gtr).toFixed(1) : "47.0";
-  const environmentScore = environmentData?.gtr ? parseFloat(environmentData.gtr).toFixed(1) : "47.0";
+  const selfScore = selfData?.gtr ? parseFloat(selfData.gtr).toFixed(1) : "0.0";
+  const socialScore = socialData?.gtr ? parseFloat(socialData.gtr).toFixed(1) : "0.0";
+  const actionsScore = actionsData?.gtr ? parseFloat(actionsData.gtr).toFixed(1) : "0.0";
+  const getsScore = getsData?.gtr ? parseFloat(getsData.gtr).toFixed(1) : "0.0";
+  const environmentScore = environmentData?.gtr ? parseFloat(environmentData.gtr).toFixed(1) : "0.0";
 
   // Function to format element name for display
   const formatElementName = (name) => {

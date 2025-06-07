@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
 					<Menu />
 					<div className="flex flex-col w-full h-full">
 						<Navbar />
-						<div className="flex-1 overflow-y-auto">
+						<div className="flex-1 overflow-y-auto bg-gray-100">
 							{children}
 						</div>
 					</div>
