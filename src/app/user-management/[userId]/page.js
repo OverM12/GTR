@@ -303,116 +303,108 @@ function UserGTRContent({ params }) {
         }));
     };
 
-    const AreaSection = ({ title, score, elements, isExpanded, toggleExpanded }) => (
-        <div className="w-full mt-3 md:mt-6">
-            {/* หัวข้อและแถบความคืบหน้าหลัก - แสดงแบบแนวตั้งบนมือถือ แนวนอนบนคอมพิวเตอร์ */}
-            <div className="flex flex-col md:flex-row md:items-center mb-2">
-                {/* ส่วนหัวข้อ */}
-                <div className="flex items-center gap-2 w-full md:w-[150px] mb-3 md:mb-0">
-                    <span className="font-semibold text-gray-800 pl-2 md:pl-12 text-base md:text-lg">{title}</span>
-                </div>
+    const AreaSection = ({ title, score, elements, isExpanded, toggleExpanded }) => {
+        const getTextPositionStyle = (percent) => {
+            const width = Math.max(Math.min(parseFloat(percent), 100), 0);
+            return {
+                left: width > 0 ? `${width}%` : "2%",
+                transform: width > 0 ? "translateX(-100%)" : "translateX(0)",
+            };
+        };
 
-                {/* ส่วนแถบความคืบหน้า */}
-                <div className="flex-1 flex justify-end">
-                    <div className="w-full h-[20px] md:h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
-                        <div
-                            className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
-                            style={{ width: `${Math.max(Math.min(parseFloat(score), 100), 0.5).toFixed(1)}%` }}
-                        >
-                            <div className="absolute inset-0 flex items-center">
-                                <span
-                                    className="text-white text-[10px] md:text-xs font-semibold"
-                                    style={{
-                                        position: 'absolute',
-                                        right: '4px',
-                                        top: '50%',
-                                        transform: 'translateY(-50%)',
-                                        whiteSpace: 'nowrap',
-                                        zIndex: 10
-                                    }}
-                                >
-                                    {parseFloat(score).toFixed(1)}%
-                                </span>
-                            </div>
+        return (
+            <div className="w-full mt-3 md:mt-6">
+                {/* หัวข้อและแถบความคืบหน้าหลัก */}
+                <div className="flex flex-col md:flex-row md:items-center mb-2">
+                    {/* title */}
+                    <div className="flex items-center gap-2 w-full md:w-[150px]">
+                        <span className="font-semibold text-gray-800  text-base md:text-lg">{title}</span>
+                    </div>
+
+                    {/* container ของ bar + ปุ่ม (flex-row) */}
+                    <div className="flex-1 flex items-center gap-2 mt-2 md:mt-0">
+                        {/* progress bar */}
+                        <div className="flex-1 h-[30px] md:h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+                            <div
+                                className="absolute top-0 left-0 h-full bg-[#C6B06A] transition-all duration-500 ease-in-out"
+                                style={{
+                                    width: `${Math.max(Math.min(parseFloat(score), 100), 0)}%`,
+                                }}
+                            ></div>
+                            <span
+                                className="absolute top-1/2 -translate-y-1/2 text-white text-[14px] md:text-xs pr-2 font-semibold whitespace-nowrap z-10 transition-all duration-500 ease-in-out"
+                                style={getTextPositionStyle(score)}
+                            >
+                                {parseFloat(score).toFixed(1)}%
+                            </span>
                         </div>
+
+                        {/* ปุ่ม dropdown */}
+                        <button
+                            onClick={toggleExpanded}
+                            className="text-gray-500 hover:text-gray-700 transform transition-transform duration-300"
+                            style={{ transform: isExpanded ? "rotate(0deg)" : "rotate(180deg)" }}
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            >
+                                <polyline points="18 15 12 9 6 15"></polyline>
+                            </svg>
+                        </button>
                     </div>
                 </div>
 
-                {/* ปุ่มขยาย/ย่อ */}
-                <div className="absolute right-2 top-0 md:relative md:top-auto md:right-auto md:ml-2">
-                    <button
-                        onClick={toggleExpanded}
-                        className="text-gray-500 hover:text-gray-700 transform transition-transform duration-300"
-                        style={{ transform: isExpanded ? "rotate(0deg)" : "rotate(180deg)" }}
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="18"
-                            height="18"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="md:w-6 md:h-6"
-                        >
-                            <polyline points="18 15 12 9 6 15"></polyline>
-                        </svg>
-                    </button>
-                </div>
-            </div>
+                {/* Container for elements */}
+                <div
+                    className={`ml-0 md:ml-0 mb-4 pl-18 md:pl-32 pr-7 md:pr-6 border-l-2 border-gray-200 transition-all duration-300 ease-in-out ${isExpanded ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0 overflow-hidden"
+                        }`}
+                >
+                    <div className="flex flex-col gap-3 md:gap-3 py-2">
+                        {elements.map((element, idx) => {
+                            const percent = Math.min(parseFloat(element.score ?? 0), 100).toFixed(1);
+                            return (
+                                <div
+                                    key={idx}
+                                    className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-0 relative"
+                                >
+                                    <div className="flex items-center w-full md:w-[300px] md:min-w-[0px] mb-2 md:mb-0">
+                                        <span className="text-gray-700 text-[14px] md:text-sm break-words md:whitespace-nowrap pr-2 md:pr-2">
+                                            {formatElementName(element.element)}
+                                        </span>
+                                    </div>
 
-            {/* Container for elements - ปรับ margin และ padding ให้เหมาะกับแต่ละอุปกรณ์ */}
-            <div
-                className={`ml-2 md:ml-24 mb-4 pl-2 md:pl-32 pr-2 md:pr-13 border-l-2 border-gray-200 transition-all duration-300 ease-in-out ${isExpanded ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0 overflow-hidden"
-                    }`}
-            >
-                <div className="flex flex-col gap-3 md:gap-3 py-2">
-                    {elements.map((element, idx) => {
-                        const percent = Math.min(parseFloat(element.score ?? 0), 100).toFixed(1);
-                        return (
-                            <div
-                                key={idx}
-                                className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-0 relative"
-                            >
-                                {/* ชื่องค์ประกอบ - เต็มความกว้างบนมือถือ จำกัดความกว้างบนคอมพิวเตอร์ */}
-                                <div className="flex items-center w-full md:w-[300px] md:min-w-[0px] mb-2 md:mb-0">
-                                    <span className="text-gray-700 text-[11px] md:text-sm break-words md:whitespace-nowrap pr-2 md:pr-0">
-                                        {formatElementName(element.element)}
-                                    </span>
-                                </div>
+                                    <div className="relative w-full h-[30px] md:h-[30px] bg-[#B60A06] rounded-full overflow-hidden">
+                                        <div
+                                            className="absolute top-0 left-0 h-full bg-[#C6B06A] transition-all duration-500 ease-in-out"
+                                            style={{
+                                                width: `${Math.max(parseFloat(percent), 0)}%`,
+                                            }}
+                                        ></div>
 
-                                {/* แถบความคืบหน้าย่อย */}
-                                <div className="w-full h-[18px] md:h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
-                                    <div
-                                        className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
-                                        style={{ width: `${Math.max(parseFloat(percent), 0.5)}%` }}
-                                    >
-                                        <div className="inset-0 flex items-center">
-                                            <span
-                                                className="text-white text-[9px] md:text-xs font-semibold"
-                                                style={{
-                                                    position: 'absolute',
-                                                    right: '4px',
-                                                    top: '50%',
-                                                    transform: 'translateY(-50%)',
-                                                    whiteSpace: 'nowrap',
-                                                    zIndex: 10
-                                                }}
-                                            >
-                                                {percent}%
-                                            </span>
-                                        </div>
+                                        <span
+                                            className="absolute top-1/2 -translate-y-1/2 text-white text-[14px] md:text-xs font-semibold whitespace-nowrap z-10 pr-2 transition-all duration-500 ease-in-out"
+                                            style={getTextPositionStyle(percent)}
+                                        >
+                                            {percent}%
+                                        </span>
                                     </div>
                                 </div>
-                            </div>
-                        );
-                    })}
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    };
+
 
 
     if (
@@ -511,8 +503,8 @@ function UserGTRContent({ params }) {
                                                     }
                                                 }}
                                                 className={`px-2 py-1 md:px-4 md:py-2 rounded-lg transition-colors text-sm ${showDetails && selectedSessionIndex === index
-                                                        ? "bg-white hover:bg-[#f8ece2] text-[#FF9933] border border-[#FF9933]"
-                                                        : "bg-[#FF9955] hover:bg-[#f0ba85] text-white hover:"
+                                                    ? "bg-white hover:bg-[#f8ece2] text-[#FF9933] border border-[#FF9933]"
+                                                    : "bg-[#FF9955] hover:bg-[#f0ba85] text-white hover:"
                                                     }`}
                                             >
                                                 {showDetails && selectedSessionIndex === index ? "Hide" : "View"}
@@ -529,17 +521,13 @@ function UserGTRContent({ params }) {
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 mt-4 md:mt-6">
                         {/* GTR Score section */}
                         <div className="lg:col-span-2 bg-white rounded-lg shadow p-4 md:p-6">
-                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
-                                <div className="flex items-center">
-                                    <h2 className="text-lg md:text-xl font-semibold">GTR Score</h2>
-                                    {selectedSessionIndex > 0 && sessions[selectedSessionIndex] && (
-                                        <span className="ml-2 text-xs md:text-sm text-gray-500">
-                                            (Session from {new Date(sessions[selectedSessionIndex].createdAt).toLocaleDateString()})
-                                        </span>
-                                    )}
-                                </div>
-                                <Link href="/user-management" className="text-[#FF9933] hover:text-blue-800 flex items-center text-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 md:h-5 md:w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                            <div className="flex items-center justify-between">
+                                <h1 className="text-[16px] md:text-[32px] font-semibold">GTR Score</h1>
+                                <Link
+                                    href="/user-management"
+                                    className="text-[#FF9933] hover:text-blue-800 flex items-center text-[18px]"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 md:h-5 md:w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
                                         <path
                                             fillRule="evenodd"
                                             d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
@@ -551,26 +539,21 @@ function UserGTRContent({ params }) {
                             </div>
 
                             {/* Total GTR Score */}
-                            <div className="mb-6">
+                            <div className="mt-4 mb-6">
                                 <div className="flex justify-between items-center">
-                                    <span className="font-semibold text-sm md:text-base">Total GTR Score</span>
+                                    <span className="font-semibold text-[18px] md:text-base">Total GTR Score</span>
                                 </div>
-                                <div className="w-full h-[24px] md:h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
-                                    <div className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out relative" style={{ width: `${sessionScores.gtr}%` }}>
-                                        <div className="absolute inset-0 flex items-center justify-end pr-2">
-                                            {parseFloat(sessionScores.gtr) >= 4.0 && (
-                                                <span
-                                                    className="text-white text-xs font-semibold absolute"
-                                                    style={{
-                                                        right: '8px',
-                                                        top: '50%',
-                                                        transform: 'translateY(-50%)'
-                                                    }}
-                                                >{parseFloat(sessionScores.gtr).toFixed(1)}%
-                                                </span>
-                                            )}
-                                        </div>
-                                    </div>
+                                <div className="w-full h-[30px] md:h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+                                    <div className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out" style={{ width: `${sessionScores.gtr}%` }}></div>
+                                    <span
+                                        className="absolute top-1/2 text-white text-[14px] font-semibold pr-2 transition-all duration-500 ease-in-out"
+                                        style={{
+                                            left: sessionScores.gtr > 0 ? `${Math.min(parseFloat(sessionScores.gtr), 100)}%` : '8px',
+                                            transform: sessionScores.gtr > 0 ? 'translate(-100%, -50%)' : 'translate(0, -50%)'
+                                        }}
+                                    >
+                                        {parseFloat(sessionScores.gtr).toFixed(1)}%
+                                    </span>
                                 </div>
                             </div>
 
