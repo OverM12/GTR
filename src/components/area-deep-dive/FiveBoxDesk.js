@@ -94,7 +94,7 @@ function FiveBoxDesk() {
   // Show error message if there's an error
   if (error) {
     return (
-      <div className="flex flex-col justify-center items-center min-h-[400px]">
+      <div className="flex flex-col justify-center items-center">
         {/* <Image
           src={IMAGE_PATHS.NO_DATA_ICON}
           width={80}

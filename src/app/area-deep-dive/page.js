@@ -73,7 +73,7 @@ export default function AreaDeepDive() {
                 </div> */}
               </div>
               {totalExpanded && (
-                <div className="md:hidden w-[80%] mx-auto h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+                <div className="md:hidden w-[90%] mx-auto h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
                   <div
                     className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative flex items-center justify-end pr-4"
                     style={{ width: `${totalGtr}%` }}

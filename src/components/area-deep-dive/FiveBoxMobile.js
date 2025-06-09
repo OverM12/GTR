@@ -100,14 +100,14 @@ function FiveBoxMobile() {
   const renderElements = (data, show) => {
     if (!show || !data?.elements) return null;
     return (
-      <div className="ml-4 mb-4 pl-12 border-l-2 border-gray-200 ease-in-out">
+      <div className="ml-4 mb-2 pl-12 border-l-2 mt-4 border-gray-200 ease-in-out">
         <div className="flex flex-col gap-3">
           {data.elements.map((element, index) => {
             const percent = parseFloat(element.gtr).toFixed(1);
             return (
               <div key={index} className="flex flex-col mb-3 mr-4">
                 <div className="flex items-center mb-1">
-                  <span className="text-gray-700 text-sm">{formatElementName(element.element)}</span>
+                  <span className="text-gray-700 text-sm mt-4">{formatElementName(element.element)}</span>
                 </div>
                 <div className="w-full h-[28px] bg-[#B60A06] rounded-full overflow-hidden relative">
                   <div
@@ -156,7 +156,7 @@ function FiveBoxMobile() {
     <div className="lg:hidden flex flex-col p-4 w-full overflow-x-auto">
       {/* Self Section */}
       <div className="flex flex-col w-full mb-4 hover:bg-[#F0F1F5] py-4 rounded-[24px]">
-        <div className="flex items-center justify-between px-4">
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Image
               src={IMAGE_PATHS.SELF_ICON}
@@ -181,7 +181,7 @@ function FiveBoxMobile() {
             </button>
           </div>
         </div>
-        <div className="mt-2 px-4">
+        <div className="mt-2">
           <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
             <div
               className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out"
@@ -205,7 +205,7 @@ function FiveBoxMobile() {
 
       {/* Social Section */}
       <div className="flex flex-col w-full mb-4 hover:bg-[#F0F1F5] py-4 rounded-[24px]">
-        <div className="flex items-center justify-between px-4">
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Image
               src={IMAGE_PATHS.SOCIAL_ICON}
@@ -230,7 +230,7 @@ function FiveBoxMobile() {
             </button>
           </div>
         </div>
-        <div className="mt-2 px-4">
+        <div className="mt-2">
           <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
             <div
               className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out"
@@ -254,7 +254,7 @@ function FiveBoxMobile() {
 
       {/* Actions Section */}
       <div className="flex flex-col w-full mb-4 hover:bg-[#F0F1F5] py-4 rounded-[24px]">
-        <div className="flex items-center justify-between px-4">
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Image
               src={IMAGE_PATHS.ACTIONS_ICON}
@@ -279,7 +279,7 @@ function FiveBoxMobile() {
             </button>
           </div>
         </div>
-        <div className="mt-2 px-4">
+        <div className="mt-2">
           <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
             <div
               className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out"
@@ -303,7 +303,7 @@ function FiveBoxMobile() {
 
       {/* Gets/Obtainments Section */}
       <div className="flex flex-col w-full mb-4 hover:bg-[#F0F1F5] py-4 rounded-[24px]">
-        <div className="flex items-center justify-between px-4">
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Image
               src={IMAGE_PATHS.OBTAIN_ICON}
@@ -328,7 +328,7 @@ function FiveBoxMobile() {
             </button>
           </div>
         </div>
-        <div className="mt-2 px-4">
+        <div className="mt-2">
           <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
             <div
               className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out"
@@ -352,7 +352,7 @@ function FiveBoxMobile() {
 
       {/* Environment Section */}
       <div className="flex flex-col w-full mb-4 hover:bg-[#F0F1F5] py-4 rounded-[24px]">
-        <div className="flex items-center justify-between px-4">
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Image
               src={IMAGE_PATHS.ENVIRONMENT_ICON}
@@ -377,7 +377,7 @@ function FiveBoxMobile() {
             </button>
           </div>
         </div>
-        <div className="mt-2 px-4">
+        <div className="mt-2">
           <div className="w-full h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
             <div
               className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out"

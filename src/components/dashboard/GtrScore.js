@@ -100,16 +100,16 @@ function GtrScore() {
     : "0.0";
 
   return (
-    <div className="z-0 flex flex-col gap-[8px] p-[16px] pb-[44px] pt-[30px] w-full rounded-[40px] bg-white">
-      <h1 className="text-[24px] font-bold">GTR</h1>
+    <div className="z-0 flex flex-col gap-2 sm:gap-3 md:gap-4 p-4 sm:p-6 md:p-8 pb-8 sm:pb-10 md:pb-12 pt-6 sm:pt-7 md:pt-8 w-full rounded-2xl sm:rounded-3xl md:rounded-[40px] bg-white">
+      <h1 className="text-xl sm:text-2xl md:text-[24px] font-bold">GTR</h1>
       <div className="flex w-full items-center justify-between">
-        <div className="w-full h-[48px] bg-[#B60A06] rounded-full overflow-hidden relative">
+        <div className="w-full h-8 sm:h-10 md:h-[48px] bg-[#B60A06] rounded-full overflow-hidden relative">
           <div
-            className="h-[48px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative flex items-center"
+            className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out relative flex items-center"
             style={{ width: `${Math.min(mainGtrScore, 100)}%` }}
           >
             <span
-              className="text-white text-[28px] font-semibold absolute right-4 top-1/2 transform -translate-y-1/2 whitespace-nowrap overflow-hidden text-ellipsis"
+              className="text-white text-lg sm:text-2xl md:text-[28px] font-semibold absolute right-4 top-1/2 transform -translate-y-1/2 whitespace-nowrap overflow-hidden text-ellipsis"
               style={{ maxWidth: `${Math.min(mainGtrScore, 100)}%` }}
             >
               {mainGtrScore}%
@@ -117,157 +117,39 @@ function GtrScore() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col md:flex md:flex-row w-full bg-white px-2 gap-[8px] py-[16px]">
-        <div className="flex flex-col w-full">
-          <div className="flex text-[14px] font-bold items-center gap-[8px]">
-            <Image
-              src="/your-gtr/dashboard/self-icon.png"
-              width={24}
-              height={24}
-              alt="GTR Dashboard self-icon"
-            />
-            Self
-          </div>
-          <div className="flex text-[24px] font-bold items-center gap-[8px]">
-            {selfScore}%
-            {/* <Image
-              src="/your-gtr/dashboard/arrow-up-icon.png"
-              width={27}
-              height={27}
-              alt="GTR Dashboard arrow-up-icon"
-              className="mt-2"
-            /> */}
-          </div>
-          <div className="flex w-full items-center justify-between">
-            <div className="w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden relative">
-              <div
-                className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out"
-                style={{ width: `${selfScore}%` }}
-              >
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6 md:gap-8 w-full bg-white px-2 py-4">
+        {[
+          { title: 'Self', score: selfScore, icon: '/your-gtr/dashboard/self-icon.png' },
+          { title: 'Social', score: socialScore, icon: '/your-gtr/dashboard/social-icon.png' },
+          { title: 'Actions', score: actionsScore, icon: '/your-gtr/dashboard/actions-icon.png' },
+          { title: 'Obtainments', score: getsScore, icon: '/your-gtr/dashboard/obtainments-icon.png' },
+          { title: 'Environment', score: environmentScore, icon: '/your-gtr/dashboard/environment-icon.png' }
+        ].map((item, index) => (
+          <div key={index} className="flex flex-col w-full space-y-2">
+            <div className="flex text-xs sm:text-sm md:text-[14px] font-bold items-center gap-2">
+              <Image
+                src={item.icon}
+                width={20}
+                height={20}
+                alt={`GTR Dashboard ${item.title.toLowerCase()}-icon`}
+                className="w-5 h-5 sm:w-6 sm:h-6 md:w-[24px] md:h-[24px]"
+              />
+              {item.title}
+            </div>
+            <div className="flex text-lg sm:text-xl md:text-[24px] font-bold items-center gap-2">
+              {item.score}%
+            </div>
+            <div className="flex w-full items-center justify-between">
+              <div className="w-full h-[6px] sm:h-[7px] md:h-[8px] bg-[#B60A06] rounded-full overflow-hidden relative">
+                <div
+                  className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out"
+                  style={{ width: `${item.score}%` }}
+                >
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="flex flex-col w-full">
-          <div className="flex text-[14px] font-bold items-center gap-[8px]">
-            <Image
-              src="/your-gtr/dashboard/social-icon.png"
-              width={24}
-              height={24}
-              alt="GTR Dashboard social-icon"
-            />
-            Social
-          </div>
-          <div className="flex text-[24px] font-bold items-center gap-[8px]">
-            {socialScore}%
-            {/* <Image
-              src="/your-gtr/dashboard/down-icon.png"
-              width={27}
-              height={27}
-              alt="GTR Dashboard down-icon"
-              className="mt-2"
-            /> */}
-          </div>
-          <div className="flex w-full items-center justify-between">
-            <div className="w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden relative">
-              <div
-                className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out"
-                style={{ width: `${socialScore}%` }}
-              >
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col w-full">
-          <div className="flex text-[14px] font-bold items-center gap-[8px]">
-            <Image
-              src="/your-gtr/dashboard/actions-icon.png"
-              width={24}
-              height={24}
-              alt="GTR Dashboard actions-icon"
-            />
-            Actions
-          </div>
-          <div className="flex text-[24px] font-bold items-center gap-[8px]">
-            {actionsScore}%
-            {/* <Image
-              src="/your-gtr/dashboard/arrow-up-icon.png"
-              width={27}
-              height={27}
-              alt="GTR Dashboard arrow-up-icon"
-              className="mt-2"
-            /> */}
-          </div>
-          <div className="flex w-full items-center justify-between">
-            <div className="w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden relative">
-              <div
-                className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out"
-                style={{ width: `${actionsScore}%` }}
-              >
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col w-full">
-          <div className="flex text-[14px] font-bold items-center gap-[8px]">
-            <Image
-              src="/your-gtr/dashboard/obtainments-icon.png"
-              width={24}
-              height={24}
-              alt="GTR Dashboard obtainments-icon"
-            />
-            Obtainments
-          </div>
-          <div className="flex text-[24px] font-bold items-center gap-[8px]">
-            {getsScore}%
-            {/* <Image
-              src="/your-gtr/dashboard/arrow-up-icon.png"
-              width={27}
-              height={27}
-              alt="GTR Dashboard arrow-up-icon"
-              className="mt-2"
-            /> */}
-          </div>
-          <div className="flex w-full items-center justify-between">
-            <div className="w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden relative">
-              <div
-                className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out"
-                style={{ width: `${getsScore}%` }}
-              >
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col w-full">
-          <div className="flex text-[14px] font-bold items-center gap-[8px]">
-            <Image
-              src="/your-gtr/dashboard/environment-icon.png"
-              width={24}
-              height={24}
-              alt="GTR Dashboard environment-icon"
-            />
-            Environment
-          </div>
-          <div className="flex text-[24px] font-bold items-center gap-[8px]">
-            {environmentScore}%
-            {/* <Image
-              src="/your-gtr/dashboard/arrow-up-icon.png"
-              width={27}
-              height={27}
-              alt="GTR Dashboard arrow-up-icon"
-              className="mt-2"
-            /> */}
-          </div>
-          <div className="flex w-full items-center justify-between">
-            <div className="w-full h-[8px] bg-[#B60A06] rounded-full overflow-hidden relative">
-              <div
-                className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out"
-                style={{ width: `${environmentScore}%` }}
-              >
-              </div>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
