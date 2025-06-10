@@ -22,6 +22,10 @@ function UserGTRContent({ params }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    // Scroll to top when component mounts
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     // เลือก session ที่แสดง
     const [selectedSessionIndex, setSelectedSessionIndex] = useState(() => {
         if (typeof window !== "undefined") {
@@ -522,10 +526,10 @@ function UserGTRContent({ params }) {
                         {/* GTR Score section */}
                         <div className="lg:col-span-2 bg-white rounded-lg shadow p-4 md:p-6">
                             <div className="flex items-center justify-between">
-                                <h1 className="text-[16px] md:text-[32px] font-semibold">GTR Score</h1>
+                                <h1 className="text-[16px] md:text-[24px] font-semibold">GTR Score</h1>
                                 <Link
                                     href="/user-management"
-                                    className="text-[#FF9933] hover:text-blue-800 flex items-center text-[18px]"
+                                    className="text-[#FF9933] text-[16px] md:text-[24px] hover:text-blue-800 flex items-center"
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 md:h-5 md:w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
                                         <path
@@ -542,6 +546,11 @@ function UserGTRContent({ params }) {
                             <div className="mt-4 mb-6">
                                 <div className="flex justify-between items-center">
                                     <span className="font-semibold text-[18px] md:text-base">Total GTR Score</span>
+                                    {latestSession && (
+                                        <span className="text-sm text-gray-500">
+                                           Session {new Date(latestSession.createdAt).toLocaleDateString("en-GB")}
+                                        </span>
+                                    )}
                                 </div>
                                 <div className="w-full h-[30px] md:h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
                                     <div className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out" style={{ width: `${sessionScores.gtr}%` }}></div>
