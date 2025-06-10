@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
 			<body className="overflow-hidden h-screen">
 				<div className="flex h-full">
 					<Menu />
-					<div className="flex flex-col w-full overflow-y-auto">
+					<div className="flex flex-col w-full">
 						<Navbar />
 						{children}
 					</div>

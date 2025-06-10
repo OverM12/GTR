@@ -108,10 +108,10 @@ function User() {
                 alt="Profile"
                 width={120}
                 height={120}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover rounded-full"
               />
             ) : (
-              <div className="w-full h-full bg-gray-600 flex items-center justify-center">
+              <div className="w-full h-full bg-gray-600 flex items-center justify-center rounded-full">
                 <span className="text-white text-2xl font-semibold">{getUserInitials()}</span>
               </div>
             )}

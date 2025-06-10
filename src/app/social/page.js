@@ -95,7 +95,7 @@ export default function Social() {
                   className="h-[48px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative"
                   style={{ width: `${Math.min(parseFloat(formattedScore), 100)}%` }}
                 >
-                  {parseFloat(formattedScore) >= 3.0 && (
+                  {parseFloat(formattedScore) >= 6.0 && (
                     <span
                       className="text-white text-[24px] font-semibold absolute"
                       style={{
@@ -109,7 +109,7 @@ export default function Social() {
                     </span>
                   )}
                 </div>
-                {parseFloat(formattedScore) < 3.0 && (
+                {parseFloat(formattedScore) < 6.0 && (
                   <span
                     className="text-white text-[24px] font-semibold absolute"
                     style={{
