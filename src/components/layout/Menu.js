@@ -186,7 +186,7 @@ function Menu() {
               <div className="flex w-full items-center justify-between">
                 <div className="relative w-full h-[18px] bg-[#B60A06] rounded-full overflow-hidden">
                   <div
-                    className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full border-r-2 border-[#0C2955] flex items-center"
+                    className="absolute left-0 top-0 h-full bg-[#C6B06A] rounded-l-full border-[#0C2955] flex items-center"
                     style={{
                       width: `${Math.min(parseFloat(mainGtrScore), 100)}%`
                     }}

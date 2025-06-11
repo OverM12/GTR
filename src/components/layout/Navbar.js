@@ -5,12 +5,13 @@ import { useContext, useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { useDateRange } from "@/context/DateRangeContext";
 import reportService from '@/services/reportService';
+import React from 'react';
 
 function Navbar() {
   const { setIsOpen } = useContext(NavbarContext);
   const { dateRange, setDateRange } = useDateRange();
   const pathname = usePathname();
-  const [viewMode, setViewMode] = useState("M"); // Default to "M"
+  const [viewMode, setViewMode] = useState("D"); // Default to "M"
   const fromDateRef = useRef(null);
   const toDateRef = useRef(null);
   const datePickerRef = useRef(null);
@@ -63,7 +64,84 @@ function Navbar() {
     }
   }, [dateRange, viewMode]);
 
-  // Format date for display (MM/DD/YYYY)
+  // New function to render view mode buttons
+  const renderViewModeButtons = () => (
+    <div className="flex items-center">
+      <div className="flex rounded-full overflow-hidden">
+        <button
+          className={`px-2 py-1 text-[10px] sm:px-4 sm:py-1 sm:text-sm ${viewMode === "D"
+            ? "bg-[#ff9933] text-black"
+            : "bg-[#c1c6da] text-white"
+            } rounded-l-full`}
+          onClick={() => handleViewModeChange("D")}
+        >
+          D
+        </button>
+        <button
+          className={`px-2 py-1 text-[10px] sm:px-4 sm:py-1 sm:text-sm ${viewMode === "W"
+            ? "bg-[#ff9933] text-black"
+            : "bg-[#c1c6da] text-white"
+            }`}
+          onClick={() => handleViewModeChange("W")}
+        >
+          W
+        </button>
+        <button
+          className={`px-2 py-1 text-[10px] sm:px-4 sm:py-1 sm:text-sm ${viewMode === "M"
+            ? "bg-[#ff9933] text-black"
+            : "bg-[#c1c6da] text-white"
+            }`}
+          onClick={() => handleViewModeChange("M")}
+        >
+          M
+        </button>
+        <button
+          className={`px-2 py-1 text-[10px] sm:px-4 sm:py-1 sm:text-sm ${viewMode === "Y"
+            ? "bg-[#ff9933] text-black"
+            : "bg-[#c1c6da] text-white"
+            } rounded-r-full`}
+          onClick={() => handleViewModeChange("Y")}
+        >
+          Y
+        </button>
+      </div>
+    </div>
+  );
+
+  const renderDateRangeDisplay = () => (
+    <div className="flex gap-1 items-center justify-center h-auto relative flex-nowrap">
+      <div
+        ref={fromDateRef}
+        className={`bg-[#F0F2F5] px-2 py-2 rounded-full cursor-pointer text-[10px] sm:px-[16px] sm:py-[8px] sm:text-[14px]
+          ${selectingField === "fromDate" && isSelectingDate
+            ? "border-2 border-[#FF9933]"
+            : ""
+          }`}
+        onClick={() => handleOpenDatePicker("fromDate")}
+      >
+        <div className="flex items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap">
+          {formatDateForDisplay(dateRange.fromDate)}
+        </div>
+      </div>
+      <div className="text-[10px] sm:text-[14px] whitespace-nowrap">to</div>
+      <div
+        ref={toDateRef}
+        className={`bg-[#F0F2F5] px-2 py-2 rounded-full cursor-pointer text-[10px] sm:px-[16px] sm:py-[8px] sm:text-[14px]
+          ${selectingField === "toDate" && isSelectingDate
+            ? "border-2 border-[#FF9933]"
+            : ""
+          }`}
+        onClick={() => handleOpenDatePicker("toDate")}
+      >
+        <div className="flex items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap">
+          {formatDateForDisplay(dateRange.toDate)}
+        </div>
+      </div>
+
+      {showDatePicker && <CustomDatePicker />}
+    </div>
+  );
+
   // Format date for display (MM/DD/YYYY)
   const formatDateForDisplay = (dateString) => {
     if (!dateString) return "";
@@ -234,27 +312,28 @@ function Navbar() {
 
   // Generate calendar for the date picker
   const generateCalendar = () => {
-    const currentMonth = currentCalendarMonth;
-    const currentYear = currentCalendarYear;
+    const daysInMonth = new Date(
+      currentCalendarYear,
+      currentCalendarMonth + 1,
+      0
+    ).getDate();
+    const firstDayOfMonth = new Date(
+      currentCalendarYear,
+      currentCalendarMonth,
+      1
+    ).getDay(); // 0 for Sunday, 1 for Monday, etc.
+    const startingDayOfWeek = firstDayOfMonth; // No change for Sunday as first day
 
-    // Start with first day of current month
-    const firstDay = new Date(currentYear, currentMonth, 1);
-    const startingDayOfWeek = firstDay.getDay();
-
-    // Get days in month
-    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-
-    // Generate calendar grid
     const calendarDays = [];
 
     // Add empty cells for days before the 1st of the month
     for (let i = 0; i < startingDayOfWeek; i++) {
-      calendarDays.push(<div key={`empty-${i}`} className="w-8 h-8"></div>);
+      calendarDays.push(<div key={`empty-${i}`} className="w-4 h-4 sm:w-6 sm:h-6"></div>);
     }
 
     // Add cells for each day
     for (let day = 1; day <= daysInMonth; day++) {
-      const date = `${currentYear}-${String(currentMonth + 1).padStart(
+      const date = `${currentCalendarYear}-${String(currentCalendarMonth + 1).padStart(
         2,
         "0"
       )}-${String(day).padStart(2, "0")}`;
@@ -266,16 +345,16 @@ function Navbar() {
         <div
           key={`day-${day}`}
           onClick={() => handleDateClick(date)}
-          className={`w-8 h-8 flex items-center justify-center cursor-pointer text-sm transition-colors
-            ${isInRange && !isStartDate && !isEndDate ? "bg-orange-100" : ""}
+          className={`flex items-center justify-center cursor-pointer text-[10px] sm:text-sm transition-colors w-4 h-4 sm:w-6 sm:h-6
+            ${isInRange && !isStartDate && !isEndDate ? "bg-orange-100 rounded-full" : ""}
             ${isStartDate || isEndDate
               ? "bg-[#FF9933] text-white rounded-full"
-              : "rounded-full"
+              : ""
             }
             ${date === new Date().toISOString().split("T")[0] &&
               !isStartDate &&
               !isEndDate
-              ? "border border-gray-400"
+              ? "border border-gray-400 rounded-full"
               : ""
             }
             hover:bg-gray-200 hover:rounded-full`}
@@ -325,19 +404,19 @@ function Navbar() {
 
     return (
       <div
-        className="absolute top-full mt-2 z-[100] bg-white rounded-lg shadow-xl border border-gray-200 p-4 w-[290px]"
+        className="absolute top-full mt-2 z-[100] bg-white rounded-lg shadow-xl border border-gray-200 p-2 w-full sm:max-w-[290px]"
         style={{
           left: selectingField === "fromDate" ? "0" : "auto",
           right: selectingField === "toDate" ? "0" : "auto",
         }}
         ref={datePickerRef}
       >
-        <div className="flex gap-2 font-medium justify-between">
+        <div className="flex gap-2 font-medium justify-between flex-wrap">
           <div className="flex">
             <select
               value={currentCalendarMonth}
               onChange={handleMonthChange}
-              className="bg-gray-100 rounded px-2 py-1 text-sm"
+              className="bg-gray-100 rounded px-2 py-1 text-[12px] sm:px-2 sm:py-1 sm:text-sm"
             >
               {months.map((month) => (
                 <option key={month.value} value={month.value}>
@@ -351,7 +430,7 @@ function Navbar() {
             <select
               value={currentCalendarYear}
               onChange={handleYearChange}
-              className="bg-gray-100 rounded px-2 py-1 text-sm"
+              className="flex flex-col bg-gray-100 rounded px-2 py-1 text-[12px] sm:px-2 sm:py-1 sm:text-xs"
             >
               {years.map((year) => (
                 <option key={year} value={year}>
@@ -360,46 +439,28 @@ function Navbar() {
               ))}
             </select>
           </div>
-          {/* <div className="flex gap-2">
-            <button
-              onClick={goToPrevMonth}
-              className="text-gray-500 hover:text-gray-700 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
-            >
-              <span>←</span>
-            </button>
-            <button
-              onClick={goToNextMonth}
-              className="text-gray-500 hover:text-gray-700 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
-            >
-              <span>→</span>
-            </button>
-            <button
-              onClick={closeDatePicker}
-              className="text-gray-500 hover:text-gray-700 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
-            >
-              <span>×</span>
-            </button>
-          </div> */}
         </div>
 
         <div className="flex flex-col">
-          <div className="grid grid-cols-7 gap-1 mb-2 text-gray-600">
+          <div className="grid grid-cols-7 gap-1 sm:gap-2 mb-0.5 text-gray-600 text-xs sm:text-sm">
             {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
               <div
                 key={day}
-                className="w-8 h-8 flex items-center justify-center font-medium text-xs"
+                className="flex items-center justify-center text-xs sm:text-xs w-4 h-4 sm:w-6 sm:h-6"
               >
                 {day}
               </div>
             ))}
           </div>
 
-          <div className="grid grid-cols-7 gap-1 mb-2">
-            {generateCalendar()}
+          <div className="grid grid-cols-7 gap-1 sm:gap-2 mb-0.5">
+            {generateCalendar().map((dayHtml, index) => {
+              return dayHtml;
+            })}
           </div>
         </div>
 
-        <div className="mt-2 text-xs text-gray-500 text-center italic">
+        <div className="mt-0.5 text-[8px] text-gray-500 text-center italic sm:text-xs">
           {selectingField === "fromDate"
             ? "Click to select start date"
             : "Click to select end date"}
@@ -407,43 +468,6 @@ function Navbar() {
       </div>
     );
   };
-
-  const renderDateRangeDisplay = () => (
-    <div className="flex gap-1 w-fit items-center justify-center h-[48px] relative">
-      <div
-        ref={fromDateRef}
-        className={`bg-[#F0F2F5] px-[16px] py-[8px] w-fit rounded-[16px] cursor-pointer
-          ${selectingField === "fromDate" && isSelectingDate
-            ? "border-2 border-[#FF9933]"
-            : ""
-          }`}
-        onClick={() => handleOpenDatePicker("fromDate")}
-      >
-        <div className="flex w-[133px] h-[22px] items-center justify-center text-[14px]">
-          {formatDateForDisplay(dateRange.fromDate)}
-        </div>
-      </div>
-      <div className="text-[14px]">to</div>
-      <div
-        ref={toDateRef}
-        className={`bg-[#F0F2F5] px-[16px] py-[8px] w-fit rounded-[16px] cursor-pointer
-          ${selectingField === "toDate" && isSelectingDate
-            ? "border-2 border-[#FF9933]"
-            : ""
-          }`}
-        onClick={() => handleOpenDatePicker("toDate")}
-      >
-        <div className="flex w-[133px] h-[22px] items-center justify-center text-[14px]">
-          {formatDateForDisplay(dateRange.toDate)}
-        </div>
-      </div>
-
-      {showDatePicker && <CustomDatePicker />}
-    </div>
-  );
-
-  // Remove this duplicate definition (around line 441)
-  // const datePickerRef = useRef(null);
 
   // Close the date picker when clicking outside
   useEffect(() => {
@@ -464,11 +488,11 @@ function Navbar() {
     <div className="z-50">
       {/* Mobile Layout */}
       {isMobile && (
-        <div className="sticky top-0 w-full bg-white drop-shadow-sm shadow-[0px_-3px_8px_rgba(0,0,0,0.5)] py-[16px] px-[16px]">
+        <div className="sticky top-0 w-full bg-white drop-shadow-sm shadow-[0px_-3px_8px_rgba(0,0,0,0.5)] py-[10px] px-[10px]">
           <div
             className={`flex flex-col ${pathname != "/" ? "h-fit" : "h-[94px]"}`}
           >
-            <div className="w-full flex justify-between">
+            <div className="w-full flex justify-between items-center gap-2">
               <div
                 className="w-[48px] h-[48px] flex items-center justify-center"
                 onClick={() => setIsOpen(true)}
@@ -479,6 +503,10 @@ function Navbar() {
                   height={24}
                   alt="Picture of the author"
                 />
+              </div>
+              <div className="flex flex-grow items-center justify-center gap-1">
+                {renderViewModeButtons()}
+                {renderDateRangeDisplay()}
               </div>
               <div className="flex">
                 {/* <div className="w-[48px] h-[48px] flex items-center justify-center">
@@ -498,7 +526,12 @@ function Navbar() {
                       alt="Picture of the author"
                     /> */}
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <path d="M11 11V7H13V11H17V13H13V17H11V13H7V11H11ZM12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20Z" fill="black" />
+                      <path d="M11 11V7H13V11H17V13H13V17H11V13H7V11H11ZM12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20Z" fill="black" fillRule="evenodd" clipRule="evenodd" />
+                      <filter id="filter0_f_32_792" x="-16" y="-16" width="56" height="56" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                        <feFlood floodOpacity="0" result="BackgroundImageFix" />
+                        <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+                        <feGaussianBlur stdDeviation="8" result="effect1_foregroundBlur_32_792" />
+                      </filter>
                     </svg>
                   </a>
                   {/* <div className="w-full flex justify-end">
@@ -520,7 +553,6 @@ function Navbar() {
                 </div>
               </div>
             </div>
-            {pathname != "/" ? "" : renderDateRangeDisplay()}
           </div>
         </div>
       )}
@@ -555,92 +587,14 @@ function Navbar() {
           {/* Dashboard Layout */}
           {(pathname === "/dashboard" || pathname === "/insights" || pathname === "/") && (
             <>
-              <div className="flex items-center">
-                <div className="flex rounded-full overflow-hidden">
-                  <button
-                    className={`px-4 py-1 text-sm ${viewMode === "D"
-                      ? "bg-[#ff9933] text-black"
-                      : "bg-[#c1c6da] text-white"
-                      } rounded-l-full`}
-                    onClick={() => handleViewModeChange("D")}
-                  >
-                    D
-                  </button>
-                  <button
-                    className={`px-4 py-1 text-sm ${viewMode === "W"
-                      ? "bg-[#ff9933] text-black"
-                      : "bg-[#c1c6da] text-white"
-                      }`}
-                    onClick={() => handleViewModeChange("W")}
-                  >
-                    W
-                  </button>
-                  <button
-                    className={`px-4 py-1 text-sm ${viewMode === "M"
-                      ? "bg-[#ff9933] text-black"
-                      : "bg-[#c1c6da] text-white"
-                      }`}
-                    onClick={() => handleViewModeChange("M")}
-                  >
-                    M
-                  </button>
-                  <button
-                    className={`px-4 py-1 text-sm ${viewMode === "Y"
-                      ? "bg-[#ff9933] text-black"
-                      : "bg-[#c1c6da] text-white"
-                      } rounded-r-full`}
-                    onClick={() => handleViewModeChange("Y")}
-                  >
-                    Y
-                  </button>
-                </div>
-              </div>
+              {renderViewModeButtons()}
               {renderDateRangeDisplay()}
             </>
           )}
 
           {pathname === "/development" && (
             <>
-              <div className="flex items-center">
-                <div className="flex rounded-full overflow-hidden">
-                  <button
-                    className={`px-4 py-1 text-sm ${viewMode === "D"
-                      ? "bg-[#ff9933] text-black"
-                      : "bg-[#c1c6da] text-white"
-                      } rounded-l-full`}
-                    onClick={() => handleViewModeChange("D")}
-                  >
-                    D
-                  </button>
-                  <button
-                    className={`px-4 py-1 text-sm ${viewMode === "W"
-                      ? "bg-[#ff9933] text-black"
-                      : "bg-[#c1c6da] text-white"
-                      }`}
-                    onClick={() => handleViewModeChange("W")}
-                  >
-                    W
-                  </button>
-                  <button
-                    className={`px-4 py-1 text-sm ${viewMode === "M"
-                      ? "bg-[#ff9933] text-black"
-                      : "bg-[#c1c6da] text-white"
-                      }`}
-                    onClick={() => handleViewModeChange("M")}
-                  >
-                    M
-                  </button>
-                  <button
-                    className={`px-4 py-1 text-sm ${viewMode === "Y"
-                      ? "bg-[#ff9933] text-black"
-                      : "bg-[#c1c6da] text-white"
-                      } rounded-r-full`}
-                    onClick={() => handleViewModeChange("Y")}
-                  >
-                    Y
-                  </button>
-                </div>
-              </div>
+              {renderViewModeButtons()}
               {renderDateRangeDisplay()}
             </>
           )}
