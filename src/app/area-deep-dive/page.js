@@ -58,7 +58,7 @@ export default function AreaDeepDive() {
 
         {data?.data && (
           <>
-            <div className="lg:hidden flex flex-col w-full mb-4 hover:bg-[#F0F1F5] py-4 rounded-[24px]">
+            <div className="lg:hidden flex flex-col w-full mb-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="text-gray-700 text-sm font-medium">Total GTR</span>
@@ -87,29 +87,24 @@ export default function AreaDeepDive() {
               </div>
             </div>
 
-            <div className="hidden lg:flex pl-12 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
-              <div className="flex items-center gap-2 pl-[39px] min-w-[200px]">
+            <div className="hidden lg:flex w-full items-center py-6">
+              <div className="flex items-center gap-2 min-w-[100px]">
                 <span className="text-gray-700 text-[14px] text-nowrap">
                   Total GTR
                 </span>
               </div>
-              <div className="flex-1 flex items-center justify-end relative h-[30px] ml-12">
-                <div className="w-full max-w-[1250px] h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative">
+              <div className="flex-1 flex items-center justify-end relative h-[30px]">
+                <div className="w-full max-w-[1450px] h-[30px] bg-[#B60A06] rounded-full overflow-hidden relative mr-10">
                   <div
                     className="h-[30px] bg-[#C6B06A] transition-all duration-500 ease-in-out relative flex items-center"
                     style={{ width: `${Math.min(totalGtr, 100)}%` }}
                   >
-                    {parseFloat(totalGtr) >= 4.0 && (
-                      <span className="text-white text-xs font-semibold absolute right-4 top-1/2 transform -translate-y-1/2 whitespace-nowrap">
-                        {totalGtr}%
-                      </span>
-                    )}
-                  </div>
-                  {parseFloat(totalGtr) < 4.0 && (
-                    <span className="text-white text-xs font-semibold absolute left-4 top-1/2 transform -translate-y-1/2 whitespace-nowrap">
+                    <span
+                      className="text-white text-xs font-semibold absolute right-4 top-1/2 transform -translate-y-1/2 whitespace-nowrap"
+                    >
                       {totalGtr}%
                     </span>
-                  )}
+                  </div>
                 </div>
               </div>
             </div>
