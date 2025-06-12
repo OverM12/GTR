@@ -15,6 +15,8 @@ export default function Actions() {
   const [error, setError] = useState(null);
   const [showActionsElements, setShowActionsElements] = useState(false);
   const [actionsData, setActionsData] = useState(null);
+  const [isEditingReflection, setIsEditingReflection] = useState(false);
+  const [tempReflectionText, setTempReflectionText] = useState("");
 
   useEffect(() => {
     const fetchGtrData = async () => {
@@ -27,6 +29,14 @@ export default function Actions() {
 
       try {
         setLoading(true);
+        // Try to load from localStorage first
+        if (typeof window !== 'undefined') {
+          const savedNotes = localStorage.getItem('userActionsNotes');
+          if (savedNotes) {
+            setReflectionText(savedNotes);
+          }
+        }
+
         const data = await reportService.getGtrReport(dateRange.fromDate, dateRange.toDate);
 
         // Update actionsData state
@@ -39,9 +49,10 @@ export default function Actions() {
           setGtrScore(0);
         }
 
-        if (actionsDataResponse && actionsDataResponse.reflection) {
-          setReflectionText(actionsDataResponse.reflection);
-        } else {
+        // Only update reflectionText from API if no saved notes from localStorage or if API has newer data
+        if (data.data.data.actionsNotes && !localStorage.getItem('userActionsNotes')) {
+          setReflectionText(data.data.data.actionsNotes);
+        } else if (!data.data.data.actionsNotes && !localStorage.getItem('userActionsNotes')) {
           setReflectionText("");
         }
 
@@ -60,10 +71,34 @@ export default function Actions() {
     fetchGtrData();
   }, [dateRange]);
 
+  useEffect(() => {
+    setTempReflectionText(reflectionText);
+  }, [reflectionText]);
+
   const formattedScore = gtrScore.toFixed(1);
 
   const formatElementName = (name) => {
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+  };
+
+  const handleEditSaveToggle = async () => {
+    if (isEditingReflection) {
+      // Logic to save the reflection to localStorage
+      try {
+        setLoading(true);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('userActionsNotes', tempReflectionText);
+        }
+        setReflectionText(tempReflectionText); // Update the main reflectionText state after successful save
+        setError(null);
+      } catch (err) {
+        console.error("Error saving reflection:", err);
+        setError("Failed to save reflection notes");
+      } finally {
+        setLoading(false);
+      }
+    }
+    setIsEditingReflection(!isEditingReflection);
   };
 
   return (
@@ -217,29 +252,37 @@ export default function Actions() {
           </div>
         ) : (
           <div className="w-full bg-[#F0F2F5] rounded-[24px] p-[32px]">
-            {actionsData?.notes ? (
-              <div className="whitespace-pre-wrap text-gray-700">
-                {actionsData.notes}
-              </div>
+            {isEditingReflection ? (
+              <textarea
+                className="w-full h-48 p-4 bg-white rounded-lg resize-y focus:outline-none focus:ring-2 focus:ring-[#C6B06A]"
+                value={tempReflectionText}
+                onChange={(e) => setTempReflectionText(e.target.value)}
+              />
             ) : (
-              <div className="text-gray-700">
-                No reflection notes yet. Click &apos;Edit reflection&apos; to add your thoughts.
-              </div>
+              actionsData?.notes ? (
+                <div className="whitespace-pre-wrap text-gray-700">
+                  {actionsData.notes}
+                </div>
+              ) : (
+                <div className="text-gray-700">
+                  No reflection notes yet. Click &apos;Edit reflection&apos; to add your thoughts.
+                </div>
+              )
             )}
           </div>
         )}
 
         <button
           className="border rounded-full flex items-center mt-4 px-4 py-2 gap-2 self-start"
-          onClick={() => {/* Add edit functionality here */ }}
+          onClick={handleEditSaveToggle}
         >
           <Image
-            alt="Edit Icon"
+            alt={isEditingReflection ? "Save Icon" : "Edit Icon"}
             width={20}
             height={20}
-            src="/your-gtr/self-insights/edit-icon.svg"
+            src={isEditingReflection ? "/your-gtr/self-insights/save-icon.png" : "/your-gtr/self-insights/edit-icon.svg"}
           />
-          Edit reflection
+          {isEditingReflection ? "Save reflection" : "Edit reflection"}
         </button>
       </div>
     </div>
