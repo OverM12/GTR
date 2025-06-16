@@ -48,7 +48,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="flex justify-center w-full h-screen bg-[#F0F2F5] overflow-auto">
+    <div className="flex justify-center w-full h-full">
       <div className="flex flex-col max-w-[1300px] w-full h-full">
         <div className="flex flex-col gap-[16px] py-[32px] px-[16px]">
           <h1 className="text-[32px] font-bold">GTR</h1>

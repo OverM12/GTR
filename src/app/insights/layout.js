@@ -16,13 +16,13 @@ export default function RootLayout({ children }) {
 	}, [router]);
 
 	return (
-		<html lang="en">
-			<body className="h-screen overflow-hidden">
+		<html lang="en" className="h-full">
+			<body className="h-full bg-[#F0F2F5]">
 				<div className="flex h-full">
 					<Menu />
-					<div className="flex flex-col w-full h-full">
+					<div className="flex flex-col w-full h-full overflow-y-auto">
 						<Navbar />
-						<div className="flex-1 overflow-y-auto bg-gray-100">
+						<div className="flex-1 bg-gray-100">
 							{children}
 						</div>
 					</div>

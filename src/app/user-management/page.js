@@ -182,7 +182,7 @@ function UserManagement() {
     
         return (
           <div className="fixed inset-0 z-50 bg-black/20 flex justify-center items-center">
-            <div className="bg-white rounded-lg shadow-xl border border-gray-200 p-6 w-[320px]" ref={datePickerRef}>
+            <div className="bg-white rounded-lg shadow-xl border border-gray-200 p-6 w-[90vw] max-w-[320px]" ref={datePickerRef}>
               <div className="flex justify-between items-center mb-2">
                 <select
                   value={currentCalendarMonth}
@@ -201,7 +201,7 @@ function UserManagement() {
               </div>
     
               <div className="grid grid-cols-7 gap-1 mb-2 text-xs text-gray-600">
-                {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map(d => <div key={d} className="w-8 h-8 flex items-center justify-center">{d}</div>)}
+                {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map(d => <div key={d} className="w-7 h-7 flex items-center justify-center text-xs sm:w-8 sm:h-8 sm:text-sm">{d}</div>)}
               </div>
     
               <div className="grid grid-cols-7 gap-1">{generateCalendar()}</div>
