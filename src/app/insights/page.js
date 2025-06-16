@@ -128,7 +128,7 @@ function TabNavigation() {
     <div className="w-full min-h-screen bg-gray-100">
       <div className="w-full h-full min-h-screen bg-gray-100 px-2 sm:px-4 md:px-6 py-2 sm:py-4">
         <div className="relative">
-          <div className="overflow-x-auto border-b border-gray-200 no-scrollbar">
+          <div className="overflow-x-auto border-b border-gray-200 no-scrollbar ml-4 mr-4">
             <div className="flex flex-nowrap min-w-full sm:justify-start md:justify-start">
               {tabs.map((tab) => (
                 <button
@@ -147,12 +147,12 @@ function TabNavigation() {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mt-2 text-[12px] sm:text-[14px] text-gray-600">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mt-2 text-[12px] sm:text-[14px] text-gray-600 ml-4 mr-4">
           <p className="flex items-center space-x-1">
             <Image 
               src="/your-gtr/dashboard/energy-flow-icon.png" 
-              width={12} 
-              height={12} 
+              width={12}
+              height={12}
               className="w-3 h-3 sm:w-4 sm:h-4"
               alt="Energy flow icon" 
             />
