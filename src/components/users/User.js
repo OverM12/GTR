@@ -182,14 +182,14 @@ function User() {
               ) : (
                 <>
                   <button
-                    className='underline font-bold text-sm'
+                    className='underline font-bold text-sm cursor-pointer'
                     onClick={() => setTermsModalOpen(true)}
                     type="button"
                   >
                     Read
                   </button>
                   <button
-                    className='underline font-bold text-sm'
+                    className='underline font-bold text-sm cursor-pointer'
                     onClick={() => setPrivacyModalOpen(true)}
                     type="button"
                   >
@@ -227,7 +227,6 @@ function User() {
           </div>
         </div>
       </div>
-
       <TermsOfUseModal isOpen={termsModalOpen} onClose={() => setTermsModalOpen(false)} />
       <PrivacyPolicyModal isOpen={privacyModalOpen} onClose={() => setPrivacyModalOpen(false)} />
     </div>

@@ -69,36 +69,36 @@ function Navbar() {
     <div className="flex items-center">
       <div className="flex rounded-full overflow-hidden">
         <button
-          className={`px-2 py-1 text-[10px] sm:px-4 sm:py-1 sm:text-sm ${viewMode === "D"
+          className={`px-2 py-1 text-[10px] sm:px-4 sm:py-1 sm:text-sm cursor-pointer ${viewMode === "D"
             ? "bg-[#ff9933] text-black"
-            : "bg-[#c1c6da] text-white"
+            : "bg-[#c1c6da] text-white hover:bg-[#d6b695]"
             } rounded-l-full`}
           onClick={() => handleViewModeChange("D")}
         >
           D
         </button>
         <button
-          className={`px-2 py-1 text-[10px] sm:px-4 sm:py-1 sm:text-sm ${viewMode === "W"
+          className={`px-2 py-1 text-[10px] sm:px-4 sm:py-1 sm:text-sm cursor-pointer ${viewMode === "W"
             ? "bg-[#ff9933] text-black"
-            : "bg-[#c1c6da] text-white"
+            : "bg-[#c1c6da] text-white hover:bg-[#d6b695]"
             }`}
           onClick={() => handleViewModeChange("W")}
         >
           W
         </button>
         <button
-          className={`px-2 py-1 text-[10px] sm:px-4 sm:py-1 sm:text-sm ${viewMode === "M"
+          className={`px-2 py-1 text-[10px] sm:px-4 sm:py-1 sm:text-sm cursor-pointer ${viewMode === "M"
             ? "bg-[#ff9933] text-black"
-            : "bg-[#c1c6da] text-white"
+            : "bg-[#c1c6da] text-white hover:bg-[#d6b695]"
             }`}
           onClick={() => handleViewModeChange("M")}
         >
           M
         </button>
         <button
-          className={`px-2 py-1 text-[10px] sm:px-4 sm:py-1 sm:text-sm ${viewMode === "Y"
+          className={`px-2 py-1 text-[10px] sm:px-4 sm:py-1 sm:text-sm cursor-pointer ${viewMode === "Y"
             ? "bg-[#ff9933] text-black"
-            : "bg-[#c1c6da] text-white"
+            : "bg-[#c1c6da] text-white hover:bg-[#d6b695]"
             } rounded-r-full`}
           onClick={() => handleViewModeChange("Y")}
         >

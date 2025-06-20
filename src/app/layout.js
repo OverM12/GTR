@@ -1,4 +1,3 @@
-
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { NavbarProvider } from "@/context/NavbarProvider";
@@ -18,8 +17,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={`${inter.className}`}>
+    <html lang="en" className="min-h-screen">
+      <body className={`min-h-screen ${inter.className}`}>
         <DateRangeProvider>
           <NavbarProvider>
             <CookiesProvider>

@@ -134,7 +134,7 @@ function TabNavigation() {
                 <button
                   key={tab.id}
                   onClick={() => handleTabChange(tab.id)}
-                  className={`px-2 sm:px-4 md:px-6 py-2 font-medium text-xs sm:text-sm md:text-base whitespace-nowrap transition-all duration-300 relative
+                  className={`px-2 sm:px-4 md:px-6 py-2 font-medium text-xs sm:text-sm md:text-base whitespace-nowrap transition-all duration-300 relative cursor-pointer
                     ${activeTab === tab.id ? "text-black" : "text-gray-400"}`}
                 >
                   {tab.label}

@@ -11,28 +11,30 @@ import { useDateRange } from "@/context/DateRangeContext";
 function Menu() {
   const pathname = usePathname();
   const { dateRange } = useDateRange();
-  const { isOpen, setIsOpen, activeTab, setActiveTab } =
-    useContext(NavbarContext);
+  const { isOpen, setIsOpen, activeTab, setActiveTab } = useContext(NavbarContext);
   const [userData, setUserData] = useState(null);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [gtrScore, setGtrScore] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  const getInitialIsMobile = () => {
+    if (typeof window !== "undefined") {
+      return window.innerWidth <= 1180;
+    }
+    return false;
+  };
+  const [isMobile, setIsMobile] = useState(getInitialIsMobile);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 1180);  // ถ้า width น้อยกว่าหรือเท่ากับ 1024 ถือว่าเป็น Mobile หรือ Tablet
+      setIsMobile(window.innerWidth <= 1180);
     };
-    if (typeof window !== "undefined") {
-      handleResize();
-      window.addEventListener('resize', handleResize);
-      return () => window.removeEventListener('resize', handleResize);
-    }
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-
-  // Cache user data fetch results
   const fetchUserData = useMemo(() => async () => {
     try {
       setLoading(true);
@@ -62,7 +64,6 @@ function Menu() {
       setLoading(false);
     }
   }, [dateRange]);
-  // Cache GTR data fetch results
   const fetchGtrData = useMemo(() => async () => {
     if (!dateRange.fromDate || !dateRange.toDate) {
       setLoading(false);
@@ -93,7 +94,6 @@ function Menu() {
   useEffect(() => {
     fetchGtrData();
   }, [fetchGtrData]);
-  // Memoize helper functions to prevent unnecessary recalculations
   const getUserInitials = useMemo(() => {
     if (!userData || !userData.name) return "U";
     const nameParts = userData.name.split(" ");
@@ -114,17 +114,17 @@ function Menu() {
 
   const getProfilePictureUrl = useMemo(() => {
     if (!userData || !userData.profilePictureUrl) return null;
-    // ตรวจสอบว่า profilePictureUrl เป็น URL เต็มหรือไม่
     if (userData.profilePictureUrl.startsWith('http')) {
       return userData.profilePictureUrl;
     }
-    // ถ้าไม่ใช่ URL เต็ม จึงต่อกับ BASE_URL
     return `${process.env.NEXT_PUBLIC_BASE_URL}/${userData.profilePictureUrl}`;
   }, [userData]);
 
   const mainGtrScore = useMemo(() =>
     data?.gtr ? parseFloat(data.gtr).toFixed(1) : "0.0"
     , [data]);
+
+  if (!isClient) return null;
 
   return (
     <>
@@ -137,7 +137,7 @@ function Menu() {
       )}
 
       <div
-        className={`fixed z-100 h-full top-0 left-0 transition-all duration-300 flex flex-col bg-[#0C2955] ${isMobile
+        className={`sticky top-0 h-full min-h-screen z-100 transition-all duration-300 flex flex-col bg-[#0C2955] ${isMobile
           ? isOpen
             ? "w-[240px] p-4"
             : "w-0 p-0"
@@ -158,7 +158,8 @@ function Menu() {
                         src={getProfilePictureUrl}
                         width={40}
                         height={40}
-                        className="rounded-full object-cover"
+                        className="rounded-full object-cover aspect-square"
+                        style={{ objectFit: 'cover', width: 40, height: 40, borderRadius: '50%' }}
                         alt="Profile"
                       />
                     ) : (
@@ -205,7 +206,7 @@ function Menu() {
                 href="/dashboard"
                 className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 w-full ${pathname === "/dashboard"
                   ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
-                  : "text-[#C1C6DA]"
+                  : "text-[#C1C6DA] rounded-[24px] hover:bg-[#1A3966]"
                   }`}
               >
                 <div className="min-w-[24px] flex justify-center">
@@ -224,7 +225,7 @@ function Menu() {
                 href="/insights"
                 className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 w-full ${pathname === "/insights"
                   ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
-                  : "text-[#C1C6DA]"
+                  : "text-[#C1C6DA] rounded-[24px] hover:bg-[#1A3966]"
                   }`}
               >
                 <div className="min-w-[24px] flex justify-center">
@@ -243,7 +244,7 @@ function Menu() {
                 href="/development"
                 className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 w-full ${pathname === "/development"
                   ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
-                  : "text-[#C1C6DA]"
+                  : "text-[#C1C6DA] rounded-[24px] hover:bg-[#1A3966]"
                   }`}
               >
                 <div className="min-w-[24px] flex justify-center">
@@ -268,7 +269,7 @@ function Menu() {
                   href="/user-management"
                   className={`flex py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] transition-all duration-200 w-full ${pathname === "/user-management"
                     ? "text-black bg-[#D6E4FF] rounded-[24px] font-medium"
-                    : "text-[#C1C6DA]"
+                    : "text-[#C1C6DA] rounded-[24px] hover:bg-[#1A3966]"
                     }`}
                 >
                   <div className="min-w-[24px] flex justify-center">
@@ -322,7 +323,7 @@ function Menu() {
                   // Redirect to login page
                   window.location.href = 'https://my.goodtime.app/login';
                 }}
-                className="flex w-full py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] text-white rounded-[24px] transition-all duration-200 hover:bg-[#1A3966]"
+                className="flex w-full py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] text-white rounded-[24px] transition-all duration-200 hover:bg-[#1A3966] cursor-pointer"
               >
                 <div className="min-w-[24px] flex justify-center">
                   <Image
@@ -337,9 +338,6 @@ function Menu() {
             </div>
           </>
         )}
-        <div>
-          <p className="text-white text-xs">v.1.0.8</p>
-        </div>
       </div>
     </>
   );
