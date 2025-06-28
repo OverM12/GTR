@@ -10,9 +10,20 @@ import { useCookies } from 'next-client-cookies';
 export default function Dashboard() {
   const [selectingField, setSelectingField] = useState("fromDate");
   const [hasToken, setHasToken] = useState(false);
+  const [timeZoneOffset, setTimeZoneOffset] = useState(null);
   const cookies = useCookies();
 
   useEffect(() => {
+    // Get timezone offset in minutes
+    const offset = new Date().getTimezoneOffset();
+    setTimeZoneOffset(offset);
+    // console.log('Timezone offset in minutes:', offset);
+    const offsetHours = Math.floor(Math.abs(offset) / 60);
+    const offsetMins = Math.abs(offset) % 60;
+    const sign = offset <= 0 ? '+' : '-';
+    const offsetString = `local time = UTC ${sign}${offsetHours}${offsetMins > 0 ? `:${String(offsetMins).padStart(2, '0')}` : ''}`;
+    // console.log(offsetString);
+
     function getCookie(name) {
       const value = `; ${document.cookie}`;
       const parts = value.split(`; ${name}=`);

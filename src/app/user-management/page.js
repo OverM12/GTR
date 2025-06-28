@@ -375,40 +375,40 @@ function UserManagement() {
 
         // Special case for Year of Birth
         if (field.toLowerCase() === 'yearofbirth' || field.toLowerCase().includes('year')) {
-            console.log('Handling Year of Birth sorting');
+            // console.log('Handling Year of Birth sorting');
 
             // Toggle sort order if already sorting by year
             const newOrder = (sortField === 'yearOfBirth' && sortOrder === 'asc') ? 'desc' : 'asc';
             setSortField('yearOfBirth');
             setSortOrder(newOrder);
 
-            console.log(`Sorting by yearOfBirth in ${newOrder} order`);
+            // console.log(`Sorting by yearOfBirth in ${newOrder} order`);
             return;
         }
 
         // Special case for Last Assessment
         if (field.toLowerCase() === 'lastassessment' || field.toLowerCase().includes('assessment')) {
-            console.log('Handling Last Assessment sorting');
+            // console.log('Handling Last Assessment sorting');
 
             // Toggle sort order if already sorting by last assessment
             const newOrder = (sortField === 'lastAssessment' && sortOrder === 'asc') ? 'desc' : 'asc';
             setSortField('lastAssessment');
             setSortOrder(newOrder);
 
-            console.log(`Sorting by lastAssessment in ${newOrder} order`);
+            // console.log(`Sorting by lastAssessment in ${newOrder} order`);
             return;
         }
 
         // Special case for Registered On
         if (field.toLowerCase() === 'registeredon' || field.toLowerCase().includes('registered')) {
-            console.log('Handling Registered On sorting');
+            // console.log('Handling Registered On sorting');
 
             // Toggle sort order if already sorting by registration date
             const newOrder = (sortField === 'createdAt' && sortOrder === 'asc') ? 'desc' : 'asc';
             setSortField('createdAt');
             setSortOrder(newOrder);
 
-            console.log(`Sorting by createdAt in ${newOrder} order`);
+            // console.log(`Sorting by createdAt in ${newOrder} order`);
             return;
         }
 
@@ -429,8 +429,8 @@ function UserManagement() {
             normalizedField = fieldMappings[normalizedField];
         }
 
-        console.log('Normalized field:', normalizedField);
-        console.log('Current sort field:', sortField);
+        // console.log('Normalized field:', normalizedField);
+        // console.log('Current sort field:', sortField);
 
         // Always toggle sort order regardless of field
         let newOrder;
@@ -446,7 +446,7 @@ function UserManagement() {
         setSortOrder(newOrder);
 
         // Log for debugging
-        console.log(`Sorting by ${normalizedField} in ${newOrder} order`);
+        // console.log(`Sorting by ${normalizedField} in ${newOrder} order`);
     };
 
     const handleItemsPerPageChange = (e) => {

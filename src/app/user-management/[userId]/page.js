@@ -195,9 +195,9 @@ function UserGTRContent({ params }) {
     }, [userId, dateRange.fromDate, dateRange.toDate]);
 
     // DEBUG: ดูข้อมูลก่อนแสดงผล
-    console.log("user:", userId);
-    console.log("sessions:", sessions);
-    console.log("error:", error);
+    // console.log("user:", userId);
+    // console.log("sessions:", sessions);
+    // console.log("error:", error);
 
     const formatElementName = (name) => {
         if (!name) return "";
