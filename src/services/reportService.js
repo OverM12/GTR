@@ -23,7 +23,7 @@ export const reportService = {
       // console.log('Timezone offset formatted:', tzOffset);
 
       // ใส่ timezone offset ลงไปใน from/to
-      const fromWithTZ = `${fromDate} 00:00:00 ${tzOffset}`;
+      const fromWithTZ = `${fromDate} 00:00:00.999 ${tzOffset}`;
       const toWithTZ = `${toDate} 23:59:59.999 ${tzOffset}`;
 
       // console.log('From date with TZ:', fromWithTZ);

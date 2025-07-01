@@ -17,12 +17,10 @@ export default function Dashboard() {
     // Get timezone offset in minutes
     const offset = new Date().getTimezoneOffset();
     setTimeZoneOffset(offset);
-    // console.log('Timezone offset in minutes:', offset);
     const offsetHours = Math.floor(Math.abs(offset) / 60);
     const offsetMins = Math.abs(offset) % 60;
     const sign = offset <= 0 ? '+' : '-';
     const offsetString = `local time = UTC ${sign}${offsetHours}${offsetMins > 0 ? `:${String(offsetMins).padStart(2, '0')}` : ''}`;
-    // console.log(offsetString);
 
     function getCookie(name) {
       const value = `; ${document.cookie}`;
@@ -50,7 +48,7 @@ export default function Dashboard() {
 
   if (!hasToken) {
     return (
-      <div className="flex flex-col h-lvh items-center justify-center">
+      <div className="flex flex-col h-lvh items-center justify-center bg-[#F0F2F5]">
         <div className="p-6 text-center">
           <h2 className="text-xl text-red-600 mb-2">Your information not found</h2>
         </div>
@@ -59,7 +57,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="flex justify-center w-full h-full">
+    <div className="flex justify-center w-full h-full bg-[#F0F2F5]">
       <div className="flex flex-col max-w-[1300px] w-full h-full">
         <div className="flex flex-col gap-[16px] py-[32px] px-[16px]">
           <h1 className="text-[32px] font-bold">GTR</h1>

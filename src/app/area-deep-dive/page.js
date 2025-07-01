@@ -30,6 +30,7 @@ export default function AreaDeepDive() {
         );
 
         setData(response?.data || null);
+        console.log(response);
       } catch (error) {
         console.error("Failed to fetch GTR data:", error);
       } finally {
