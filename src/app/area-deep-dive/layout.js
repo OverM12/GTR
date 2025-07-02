@@ -11,7 +11,7 @@ export default function RootLayout({ children }) {
 		const accessToken = localStorage.getItem('accessToken');
 
 		if (!accessToken) {
-			router.push('https://my.goodtime.app/login');
+			router.push(process.env.NEXT_PUBLIC_BASE_URL_LOGOUT);
 		}
 	}, [router]);
 

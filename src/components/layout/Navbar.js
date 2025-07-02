@@ -609,7 +609,7 @@ function Navbar() {
           </div> */}
           <div className="w-full flex justify-end">
             <a
-              href="https://app-test.goodtime.app/guess-gtr"
+              href={process.env.NEXT_PUBLIC_BASE_URL_NEWLOG}
               className="flex self-end items-center p-4 rounded-[22px] bg-[#FF9933] text-[14px] font-medium px-5"
             >
               Log

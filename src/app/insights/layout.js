@@ -11,7 +11,7 @@ export default function RootLayout({ children }) {
 		const accessToken = localStorage.getItem('accessToken');
 
 		if (!accessToken) {
-			router.push('https://my.goodtime.app/login');
+			router.push(process.env.NEXT_PUBLIC_BASE_URL_LOGOUT);
 		}
 	}, [router]);
 
@@ -20,9 +20,11 @@ export default function RootLayout({ children }) {
 			<body className="h-full bg-[#F0F2F5]">
 				<div className="flex h-full">
 					<Menu />
-					<div className="flex flex-col w-full h-full overflow-y-auto">
-						<Navbar />
-						<div className="flex-1 bg-gray-100">
+					<div className="flex flex-col w-full h-full">
+						<div className="sticky top-0 z-50">
+							<Navbar />
+						</div>
+						<div className="flex-1 bg-gray-100 overflow-y-auto">
 							{children}
 						</div>
 					</div>
