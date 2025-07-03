@@ -16,19 +16,24 @@ export default function RootLayout({ children }) {
   }, [router]);
 
   return (
-    <html lang="en" className="h-full">
-      <body className="h-full bg-[#F0F2F5]">
-        <div className="flex h-full">
-          <Menu />
-          <div className="flex flex-col w-full h-full">
-            <Navbar className="sticky top-0 z-50" />
-            {/* Main content area: allow vertical scroll only here */}
-            <div className="flex-1 overflow-y-auto">
-              {children}
-            </div>
-          </div>
+    <html lang="en" className="h-full w-full">
+  <body className="h-full w-full bg-[#F0F2F5]">
+    <div className="relative h-screen w-screen flex overflow-hidden">
+      {/* Menu overlay (ลอย ไม่ดัน content) */}
+      <Menu />
+
+      {/* Main content */}
+      <div className="flex flex-col flex-1 min-w-0 h-full">
+        <div className="sticky top-0 z-50">
+          <Navbar />
         </div>
-      </body>
-    </html>
+        <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden">
+          {children}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
   );
 }

@@ -137,7 +137,7 @@ function Menu() {
       )}
 
       <div
-        className={`sticky top-0 h-full min-h-screen z-100 transition-all duration-300 flex flex-col bg-[#0C2955] ${isMobile
+        className={`fixed top-0 h-full min-h-screen z-100 transition-all duration-300 flex flex-col bg-[#0C2955] ${isMobile
           ? isOpen
             ? "w-[240px] p-4"
             : "w-0 p-0"
