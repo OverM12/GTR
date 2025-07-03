@@ -165,7 +165,7 @@ const ApexLineChart = () => {
         </button> */}
       </div>
 
-      <div className="hidden md:flex bg-white rounded-[40px] p-[16px] gap-[16px]">
+      <div className="hidden md:flex bg-white rounded-[40px] sm:gap-3 md:gap-4 p-4 sm:p-6 md:p-8 pb-8 sm:pb-10 md:pb-12 pt-6 sm:pt-7 md:pt-8 gap-[16px]">
         <div className="w-full p-[8px]">
           <h1 className="font-bold text-[24px]">Good Time Journey</h1>
           <ReactApexChart

@@ -38,7 +38,7 @@ function KeyInfluencers() {
   const lowInfluencers = data?.low || [];
 
   return (
-    <div className="bg-white flex flex-col w-full p-[16px] rounded-[40px]">
+    <div className="bg-white flex flex-col w-full sm:gap-3 md:gap-4 p-4 sm:p-6 md:p-8 pb-8 sm:pb-10 md:pb-12 pt-6 sm:pt-7 md:pt-8 rounded-[40px]">
       <h1 className="font-bold text-[24px] hidden md:flex">Key influencers</h1>
       <div className="w-full flex flex-col md:flex-row p-[8px] gap-[16px]">
         <h1 className="font-bold text-[18px] md:hidden">Key influencers</h1>
