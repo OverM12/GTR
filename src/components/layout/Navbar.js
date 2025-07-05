@@ -519,7 +519,7 @@ function Navbar() {
                   />
                 </div> */}
                 <div className="w-[48px] h-[48px] flex items-center justify-center">
-                  <a href="https://my.goodtime.app/guess-gtr">
+                  <a href={getBaseNewlogUrl()}>
                     {/* <Image
                       src="/your-gtr/navbar-icons/menu-plus-icon.png" 
                       width={24}
