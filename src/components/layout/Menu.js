@@ -7,6 +7,7 @@ import { NavbarContext } from "@/context/NavbarProvider";
 import { userService } from "@/services/userService";
 import reportService from "@/services/reportService";
 import { useDateRange } from "@/context/DateRangeContext";
+import { getBaseLogoutUrl } from "@/utils/env";
 
 function Menu() {
   const pathname = usePathname();
@@ -321,7 +322,7 @@ function Menu() {
                   sessionStorage.clear();
 
                   // Redirect to login page
-                  window.location.href = `${process.env.NEXT_PUBLIC_BASE_URL_LOGOUT}`;
+                  window.location.href = getBaseLogoutUrl();
                 }}
                 className="flex w-full py-[16px] pl-[16px] pr-[24px] items-center gap-3 text-sm leading-[22.4px] text-white rounded-[24px] transition-all duration-200 hover:bg-[#1A3966] cursor-pointer"
               >

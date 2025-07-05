@@ -5,6 +5,7 @@ import { useContext, useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { useDateRange } from "@/context/DateRangeContext";
 import reportService from '@/services/reportService';
+import { getBaseNewlogUrl } from "@/utils/env";
 import React from 'react';
 
 function Navbar() {
@@ -609,7 +610,7 @@ function Navbar() {
           </div> */}
           <div className="w-full flex justify-end">
             <a
-              href={process.env.NEXT_PUBLIC_BASE_URL_NEWLOG}
+              href={getBaseNewlogUrl()}
               className="flex self-end items-center p-4 rounded-[22px] bg-[#FF9933] text-[14px] font-medium px-5"
             >
               Log
