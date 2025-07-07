@@ -10,6 +10,7 @@ const nextConfig = {
 		serverActions: {
 			allowedOrigins: ['localhost:3000'],
 		},
+		turbo: false,
 	},
 
 	images: {
@@ -17,7 +18,7 @@ const nextConfig = {
 			{
 				protocol: 'https',
 				hostname: 's3.ap-southeast-1.amazonaws.com',
-				pathname: '**', // ✅ เปลี่ยนจาก /good-time-radio-assets-test/** → ** เพื่อรองรับ query string
+				pathname: '**',
 			},
 			{
 				protocol: 'https',
