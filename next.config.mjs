@@ -10,7 +10,6 @@ const nextConfig = {
 		serverActions: {
 			allowedOrigins: ['localhost:3000'],
 		},
-		turbo: false,
 	},
 
 	images: {
@@ -26,6 +25,14 @@ const nextConfig = {
 				pathname: '**',
 			},
 		],
+	},
+
+	env: {
+		NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
+		NEXT_PUBLIC_BASE_URL_LOGOUT: process.env.NEXT_PUBLIC_BASE_URL_LOGOUT,
+		NEXT_PUBLIC_BASE_URL_NEWLOG: process.env.NEXT_PUBLIC_BASE_URL_NEWLOG,
+		NEXT_PUBLIC_BASE_URL_LOGOUT_PRO: process.env.NEXT_PUBLIC_BASE_URL_LOGOUT_PRO,
+		NEXT_PUBLIC_BASE_URL_NEWLOG_PRO: process.env.NEXT_PUBLIC_BASE_URL_NEWLOG_PRO,
 	},
 };
 
