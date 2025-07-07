@@ -33,7 +33,7 @@ const ApexLineChart = () => {
       },
       xaxis: {
         type: "category",
-        categories: ["Today"],
+        categories: [""],
       },
       yaxis: {
         min: 0,
@@ -66,7 +66,7 @@ const ApexLineChart = () => {
           const formattedDates = historyData.map((item, index) => {
             const date = new Date(item.date);
             const label = `${date.getDate()}/${date.getMonth() + 1}`;
-            return index === historyData.length - 1 ? `Today ${label}` : label;
+            return index === historyData.length - 1 ? `${label}` : label;
           });
 
           const scores = historyData.map((item) => Number(item.gtr) || 0);

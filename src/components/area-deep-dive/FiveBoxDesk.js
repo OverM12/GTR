@@ -16,7 +16,10 @@ const IMAGE_PATHS = {
 
   // UI elements
   ARROW_UP_ICON: "/your-gtr/area-deep-dive/arrow-up-icon.svg",
-  NO_DATA_ICON: "/your-gtr/area-deep-dive/no-data-icon.svg"
+  NO_DATA_ICON: "/your-gtr/area-deep-dive/no-data-icon.svg",
+  HIGH_ICON: "/your-gtr/area-deep-dive/highicon.svg",
+  MEDIUM_ICON: "/your-gtr/area-deep-dive/medium-icon.svg",
+  LOW_ICON: "/your-gtr/area-deep-dive/lowicon.svg",
 };
 
 function FiveBoxDesk() {
@@ -70,7 +73,6 @@ function FiveBoxDesk() {
         setActionsData(data.areas.actions);
         setGetsData(data.areas.gets);
         setEnvironmentData(data.areas.environment);
-
       } catch (error) {
         console.error("Error fetching GTR data:", error);
         setError("Failed to load data. Please try again later.");
@@ -135,7 +137,27 @@ function FiveBoxDesk() {
                 key={index}
                 className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-0"
               >
-                <div className="flex items-center w-full md:w-[300px] md:min-w-[300px] mb-2 md:mb-0">
+
+                <div className="flex items-center w-full md:w-[300px] md:min-w-[300px] mb-2 md:mb-0 gap-2">
+                  <div className="w-6 h-6 flex items-center justify-center">
+                    {(element.isHigh || element.isMedium || element.isLow) ? (
+                      <Image
+                        src={
+                          element.isHigh
+                            ? IMAGE_PATHS.HIGH_ICON
+                            : element.isMedium
+                              ? IMAGE_PATHS.MEDIUM_ICON
+                              : IMAGE_PATHS.LOW_ICON
+                        }
+                        width={24}
+                        height={24}
+                        alt="Performance Icon"
+                      />
+                    ) : (
+                      // ถ้าไม่มี icon ให้จองพื้นที่ไว้ (invisible element)
+                      <div className="w-6 h-6"></div>
+                    )}
+                  </div>
                   <span className="text-gray-700 text-[14px] text-xs md:text-sm">
                     {formatElementName(element.element)}
                   </span>
@@ -237,12 +259,12 @@ function FiveBoxDesk() {
       {/* Social Section */}
       <div className="flex pl-12 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
         <div className="flex items-center gap-2 pl-[39px] min-w-[200px]">
-          <Image
+          {/* <Image
             src={IMAGE_PATHS.MENTAL_ICON}
             width={24}
             height={24}
             alt="Mental Icon"
-          />
+          /> */}
           <Image
             src={IMAGE_PATHS.SOCIAL_ICON}
             width={24}
@@ -293,12 +315,12 @@ function FiveBoxDesk() {
       {/* Actions Section */}
       <div className="flex pl-12 w-full items-center hover:bg-[#F0F1F5] py-6 rounded-[24px]">
         <div className="flex items-center gap-2 pl-[39px] min-w-[200px]">
-          <Image
+          {/* <Image
             src={IMAGE_PATHS.SENSE_ICON}
             width={24}
             height={24}
             alt="Sense Icon"
-          />
+          /> */}
           <Image
             src={IMAGE_PATHS.ACTIONS_ICON}
             width={24}

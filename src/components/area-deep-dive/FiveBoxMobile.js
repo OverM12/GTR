@@ -16,7 +16,10 @@ const IMAGE_PATHS = {
 
   // UI elements
   ARROW_UP_ICON: "/your-gtr/area-deep-dive/arrow-up-icon.svg",
-  NO_DATA_ICON: "/your-gtr/area-deep-dive/no-data-icon.svg"
+  NO_DATA_ICON: "/your-gtr/area-deep-dive/no-data-icon.svg",
+  HIGH_ICON: "/your-gtr/area-deep-dive/highicon.svg",
+  MEDIUM_ICON: "/your-gtr/area-deep-dive/medium-icon.svg",
+  LOW_ICON: "/your-gtr/area-deep-dive/lowicon.svg",
 };
 
 function FiveBoxMobile() {
@@ -106,9 +109,30 @@ function FiveBoxMobile() {
             const percent = parseFloat(element.gtr).toFixed(1);
             return (
               <div key={index} className="flex flex-col mb-3 mr-4">
-                <div className="flex items-center mb-1">
-                  <span className="text-gray-700 text-sm mt-4">{formatElementName(element.element)}</span>
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 flex items-center justify-center">
+                    {(element.isHigh || element.isMedium || element.isLow) ? (
+                      <Image
+                        src={
+                          element.isHigh
+                            ? IMAGE_PATHS.HIGH_ICON
+                            : element.isMedium
+                              ? IMAGE_PATHS.MEDIUM_ICON
+                              : IMAGE_PATHS.LOW_ICON
+                        }
+                        width={24}
+                        height={24}
+                        alt="Performance Icon"
+                      />
+                    ) : (
+                      <div className="w-6 h-6"></div> // placeholder
+                    )}
+                  </div>
+                  <span className="text-gray-700 text-sm">
+                    {formatElementName(element.element)}
+                  </span>
                 </div>
+
                 <div className="w-full h-[28px] bg-[#B60A06] rounded-full overflow-hidden relative">
                   <div
                     className="h-full bg-[#C6B06A] transition-all duration-500 ease-in-out"
@@ -118,7 +142,7 @@ function FiveBoxMobile() {
                   <span
                     className="text-white text-xs font-semibold absolute z-10"
                     style={{
-                      left: parseFloat(percent) >= 14.0 ? `calc(min(${parseFloat(percent)}%, 90%) - 30px)` : '8px',
+                      left: parseFloat(percent) >= 14.0 ? `calc(min(${parseFloat(percent)}%, 100%) - 50px)` : '8px',
                       top: '50%',
                       transform: 'translateY(-50%)'
                     }}
@@ -191,7 +215,7 @@ function FiveBoxMobile() {
             <span
               className="text-white text-xs font-semibold absolute z-10"
               style={{
-                left: parseFloat(selfScore) >= 14.0 ? `calc(min(${parseFloat(selfScore)}%, 90%) - 30px)` : '8px',
+                left: parseFloat(selfScore) >= 14.0 ? `calc(min(${parseFloat(selfScore)}%, 100%) - 50px)` : '8px',
                 top: '50%',
                 transform: 'translateY(-50%)'
               }}
@@ -240,7 +264,7 @@ function FiveBoxMobile() {
             <span
               className="text-white text-xs font-semibold absolute z-10"
               style={{
-                left: parseFloat(socialScore) >= 14.0 ? `calc(min(${parseFloat(socialScore)}%, 90%) - 30px)` : '8px',
+                left: parseFloat(socialScore) >= 14.0 ? `calc(min(${parseFloat(socialScore)}%, 100%) - 50px)` : '8px',
                 top: '50%',
                 transform: 'translateY(-50%)'
               }}
@@ -289,7 +313,7 @@ function FiveBoxMobile() {
             <span
               className="text-white text-xs font-semibold absolute z-10"
               style={{
-                left: parseFloat(actionsScore) >= 14.0 ? `calc(min(${parseFloat(actionsScore)}%, 90%) - 30px)` : '8px',
+                left: parseFloat(actionsScore) >= 14.0 ? `calc(min(${parseFloat(actionsScore)}%, 100%) - 50px)` : '8px',
                 top: '50%',
                 transform: 'translateY(-50%)'
               }}
@@ -338,7 +362,7 @@ function FiveBoxMobile() {
             <span
               className="text-white text-xs font-semibold absolute z-10"
               style={{
-                left: parseFloat(getsScore) >= 14.0 ? `calc(min(${parseFloat(getsScore)}%, 90%) - 30px)` : '8px',
+                left: parseFloat(getsScore) >= 14.0 ? `calc(min(${parseFloat(getsScore)}%, 100%) - 50px)` : '8px',
                 top: '50%',
                 transform: 'translateY(-50%)'
               }}
