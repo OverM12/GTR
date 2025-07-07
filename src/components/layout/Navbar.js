@@ -520,9 +520,7 @@ function Navbar() {
                 </div> */}
                 <div className="w-[48px] h-[48px] flex items-center justify-center">
                   <a
-                    href={getBaseNewlogUrl()}
-                    target="_blank"
-                    rel="noopener noreferrer">
+                    href={getBaseNewlogUrl()}>
                     {/* <Image
                       src="/your-gtr/navbar-icons/menu-plus-icon.png" 
                       width={24}
@@ -614,8 +612,6 @@ function Navbar() {
           <div className="w-full flex justify-end">
             <a
               href={getBaseNewlogUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
               className="flex self-end items-center p-4 rounded-[22px] bg-[#FF9933] text-[14px] font-medium px-5"
             >
               Log
